@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: 'postgres:13.4'
+    volumes:
+      - data:/data/db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: twitter-clone
+    env_file:
+      - ./backend/production.env
+    container_name: postgres-db
+  backend:
+    build: ./backend/
+    ports:
+      - '4000:4000'
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./backend/production.env
+    depends_on:
+      - postgres
+volumes:
+  data:
+  logs:
