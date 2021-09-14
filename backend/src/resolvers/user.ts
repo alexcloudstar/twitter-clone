@@ -47,7 +47,7 @@ export class UserResolver {
     const user = await User.findOne(
       usernameOrEmail.includes('@')
         ? { where: { email: usernameOrEmail } }
-        : { where: { email: usernameOrEmail } }
+        : { where: { username: usernameOrEmail } }
     );
 
     if (!user) {
@@ -74,7 +74,7 @@ export class UserResolver {
 
     let user;
 
-    const alreadyExistUser = await this.getUser(username);
+    const alreadyExistUser = await User.findOne({ email });
 
     if (alreadyExistUser) {
       throw new Error('Account already exist');
