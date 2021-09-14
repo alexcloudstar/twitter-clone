@@ -8,9 +8,9 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-// import argon2 from 'argon2';
 import { UsernamePasswordInput } from './UsernamePasswordInput';
 import { getConnection, getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
 
 @ObjectType()
 class FieldError {
@@ -42,8 +42,7 @@ export class UserResolver {
     @Arg('options') options: UsernamePasswordInput,
     @Ctx() { req }: any
   ): Promise<UserResponse> {
-    // const hashedPassword = await argon2.hash(options.password);
-    const hashedPassword = 'password';
+    const hashedPassword = await bcrypt.hash(options.password, 12);
 
     let user;
 
