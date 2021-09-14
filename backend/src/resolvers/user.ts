@@ -11,6 +11,7 @@ import {
 import { UsernamePasswordInput } from './UsernamePasswordInput';
 import { getConnection, getRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
+import { MyContext } from 'src/types/MyContext';
 
 @ObjectType()
 class FieldError {
@@ -38,10 +39,28 @@ class UsersResponse {
 @Resolver()
 export class UserResolver {
   @Mutation(() => UserResponse)
-  async login(@Arg('options') options: UsernamePasswordInput): Promise<any> {
-    const user = await this.getUser(options.username);
+  async login(
+    @Arg('usernameOrEmail') usernameOrEmail: string,
+    @Arg('password') password: string,
+    @Ctx() { req }: MyContext
+  ): Promise<UserResponse> {
+    const user = await User.findOne(
+      usernameOrEmail.includes('@')
+        ? { where: { email: usernameOrEmail } }
+        : { where: { email: usernameOrEmail } }
+    );
 
-    console.log(user);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) {
+      throw new Error('Wrong password');
+    }
+
+    req.session.userId = user.id;
 
     return { user };
   }
