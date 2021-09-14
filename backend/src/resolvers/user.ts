@@ -38,13 +38,28 @@ class UsersResponse {
 @Resolver()
 export class UserResolver {
   @Mutation(() => UserResponse)
+  async login(@Arg('options') options: UsernamePasswordInput): Promise<any> {
+    const user = await this.getUser(options.username);
+
+    console.log(user);
+
+    return { user };
+  }
+  @Mutation(() => UserResponse)
   async register(
     @Arg('options') options: UsernamePasswordInput,
     @Ctx() { req }: any
   ): Promise<UserResponse> {
     const hashedPassword = await bcrypt.hash(options.password, 12);
+    const { email, username } = options;
 
     let user;
+
+    const alreadyExistUser = await this.getUser(username);
+
+    if (alreadyExistUser) {
+      throw new Error('Account already exist');
+    }
 
     try {
       const result = await getConnection()
@@ -52,8 +67,8 @@ export class UserResolver {
         .insert()
         .into(User)
         .values({
-          username: options.username,
-          email: options.email,
+          username,
+          email,
           password: hashedPassword,
         })
         .returning('*')
@@ -64,6 +79,8 @@ export class UserResolver {
       console.log(req);
       console.log(error);
     }
+
+    req.session.userId = user.id;
 
     return { user };
   }
