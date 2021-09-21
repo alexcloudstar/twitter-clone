@@ -1,8 +1,10 @@
+import { UpTweet } from '../entities/UpTweet';
 import {
   Arg,
   Ctx,
   Field,
   InputType,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -10,6 +12,7 @@ import {
 import { Tweet } from '../entities/Tweet';
 import { User } from '../entities/User';
 import { MyContext } from '../types/MyContext';
+import { getConnection } from 'typeorm';
 
 @InputType()
 export class TweetFields {
@@ -50,5 +53,55 @@ export class TweetResolver {
       creatorId: req.session.uerId,
       creator: { ...creator },
     }).save();
+  }
+  @Mutation(() => Boolean)
+  async upVoteTweet(
+    @Arg('tweetId', () => Int) tweetId: number,
+    @Arg('value', () => Int) value: number,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean> {
+    const isUpTweet = value !== -1;
+    const realValue = isUpTweet ? 1 : -1;
+    const { userId } = req.session;
+    const upTweet = await UpTweet.findOne({ where: { tweetId, userId } });
+
+    if (upTweet && upTweet.value !== realValue) {
+      await getConnection()
+        .createQueryBuilder()
+        .update(UpTweet)
+        .set({
+          userId,
+          tweetId,
+          value: realValue,
+        })
+        .where('tweetId = :tweetId', { tweetId })
+        .execute();
+
+      await getConnection()
+        .createQueryBuilder()
+        .update(Tweet)
+        .set({
+          points: realValue,
+        })
+        .where('id = :id', { id: tweetId })
+        .execute();
+    } else if (!upTweet) {
+      await UpTweet.insert({
+        userId,
+        tweetId,
+        value: realValue,
+      });
+
+      await getConnection()
+        .createQueryBuilder()
+        .update(Tweet)
+        .set({
+          points: realValue,
+        })
+        .where('id = :id', { id: tweetId })
+        .execute();
+    }
+
+    return true;
   }
 }
