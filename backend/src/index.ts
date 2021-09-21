@@ -19,6 +19,8 @@ import cors from 'cors';
 import session from 'express-session';
 import Redis from 'ioredis';
 import { COOKIE_NAME, __prod__ } from './constants';
+import { Tweet } from './entities/Tweet';
+import { TweetResolver } from './resolvers/tweet';
 
 const main = async () => {
   const conn = await createConnection({
@@ -27,7 +29,7 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities: [User],
+    entities: [User, Tweet],
   });
 
   await conn.runMigrations();
@@ -68,7 +70,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver],
+      resolvers: [HelloResolver, UserResolver, TweetResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({

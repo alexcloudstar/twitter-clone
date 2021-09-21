@@ -97,6 +97,7 @@ export class UserResolver {
     } catch (error) {
       console.log(req);
       console.log(error);
+      throw new Error(error.message);
     }
 
     req.session.userId = user.id;

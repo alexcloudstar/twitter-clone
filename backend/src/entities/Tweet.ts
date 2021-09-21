@@ -4,32 +4,29 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Tweet } from './Tweet';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Tweet extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field()
-  @Column({ unique: true })
-  username!: string;
-
-  @Field()
-  @Column({ unique: true })
-  email!: string;
+  @Field(() => String)
+  @Column()
+  tweet!: string;
 
   @Field()
   @Column()
-  password!: string;
+  creatorId: number;
 
-  @OneToMany(() => Tweet, tweet => tweet.creator)
-  tweets: Tweet[];
+  @Field(() => User)
+  @ManyToOne(() => User, user => user.tweets)
+  creator: User;
 
   @Field(() => String)
   @CreateDateColumn()

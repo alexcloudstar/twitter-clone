@@ -6,6 +6,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=16.00"
+  },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
