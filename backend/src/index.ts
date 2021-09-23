@@ -10,9 +10,7 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
-import { HelloResolver } from './resolvers/hello';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { UserResolver } from './resolvers/user';
 import { User } from './entities/User';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
@@ -20,8 +18,10 @@ import session from 'express-session';
 import Redis from 'ioredis';
 import { COOKIE_NAME, __prod__ } from './constants';
 import { Tweet } from './entities/Tweet';
-import { TweetResolver } from './resolvers/tweet';
 import { UpTweet } from './entities/UpTweet';
+import { HelloResolver } from './resolvers/hello';
+import { UserResolver } from './resolvers/user';
+import { TweetResolver } from './resolvers/tweet';
 
 const main = async () => {
   const conn = await createConnection({
