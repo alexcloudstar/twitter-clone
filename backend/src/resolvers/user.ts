@@ -8,9 +8,10 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-// import argon2 from 'argon2';
 import { UsernamePasswordInput } from './UsernamePasswordInput';
 import { getConnection, getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
+import { MyContext } from 'src/types/MyContext';
 
 @ObjectType()
 class FieldError {
@@ -38,14 +39,46 @@ class UsersResponse {
 @Resolver()
 export class UserResolver {
   @Mutation(() => UserResponse)
+  async login(
+    @Arg('usernameOrEmail') usernameOrEmail: string,
+    @Arg('password') password: string,
+    @Ctx() { req }: MyContext
+  ): Promise<UserResponse> {
+    const user = await User.findOne(
+      usernameOrEmail.includes('@')
+        ? { where: { email: usernameOrEmail } }
+        : { where: { username: usernameOrEmail } }
+    );
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) {
+      throw new Error('Wrong password');
+    }
+
+    req.session.userId = user.id;
+
+    return { user };
+  }
+  @Mutation(() => UserResponse)
   async register(
     @Arg('options') options: UsernamePasswordInput,
     @Ctx() { req }: any
   ): Promise<UserResponse> {
-    // const hashedPassword = await argon2.hash(options.password);
-    const hashedPassword = 'password';
+    const hashedPassword = await bcrypt.hash(options.password, 12);
+    const { email, username } = options;
 
     let user;
+
+    const alreadyExistUser = await User.findOne({ email });
+
+    if (alreadyExistUser) {
+      throw new Error('Account already exist');
+    }
 
     try {
       const result = await getConnection()
@@ -53,8 +86,8 @@ export class UserResolver {
         .insert()
         .into(User)
         .values({
-          username: options.username,
-          email: options.email,
+          username,
+          email,
           password: hashedPassword,
         })
         .returning('*')
@@ -64,7 +97,10 @@ export class UserResolver {
     } catch (error) {
       console.log(req);
       console.log(error);
+      throw new Error(error.message);
     }
+
+    req.session.userId = user.id;
 
     return { user };
   }

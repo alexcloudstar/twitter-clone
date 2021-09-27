@@ -4,8 +4,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Tweet } from './Tweet';
+import { UpTweet } from './UpTweet';
 
 @ObjectType()
 @Entity()
@@ -25,6 +28,12 @@ export class User extends BaseEntity {
   @Field()
   @Column()
   password!: string;
+
+  @OneToMany(() => Tweet, tweet => tweet.creator)
+  tweets: Tweet[];
+
+  @OneToMany(() => UpTweet, uptweet => uptweet.user)
+  uptweets: UpTweet[];
 
   @Field(() => String)
   @CreateDateColumn()
