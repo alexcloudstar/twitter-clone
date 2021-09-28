@@ -1,0 +1,42 @@
+{
+	"name": "react-typescript-webpack-eslint-prettier",
+	"version": "0.0.10",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"start": "webpack-cli serve --mode=development --env development --open --hot",
+		"build": "webpack --mode=production --env production --progress",
+		"lint": "eslint './src/**/*.{ts,tsx}'",
+		"lint:fix": "eslint './src/**/*.{ts,tsx}' --fix"
+	},
+	"devDependencies": {
+		"@types/node": "^16.10.1",
+		"@types/react": "^17.0.24",
+		"@types/react-dom": "^17.0.9",
+		"@types/webpack": "^5.28.0",
+		"@types/webpack-dev-server": "^4.1.0",
+		"@typescript-eslint/eslint-plugin": "^4.32.0",
+		"@typescript-eslint/parser": "^4.32.0",
+		"dotenv": "^10.0.0",
+		"eslint": "^7.32.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.24.2",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-react": "^7.26.0",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"fork-ts-checker-webpack-plugin": "^6.3.3",
+		"html-webpack-plugin": "^5.3.2",
+		"prettier": "^2.4.1",
+		"ts-loader": "^9.2.6",
+		"ts-node": "^10.2.1",
+		"tsconfig-paths-webpack-plugin": "^3.5.1",
+		"typescript": "^4.4.3",
+		"webpack": "^5.55.0",
+		"webpack-cli": "^4.8.0",
+		"webpack-dev-server": "^4.3.0"
+	},
+	"dependencies": {
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
+	}
+}
