@@ -3,6 +3,7 @@ import {
   Arg,
   Ctx,
   Field,
+  Int,
   Mutation,
   ObjectType,
   Query,
@@ -102,7 +103,36 @@ export class UserResolver {
 
     return { user };
   }
+  @Mutation(() => User)
+  async editProfile(
+    @Arg('userId', () => Int) userId: number,
+    @Arg('username', () => String) username: string,
+    @Ctx() { req }: MyContext
+  ): Promise<User> {
+    const currentUser = await User.findOne(userId);
 
+    try {
+      if (!currentUser) throw new Error('User not found');
+
+      if (currentUser.id !== req.session.userId) {
+        throw new Error('You are not allowed to edit this profile');
+      }
+
+      const result = await getConnection()
+        .createQueryBuilder()
+        .update(User)
+        .set({
+          username,
+        })
+        .where('id = :id', { id: userId })
+        .returning('*')
+        .execute();
+
+      return result.raw[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
   @Query(() => UserResponse)
   async getUser(@Arg('username') username: string): Promise<UserResponse> {
     const user = await getConnection()

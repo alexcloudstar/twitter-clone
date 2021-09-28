@@ -53,6 +53,38 @@ export class TweetResolver {
       creator: { ...creator },
     }).save();
   }
+  @Mutation(() => Tweet)
+  async editTweet(
+    @Arg('tweetId', () => Int) tweetId: number,
+    @Arg('newTweetValue', () => String) newTweetValue: string,
+    @Ctx() { req }: MyContext
+  ): Promise<Tweet> {
+    let selectedTweet;
+
+    try {
+      selectedTweet = await Tweet.findOne(tweetId);
+
+      if (!selectedTweet) throw new Error('Tweet not found');
+
+      if (selectedTweet.creatorId !== req.session.userId) {
+        throw new Error('You are not allowed to edit this tweet');
+      }
+
+      const result = await getConnection()
+        .createQueryBuilder()
+        .update(Tweet)
+        .set({
+          tweet: newTweetValue,
+        })
+        .where('id = :id', { id: tweetId })
+        .returning('*')
+        .execute();
+
+      return result.raw[0];
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
   @Mutation(() => Boolean)
   async upVoteTweet(
     @Arg('tweetId', () => Int) tweetId: number,
