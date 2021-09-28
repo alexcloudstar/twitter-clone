@@ -25,7 +25,6 @@ export class TweetResolver {
   @Query(() => [Tweet])
   async getTweets(): Promise<Tweet[]> {
     const allTweets = await Tweet.find();
-    console.log(allTweets);
 
     return allTweets;
   }

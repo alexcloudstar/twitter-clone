@@ -95,8 +95,6 @@ export class UserResolver {
 
       user = result.raw[0];
     } catch (error) {
-      console.log(req);
-      console.log(error);
       throw new Error(error.message);
     }
 
