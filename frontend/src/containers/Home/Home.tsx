@@ -6,7 +6,7 @@ import { Register } from 'components/Register';
 import { Login } from 'components/Login';
 
 const Home: FC<HomeProps> = (): JSX.Element => {
-	const [isLogin, setIsLogin] = useState<boolean>(false);
+	const [isLogin, setIsLogin] = useState<boolean>(true);
 
 	const changeForm = (): void => {
 		setIsLogin(!isLogin);

@@ -1,4 +1,6 @@
+import { ErrorComponent } from 'components/ErrorComponent';
 import React, { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRegisterMutation } from 'src/generated/graphql';
 import {
 	RegisterBtn,
@@ -16,41 +18,57 @@ interface IRegisterState {
 
 const Register: FC<RegisterProps> = (): JSX.Element => {
 	const [formData, setFormData] = useState<IRegisterState>();
+	const [errorMessage, setErrorMessage] = useState<string>('');
+
+	const {
+		register: registerHook,
+		handleSubmit,
+		watch,
+		formState: { errors }
+	} = useForm<IRegisterState>();
 
 	const [register] = useRegisterMutation();
 
-	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		await register({
-			variables: {
-				email: formData.email,
-				username: formData.username,
-				password: formData.password
-			}
-		});
+	const onSubmit: SubmitHandler<IRegisterState> = async (data) => {
+		try {
+			await register({
+				variables: {
+					email: data.email,
+					username: data.username,
+					password: data.password
+				}
+			});
+		} catch (error) {
+			setErrorMessage(error.message);
+		}
 	};
-
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-
-	// TODO: https://react-hook-form.com/api
 
 	return (
 		<RegisterWrapper>
-			<RegisterForm onSubmit={onSubmit}>
+			<RegisterForm onSubmit={handleSubmit(onSubmit)}>
 				<RegisterHolder>
 					<label htmlFor="username">Username: </label>
 					<input
 						type="text"
 						id="username"
 						name="username"
-						onChange={onChange}
+						{...registerHook('username', { required: true })}
 					/>
+					{errors.password && (
+						<ErrorComponent errorMsg={'This field is required'} />
+					)}
 				</RegisterHolder>
 				<RegisterHolder>
 					<label htmlFor="email">Email: </label>
-					<input type="text" id="email" name="email" onChange={onChange} />
+					<input
+						type="text"
+						id="email"
+						name="email"
+						{...registerHook('email', { required: true })}
+					/>
+					{errors.password && (
+						<ErrorComponent errorMsg={'This field is required'} />
+					)}
 				</RegisterHolder>
 				<RegisterHolder>
 					<label htmlFor="password">Password: </label>
@@ -58,9 +76,13 @@ const Register: FC<RegisterProps> = (): JSX.Element => {
 						type="password"
 						id="password"
 						name="password"
-						onChange={onChange}
+						{...registerHook('password', { required: true })}
 					/>
+					{errors.password && (
+						<ErrorComponent errorMsg={'This field is required'} />
+					)}
 				</RegisterHolder>
+				<ErrorComponent errorMsg={errorMessage} />
 				<RegisterBtn type="submit">Create account</RegisterBtn>
 			</RegisterForm>
 		</RegisterWrapper>

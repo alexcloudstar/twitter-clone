@@ -11,7 +11,8 @@ interface ILoginState {
 }
 
 const Login: FC<LoginProps> = (): JSX.Element => {
-	const [errorMessage, setErrorMessage] = useState('');
+	const [errorMessage, setErrorMessage] = useState<string>('');
+
 	const {
 		register,
 		handleSubmit,
@@ -45,7 +46,9 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 						name="usernameOrEmail"
 						{...register('usernameOrEmail', { required: true })}
 					/>
-					{errors.usernameOrEmail && <p>This field is required</p>}
+					{errors.password && (
+						<ErrorComponent errorMsg={'This field is required'} />
+					)}
 				</LoginHolder>
 				<LoginHolder>
 					<label htmlFor="password">Password: </label>
@@ -55,7 +58,9 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 						name="password"
 						{...register('password', { required: true })}
 					/>
-					{errors.password && <p>This field is required</p>}
+					{errors.password && (
+						<ErrorComponent errorMsg={'This field is required'} />
+					)}
 				</LoginHolder>
 				<ErrorComponent errorMsg={errorMessage} />
 				<LoginBtn type="submit">Login</LoginBtn>
