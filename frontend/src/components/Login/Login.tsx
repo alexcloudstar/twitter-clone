@@ -1,6 +1,7 @@
 import { ErrorComponent } from 'components/ErrorComponent';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useHistory } from 'react-router';
 import { useLoginMutation } from 'src/generated/graphql';
 import { LoginBtn, LoginForm, LoginHolder, LoginWrapper } from './style';
 import { LoginProps } from './types';
@@ -12,6 +13,7 @@ interface ILoginState {
 
 const Login: FC<LoginProps> = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
+	const history = useHistory();
 
 	const {
 		register,
@@ -29,6 +31,7 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 					password: data.password
 				}
 			});
+			history.push('/home');
 		} catch (error) {
 			setErrorMessage(error.message);
 		}
