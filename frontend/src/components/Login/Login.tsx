@@ -1,4 +1,6 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { ErrorComponent } from 'components/ErrorComponent';
+import React, { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLoginMutation } from 'src/generated/graphql';
 import { LoginBtn, LoginForm, LoginHolder, LoginWrapper } from './style';
 import { LoginProps } from './types';
@@ -9,44 +11,41 @@ interface ILoginState {
 }
 
 const Login: FC<LoginProps> = (): JSX.Element => {
-	const [formData, setFormData] = useState<ILoginState>();
-	const [userState, setUserState] = useState('');
+	const [errorMessage, setErrorMessage] = useState('');
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors }
+	} = useForm<ILoginState>();
 
 	const [login] = useLoginMutation();
 
-	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
+	const onSubmit: SubmitHandler<ILoginState> = async (data) => {
 		try {
-			const response = await login({
+			await login({
 				variables: {
-					usernameOrEmail: formData.usernameOrEmail,
-					password: formData.password
+					usernameOrEmail: data.usernameOrEmail,
+					password: data.password
 				}
 			});
-			setUserState(`User: ${response.data.login.user.username}`);
 		} catch (error) {
-			setUserState(`Error: ${error.message}`);
+			setErrorMessage(error.message);
 		}
 	};
 
-	const onChange = (e: ChangeEvent<HTMLInputElement>): void =>
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-
-	// TODO: https://react-hook-form.com/api
-
 	return (
 		<LoginWrapper>
-			{userState}
-			<LoginForm onSubmit={onSubmit}>
+			<LoginForm onSubmit={handleSubmit(onSubmit)}>
 				<LoginHolder>
 					<label htmlFor="usernameOrEmail">Username or Email: </label>
 					<input
 						type="text"
 						id="usernameOrEmail"
 						name="usernameOrEmail"
-						onChange={onChange}
+						{...register('usernameOrEmail', { required: true })}
 					/>
+					{errors.usernameOrEmail && <p>This field is required</p>}
 				</LoginHolder>
 				<LoginHolder>
 					<label htmlFor="password">Password: </label>
@@ -54,9 +53,11 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 						type="password"
 						id="password"
 						name="password"
-						onChange={onChange}
+						{...register('password', { required: true })}
 					/>
+					{errors.password && <p>This field is required</p>}
 				</LoginHolder>
+				<ErrorComponent errorMsg={errorMessage} />
 				<LoginBtn type="submit">Login</LoginBtn>
 			</LoginForm>
 		</LoginWrapper>
