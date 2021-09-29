@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
+import { ErrorWrapper } from './style';
 import { ErrorProps } from './types';
 
 const ErrorComponent: FC<ErrorProps> = ({ errorMsg }) =>
 	errorMsg && (
-		<div>
+		<ErrorWrapper>
 			<p>Error: {errorMsg}</p>
-		</div>
+		</ErrorWrapper>
 	);
 
 export default ErrorComponent;

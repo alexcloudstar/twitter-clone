@@ -6,7 +6,7 @@ import App from './App';
 import GlobalStyles from './Theme/globalStyles';
 
 const client = new ApolloClient({
-	uri: 'http://localhost:4000/graphql',
+	uri: process.env.REACT_APP_API_URL,
 	cache: new InMemoryCache(),
 	credentials: 'include'
 });
