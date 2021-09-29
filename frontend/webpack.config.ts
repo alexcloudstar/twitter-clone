@@ -1,12 +1,12 @@
 import path from 'path';
-import webpack, { Configuration } from 'webpack';
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import dotenv from 'dotenv';
 import WebpackDevServer from 'webpack-dev-server';
 
-const webpackConfig = (env): Configuration => ({
+const webpackConfig = (env) => ({
 	entry: './src/index.tsx',
 	...(env.production || !env.development ? {} : { devtool: 'eval-source-map' }),
 	resolve: {
@@ -17,6 +17,14 @@ const webpackConfig = (env): Configuration => ({
 		path: path.join(__dirname, '/dist'),
 		filename: 'build.js',
 		publicPath: '/'
+	},
+	devServer: {
+		historyApiFallback: true,
+		static: {
+			directory: path.join(__dirname, '/dist')
+		},
+		compress: true,
+		port: 9000
 	},
 	module: {
 		rules: [
