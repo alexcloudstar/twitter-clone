@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
 import App from './App';
 import GlobalStyles from './Theme/globalStyles';
 
@@ -17,7 +16,6 @@ ReactDOM.render(
 			<GlobalStyles />
 			<App />
 		</ApolloProvider>
-		,
 	</>,
 	document.getElementById('root')
 );

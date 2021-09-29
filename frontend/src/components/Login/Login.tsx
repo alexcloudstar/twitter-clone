@@ -16,7 +16,6 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors }
 	} = useForm<ILoginState>();
 
