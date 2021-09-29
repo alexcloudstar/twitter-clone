@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import dotenv from 'dotenv';
+import WebpackDevServer from 'webpack-dev-server';
 
 const webpackConfig = (env): Configuration => ({
 	entry: './src/index.tsx',
@@ -14,7 +15,8 @@ const webpackConfig = (env): Configuration => ({
 	},
 	output: {
 		path: path.join(__dirname, '/dist'),
-		filename: 'build.js'
+		filename: 'build.js',
+		publicPath: '/'
 	},
 	module: {
 		rules: [
@@ -41,6 +43,7 @@ const webpackConfig = (env): Configuration => ({
 			'process.env.PRODUCTION': env.production || !env.development,
 			'process.env.NAME': JSON.stringify(require('./package.json').name),
 			'process.env.VERSION': JSON.stringify(require('./package.json').version),
+			'process.env.API_URL': dotenv.config().parsed.API_URL,
 			'process.env': JSON.stringify(dotenv.config().parsed)
 		}),
 		new ForkTsCheckerWebpackPlugin({

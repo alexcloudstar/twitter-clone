@@ -17,7 +17,8 @@
 		"paths": {
 			"containers/*": ["src/containers/*"],
 			"components/*": ["src/components/*"],
-			"assets/*": ["src/assets/*"]
+			"assets/*": ["src/assets/*"],
+			"utils/*": ["src/utils/*"]
 		}
 	},
 	"include": [

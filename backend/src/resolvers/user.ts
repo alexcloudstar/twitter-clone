@@ -153,4 +153,13 @@ export class UserResolver {
 
     return { users };
   }
+
+  @Query(() => User, { nullable: true })
+  me(@Ctx() { req }: MyContext) {
+    if (!req.session.userId) {
+      return null;
+    }
+
+    return User.findOne(req.session.userId);
+  }
 }
