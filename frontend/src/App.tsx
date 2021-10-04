@@ -11,7 +11,6 @@ const App = (): JSX.Element => {
 			<Switch>
 				<Route exact path="/" component={Welcome} />
 				<ProtectedRoute path="/home" component={Home} />
-
 				<Route component={NotFound} />
 			</Switch>
 		</BrowserRouter>

@@ -1,0 +1,9 @@
+fragment RegularTweet on Tweet {
+	id
+	tweet
+	points
+	createdAt
+	creatorId
+	updatedAt
+	voteStatus
+}

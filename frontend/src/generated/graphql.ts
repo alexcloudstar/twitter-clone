@@ -82,7 +82,7 @@ export type QueryGetTweetArgs = {
 
 
 export type QueryGetUserArgs = {
-  username: Scalars['String'];
+  user_id: Scalars['Float'];
 };
 
 export type Tweet = {
@@ -128,7 +128,16 @@ export type UsersResponse = {
   users: Array<User>;
 };
 
+export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number> };
+
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
+
+export type CreateTweetMutationVariables = Exact<{
+  tweet: Scalars['String'];
+}>;
+
+
+export type CreateTweetMutation = { __typename?: 'Mutation', createTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number> } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -147,6 +156,18 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string, password: string }> } };
 
+export type GetTweetsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTweetsQuery = { __typename?: 'Query', getTweets: Array<{ __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number> }> };
+
+export type GetUserQueryVariables = Exact<{
+  user_id: Scalars['Float'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, password: string }> } };
+
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -157,12 +178,69 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string }> };
 
+export const RegularTweetFragmentDoc = gql`
+    fragment RegularTweet on Tweet {
+  id
+  tweet
+  points
+  createdAt
+  creatorId
+  updatedAt
+  voteStatus
+}
+    `;
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
   username
 }
     `;
+export const CreateTweetDocument = gql`
+    mutation CreateTweet($tweet: String!) {
+  createTweet(options: {tweet: $tweet}) {
+    ...RegularTweet
+  }
+}
+    ${RegularTweetFragmentDoc}`;
+export type CreateTweetMutationFn = Apollo.MutationFunction<CreateTweetMutation, CreateTweetMutationVariables>;
+export type CreateTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<CreateTweetMutation, CreateTweetMutationVariables>
+    } & TChildProps;
+export function withCreateTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateTweetMutation,
+  CreateTweetMutationVariables,
+  CreateTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateTweetMutation, CreateTweetMutationVariables, CreateTweetProps<TChildProps, TDataName>>(CreateTweetDocument, {
+      alias: 'createTweet',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateTweetMutation__
+ *
+ * To run a mutation, you first call `useCreateTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTweetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTweetMutation, { data, loading, error }] = useCreateTweetMutation({
+ *   variables: {
+ *      tweet: // value for 'tweet'
+ *   },
+ * });
+ */
+export function useCreateTweetMutation(baseOptions?: Apollo.MutationHookOptions<CreateTweetMutation, CreateTweetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTweetMutation, CreateTweetMutationVariables>(CreateTweetDocument, options);
+      }
+export type CreateTweetMutationHookResult = ReturnType<typeof useCreateTweetMutation>;
+export type CreateTweetMutationResult = Apollo.MutationResult<CreateTweetMutation>;
+export type CreateTweetMutationOptions = Apollo.BaseMutationOptions<CreateTweetMutation, CreateTweetMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {
@@ -268,6 +346,106 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const GetTweetsDocument = gql`
+    query GetTweets {
+  getTweets {
+    ...RegularTweet
+  }
+}
+    ${RegularTweetFragmentDoc}`;
+export type GetTweetsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetTweetsQuery, GetTweetsQueryVariables>
+    } & TChildProps;
+export function withGetTweets<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetTweetsQuery,
+  GetTweetsQueryVariables,
+  GetTweetsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetTweetsQuery, GetTweetsQueryVariables, GetTweetsProps<TChildProps, TDataName>>(GetTweetsDocument, {
+      alias: 'getTweets',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetTweetsQuery__
+ *
+ * To run a query within a React component, call `useGetTweetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTweetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTweetsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTweetsQuery(baseOptions?: Apollo.QueryHookOptions<GetTweetsQuery, GetTweetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTweetsQuery, GetTweetsQueryVariables>(GetTweetsDocument, options);
+      }
+export function useGetTweetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTweetsQuery, GetTweetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTweetsQuery, GetTweetsQueryVariables>(GetTweetsDocument, options);
+        }
+export type GetTweetsQueryHookResult = ReturnType<typeof useGetTweetsQuery>;
+export type GetTweetsLazyQueryHookResult = ReturnType<typeof useGetTweetsLazyQuery>;
+export type GetTweetsQueryResult = Apollo.QueryResult<GetTweetsQuery, GetTweetsQueryVariables>;
+export const GetUserDocument = gql`
+    query GetUser($user_id: Float!) {
+  getUser(user_id: $user_id) {
+    user {
+      id
+      username
+      email
+      password
+    }
+  }
+}
+    `;
+export type GetUserProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetUserQuery, GetUserQueryVariables>
+    } & TChildProps;
+export function withGetUser<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetUserQuery,
+  GetUserQueryVariables,
+  GetUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetUserQuery, GetUserQueryVariables, GetUserProps<TChildProps, TDataName>>(GetUserDocument, {
+      alias: 'getUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const HelloDocument = gql`
     query hello {
   hello

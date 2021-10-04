@@ -9,13 +9,7 @@ import {
 	RegisterHolder,
 	RegisterWrapper
 } from './style';
-import { RegisterProps } from './types';
-
-interface IRegisterState {
-	email: string;
-	password: string;
-	username: string;
-}
+import { RegisterProps, RegisterState } from './types';
 
 const Register: FC<RegisterProps> = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
@@ -24,13 +18,12 @@ const Register: FC<RegisterProps> = (): JSX.Element => {
 	const {
 		register: registerHook,
 		handleSubmit,
-		watch,
 		formState: { errors }
-	} = useForm<IRegisterState>();
+	} = useForm<RegisterState>();
 
 	const [register] = useRegisterMutation();
 
-	const onSubmit: SubmitHandler<IRegisterState> = async (data) => {
+	const onSubmit: SubmitHandler<RegisterState> = async (data) => {
 		try {
 			await register({
 				variables: {
