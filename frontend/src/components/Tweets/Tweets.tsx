@@ -9,6 +9,8 @@ const Tweets: FC = () => {
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error...</div>;
 
+	console.log(data);
+
 	return (
 		<TweetWrapper>
 			{data.getTweets.map(
@@ -19,7 +21,8 @@ const Tweets: FC = () => {
 					creatorId,
 					points,
 					tweet,
-					voteStatus
+					voteStatus,
+					creatorUsername
 				}) => (
 					<Tweet
 						key={id}
@@ -29,7 +32,8 @@ const Tweets: FC = () => {
 						points={points}
 						tweet={tweet}
 						voteStatus={voteStatus}
-						id={0}
+						creatorUsername={creatorUsername}
+						id={id}
 					/>
 				)
 			)}

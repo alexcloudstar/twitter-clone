@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Tweet, useGetUserQuery } from 'src/generated/graphql';
+import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
 
 const Tweet: FC<Tweet> = ({
 	id,
@@ -8,15 +8,12 @@ const Tweet: FC<Tweet> = ({
 	createdAt,
 	creatorId,
 	updatedAt,
-	voteStatus
+	voteStatus,
+	creatorUsername
 }) => {
-	const { data, loading, error } = useGetUserQuery({
-		variables: { user_id: creatorId }
-	});
+	const [deleteTweet] = useDeleteTweetMutation();
 
-	if (loading) return <div>Loading...</div>;
-
-	if (error) return <div>Error... </div>;
+	const onClick = () => deleteTweet({ variables: { tweetId: id } });
 
 	return (
 		<div>
@@ -25,8 +22,10 @@ const Tweet: FC<Tweet> = ({
 				Tweet text: <span>{tweet}</span>
 			</h5>
 			<h5>
-				Creator: <span>{data.getUser.user.username}</span>
+				Creator: <span>{creatorUsername}</span>
 			</h5>
+			<br />
+			<button onClick={onClick}>Delete post</button>
 			<br />
 			<hr />
 			<br />

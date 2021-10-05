@@ -6,4 +6,5 @@ fragment RegularTweet on Tweet {
 	creatorId
 	updatedAt
 	voteStatus
+	creatorUsername
 }
