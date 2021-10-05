@@ -50,6 +50,7 @@ export class TweetResolver {
     return Tweet.create({
       ...options,
       creatorId: req.session.uerId,
+      creatorUsername: creator?.username,
       creator: { ...creator },
     }).save();
   }
@@ -131,6 +132,24 @@ export class TweetResolver {
         })
         .where('id = :id', { id: tweetId })
         .execute();
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteTweet(
+    @Arg('tweetId', () => Int) tweetId: number
+  ): Promise<Boolean> {
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Tweet)
+        .where('id = :tweetId', { tweetId })
+        .execute();
+    } catch (error) {
+      throw new Error(error);
     }
 
     return true;

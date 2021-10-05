@@ -24,6 +24,7 @@ export type FieldError = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTweet: Tweet;
+  deleteTweet: Scalars['Boolean'];
   editProfile: User;
   editTweet: Tweet;
   login: UserResponse;
@@ -34,6 +35,11 @@ export type Mutation = {
 
 export type MutationCreateTweetArgs = {
   options: TweetFields;
+};
+
+
+export type MutationDeleteTweetArgs = {
+  tweetId: Scalars['Int'];
 };
 
 
@@ -88,8 +94,9 @@ export type QueryGetUserArgs = {
 export type Tweet = {
   __typename?: 'Tweet';
   createdAt: Scalars['String'];
-  creator: User;
+  creator?: Maybe<User>;
   creatorId: Scalars['Float'];
+  creatorUsername: Scalars['String'];
   id: Scalars['Float'];
   points: Scalars['Float'];
   tweet: Scalars['String'];

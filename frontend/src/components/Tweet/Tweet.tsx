@@ -10,11 +10,13 @@ const Tweet: FC<Tweet> = ({
 	updatedAt,
 	voteStatus
 }) => {
-	const { data, loading } = useGetUserQuery({
+	const { data, loading, error } = useGetUserQuery({
 		variables: { user_id: creatorId }
 	});
 
 	if (loading) return <div>Loading...</div>;
+
+	if (error) return <div>Error... </div>;
 
 	return (
 		<div>

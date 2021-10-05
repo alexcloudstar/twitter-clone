@@ -4,11 +4,10 @@ import React, { FC } from 'react';
 import { useGetTweetsQuery } from 'src/generated/graphql';
 
 const Tweets: FC = () => {
-	const { data, loading } = useGetTweetsQuery();
-
-	console.log(!loading && data.getTweets);
+	const { data, loading, error } = useGetTweetsQuery();
 
 	if (loading) return <div>Loading...</div>;
+	if (error) return <div>Error...</div>;
 
 	return (
 		<TweetWrapper>
@@ -30,15 +29,6 @@ const Tweets: FC = () => {
 						points={points}
 						tweet={tweet}
 						voteStatus={voteStatus}
-						creator={{
-							__typename: 'User',
-							createdAt: '',
-							email: '',
-							id: 0,
-							password: '',
-							updatedAt: '',
-							username: ''
-						}}
 						id={0}
 					/>
 				)
