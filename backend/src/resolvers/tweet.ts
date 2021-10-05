@@ -139,15 +139,15 @@ export class TweetResolver {
 
   @Mutation(() => Boolean)
   async deleteTweet(
-    @Arg('tweetId', () => Int) tweetId: number
+    @Arg('tweetId', () => Int) tweetId: number,
+    @Ctx() { req }: MyContext
   ): Promise<Boolean> {
+    const tweet = await Tweet.findOne(tweetId);
     try {
-      await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(Tweet)
-        .where('id = :tweetId', { tweetId })
-        .execute();
+      if (req.session.userId !== tweet?.creatorId)
+        throw new Error('Not authorized');
+
+      await tweet?.remove();
     } catch (error) {
       throw new Error(error);
     }
