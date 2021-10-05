@@ -1,5 +1,12 @@
+import { TweetActions } from 'components/TweetActions';
 import React, { FC } from 'react';
-import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
+import { useRouteMatch } from 'react-router-dom';
+import {
+	Tweet,
+	useGetTweetQuery,
+	useGetTweetsQuery
+} from 'src/generated/graphql';
+import { TweetWrapper, UsernameWrapper } from './style';
 
 const Tweet: FC<Tweet> = ({
 	id,
@@ -11,25 +18,28 @@ const Tweet: FC<Tweet> = ({
 	voteStatus,
 	creatorUsername
 }) => {
-	const [deleteTweet] = useDeleteTweetMutation();
+	const match: { params: { id: string } } = useRouteMatch();
 
-	const onClick = () => deleteTweet({ variables: { tweetId: id } });
+	const { data, loading, error } = useGetTweetQuery({
+		variables: { tweetId: +match.params.id },
+		skip: !!id
+	});
+
+	if (loading) return <div>Loading...</div>;
 
 	return (
-		<div>
-			<strong>Tweet</strong>
+		<TweetWrapper tweetId={id}>
 			<h5>
-				Tweet text: <span>{tweet}</span>
+				{tweet ? tweet : data.getTweet.tweet}{' '}
+				<UsernameWrapper>
+					@{creatorUsername ? creatorUsername : data.getTweet.creatorUsername}
+				</UsernameWrapper>
 			</h5>
-			<h5>
-				Creator: <span>{creatorUsername}</span>
-			</h5>
-			<br />
-			<button onClick={onClick}>Delete post</button>
-			<br />
-			<hr />
-			<br />
-		</div>
+			<TweetActions
+				tweetId={id ? id : data.getTweet.id}
+				points={points ? points : data?.getTweet?.points}
+			/>
+		</TweetWrapper>
 	);
 };
 

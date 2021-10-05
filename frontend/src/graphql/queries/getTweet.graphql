@@ -1,0 +1,5 @@
+query GetTweet($tweetId: Float!) {
+	getTweet(tweetId: $tweetId) {
+		...RegularTweet
+	}
+}

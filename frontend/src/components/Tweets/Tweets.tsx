@@ -1,7 +1,7 @@
-import { TweetWrapper } from 'components/Tweet/style';
 import Tweet from 'components/Tweet/Tweet';
 import React, { FC } from 'react';
 import { useGetTweetsQuery } from 'src/generated/graphql';
+import { TweetsWrapper } from './style';
 
 const Tweets: FC = () => {
 	const { data, loading, error } = useGetTweetsQuery();
@@ -9,10 +9,8 @@ const Tweets: FC = () => {
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error...</div>;
 
-	console.log(data);
-
 	return (
-		<TweetWrapper>
+		<TweetsWrapper>
 			{data.getTweets.map(
 				({
 					id,
@@ -37,7 +35,7 @@ const Tweets: FC = () => {
 					/>
 				)
 			)}
-		</TweetWrapper>
+		</TweetsWrapper>
 	);
 };
 

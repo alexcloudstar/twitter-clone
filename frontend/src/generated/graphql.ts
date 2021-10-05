@@ -170,6 +170,21 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string, password: string }> } };
 
+export type UpVoteTweetMutationVariables = Exact<{
+  tweetId: Scalars['Int'];
+  value: Scalars['Int'];
+}>;
+
+
+export type UpVoteTweetMutation = { __typename?: 'Mutation', upVoteTweet: boolean };
+
+export type GetTweetQueryVariables = Exact<{
+  tweetId: Scalars['Float'];
+}>;
+
+
+export type GetTweetQuery = { __typename?: 'Query', getTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number>, creatorUsername: string } };
+
 export type GetTweetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -405,6 +420,99 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpVoteTweetDocument = gql`
+    mutation UpVoteTweet($tweetId: Int!, $value: Int!) {
+  upVoteTweet(tweetId: $tweetId, value: $value)
+}
+    `;
+export type UpVoteTweetMutationFn = Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export type UpVoteTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>
+    } & TChildProps;
+export function withUpVoteTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpVoteTweetMutation,
+  UpVoteTweetMutationVariables,
+  UpVoteTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpVoteTweetMutation, UpVoteTweetMutationVariables, UpVoteTweetProps<TChildProps, TDataName>>(UpVoteTweetDocument, {
+      alias: 'upVoteTweet',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpVoteTweetMutation__
+ *
+ * To run a mutation, you first call `useUpVoteTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpVoteTweetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upVoteTweetMutation, { data, loading, error }] = useUpVoteTweetMutation({
+ *   variables: {
+ *      tweetId: // value for 'tweetId'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useUpVoteTweetMutation(baseOptions?: Apollo.MutationHookOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpVoteTweetMutation, UpVoteTweetMutationVariables>(UpVoteTweetDocument, options);
+      }
+export type UpVoteTweetMutationHookResult = ReturnType<typeof useUpVoteTweetMutation>;
+export type UpVoteTweetMutationResult = Apollo.MutationResult<UpVoteTweetMutation>;
+export type UpVoteTweetMutationOptions = Apollo.BaseMutationOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export const GetTweetDocument = gql`
+    query GetTweet($tweetId: Float!) {
+  getTweet(tweetId: $tweetId) {
+    ...RegularTweet
+  }
+}
+    ${RegularTweetFragmentDoc}`;
+export type GetTweetProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetTweetQuery, GetTweetQueryVariables>
+    } & TChildProps;
+export function withGetTweet<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetTweetQuery,
+  GetTweetQueryVariables,
+  GetTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetTweetQuery, GetTweetQueryVariables, GetTweetProps<TChildProps, TDataName>>(GetTweetDocument, {
+      alias: 'getTweet',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetTweetQuery__
+ *
+ * To run a query within a React component, call `useGetTweetQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTweetQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTweetQuery({
+ *   variables: {
+ *      tweetId: // value for 'tweetId'
+ *   },
+ * });
+ */
+export function useGetTweetQuery(baseOptions: Apollo.QueryHookOptions<GetTweetQuery, GetTweetQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTweetQuery, GetTweetQueryVariables>(GetTweetDocument, options);
+      }
+export function useGetTweetLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTweetQuery, GetTweetQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTweetQuery, GetTweetQueryVariables>(GetTweetDocument, options);
+        }
+export type GetTweetQueryHookResult = ReturnType<typeof useGetTweetQuery>;
+export type GetTweetLazyQueryHookResult = ReturnType<typeof useGetTweetLazyQuery>;
+export type GetTweetQueryResult = Apollo.QueryResult<GetTweetQuery, GetTweetQueryVariables>;
 export const GetTweetsDocument = gql`
     query GetTweets {
   getTweets {
