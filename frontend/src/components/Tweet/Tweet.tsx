@@ -1,6 +1,6 @@
 import { TweetActions } from 'components/TweetActions';
 import React, { FC } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import {
 	Tweet,
 	useGetTweetQuery,
@@ -29,12 +29,23 @@ const Tweet: FC<Tweet> = ({
 
 	return (
 		<TweetWrapper tweetId={id}>
-			<h5>
-				{tweet ? tweet : data.getTweet.tweet}{' '}
-				<UsernameWrapper>
-					@{creatorUsername ? creatorUsername : data.getTweet.creatorUsername}
-				</UsernameWrapper>
-			</h5>
+			<Link to={`/tweet/${id ? id : data.getTweet.id}`}>
+				<h5>
+					{tweet ? tweet : data.getTweet.tweet}{' '}
+					<Link
+						to={`/profile/${
+							creatorUsername ? creatorUsername : data.getTweet.creatorUsername
+						}`}
+					>
+						<UsernameWrapper>
+							@
+							{creatorUsername
+								? creatorUsername
+								: data.getTweet.creatorUsername}
+						</UsernameWrapper>
+					</Link>
+				</h5>
+			</Link>
 			<TweetActions
 				tweetId={id ? id : data.getTweet.id}
 				points={points ? points : data?.getTweet?.points}
