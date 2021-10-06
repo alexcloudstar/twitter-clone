@@ -86,6 +86,7 @@ export class TweetResolver {
       throw new Error(error.message);
     }
   }
+  // TODO: Fix UpVote system
   @Mutation(() => Boolean)
   async upVoteTweet(
     @Arg('tweetId', () => Int) tweetId: number,
@@ -93,9 +94,12 @@ export class TweetResolver {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const isUpTweet = value !== -1;
-    const realValue = isUpTweet ? 1 : -1;
     const { userId } = req.session;
     const upTweet = await UpTweet.findOne({ where: { tweetId, userId } });
+    const addUpTweet =
+      upTweet?.value || upTweet?.value === 0 ? upTweet.value + value : 0;
+    const substractUpTweet = upTweet?.value ? upTweet.value - 1 : 0;
+    const realValue = isUpTweet ? addUpTweet : substractUpTweet;
 
     if (upTweet && upTweet.value !== realValue) {
       await getConnection()
