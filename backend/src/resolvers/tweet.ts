@@ -115,7 +115,7 @@ export class TweetResolver {
             set points = points + $1
             where id = $2;
         `,
-          [2 * realValue, tweetId]
+          [realValue, tweetId]
         );
       });
     } else if (!upTweet) {
