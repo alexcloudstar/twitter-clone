@@ -1,11 +1,9 @@
 {
-  "name": "twitter-clone2",
-  "version": "1.0.0",
-  "description": "",
+  "name": "twitter-clone",
+  "version": "0.0.47",
   "main": "dist/index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "alexcloudstar",
+  "license": "MIT",
   "engines": {
     "node": ">=16.00"
   },
