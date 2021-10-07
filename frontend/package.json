@@ -1,7 +1,8 @@
 {
-	"name": "react-typescript-webpack-eslint-prettier",
-	"version": "0.0.10",
+	"name": "twitter-clone",
+	"version": "0.0.47",
 	"main": "index.js",
+	"author": "alexcloudstar",
 	"license": "MIT",
 	"engines": {
 		"node": ">=16.00"
