@@ -26,9 +26,13 @@ export class Tweet extends BaseEntity {
   @Column()
   creatorId: number;
 
-  @Field(() => User)
+  @Field()
+  @Column()
+  creatorUsername: string;
+
+  @Field(() => User, { nullable: true })
   @ManyToOne(() => User, user => user.tweets)
-  creator: User;
+  creator?: User;
 
   @Field()
   @Column({ type: 'int', default: 0 })

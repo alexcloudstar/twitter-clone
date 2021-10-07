@@ -134,12 +134,12 @@ export class UserResolver {
     }
   }
   @Query(() => UserResponse)
-  async getUser(@Arg('username') username: string): Promise<UserResponse> {
+  async getUser(@Arg('user_id') user_id: number): Promise<UserResponse> {
     const user = await getConnection()
       .createQueryBuilder()
       .select('user')
       .from(User, 'user')
-      .where('user.username = :username', { username })
+      .where('user.id = :user_id', { user_id })
       .getOne();
 
     return { user };

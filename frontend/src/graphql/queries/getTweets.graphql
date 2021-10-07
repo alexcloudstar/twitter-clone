@@ -1,0 +1,5 @@
+query GetTweets {
+	getTweets {
+		...RegularTweet
+	}
+}

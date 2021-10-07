@@ -1,0 +1,3 @@
+mutation UpVoteTweet($tweetId: Int!, $value: Int!) {
+	upVoteTweet(tweetId: $tweetId, value: $value)
+}

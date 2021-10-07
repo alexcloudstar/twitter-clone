@@ -1,15 +1,11 @@
-import { ErrorComponent } from 'components/ErrorComponent';
 import React, { FC, useState } from 'react';
+import { Button, ErrorComponent } from 'components/globals';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import { useLoginMutation } from 'src/generated/graphql';
-import { LoginBtn, LoginForm, LoginHolder, LoginWrapper } from './style';
-import { LoginProps } from './types';
-
-interface ILoginState {
-	usernameOrEmail: string;
-	password: string;
-}
+import { LoginForm, LoginHolder, LoginWrapper } from './style';
+import { LoginProps, LoginState } from './types';
 
 const Login: FC<LoginProps> = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
@@ -19,11 +15,11 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<ILoginState>();
+	} = useForm<LoginState>();
 
 	const [login] = useLoginMutation();
 
-	const onSubmit: SubmitHandler<ILoginState> = async (data) => {
+	const onSubmit: SubmitHandler<LoginState> = async (data) => {
 		try {
 			await login({
 				variables: {
@@ -65,7 +61,7 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 					)}
 				</LoginHolder>
 				<ErrorComponent errorMsg={errorMessage} />
-				<LoginBtn type="submit">Login</LoginBtn>
+				<Button type="submit">Login</Button>
 			</LoginForm>
 		</LoginWrapper>
 	);

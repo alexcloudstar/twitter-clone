@@ -50,6 +50,7 @@ export class TweetResolver {
     return Tweet.create({
       ...options,
       creatorId: req.session.uerId,
+      creatorUsername: creator?.username,
       creator: { ...creator },
     }).save();
   }
@@ -85,6 +86,7 @@ export class TweetResolver {
       throw new Error(error.message);
     }
   }
+
   @Mutation(() => Boolean)
   async upVoteTweet(
     @Arg('tweetId', () => Int) tweetId: number,
@@ -97,40 +99,61 @@ export class TweetResolver {
     const upTweet = await UpTweet.findOne({ where: { tweetId, userId } });
 
     if (upTweet && upTweet.value !== realValue) {
-      await getConnection()
-        .createQueryBuilder()
-        .update(UpTweet)
-        .set({
-          userId,
-          tweetId,
-          value: realValue,
-        })
-        .where('tweetId = :tweetId', { tweetId })
-        .execute();
+      await getConnection().transaction(async tm => {
+        await tm.query(
+          `
+            update up_tweet
+            set value = $1
+            where "tweetId" = $2 and "userId"= $3
+          `,
+          [realValue, tweetId, userId]
+        );
 
-      await getConnection()
-        .createQueryBuilder()
-        .update(Tweet)
-        .set({
-          points: realValue,
-        })
-        .where('id = :id', { id: tweetId })
-        .execute();
-    } else if (!upTweet) {
-      await UpTweet.insert({
-        userId,
-        tweetId,
-        value: realValue,
+        await tm.query(
+          `
+            update tweet
+            set points = points + $1
+            where id = $2;
+        `,
+          [2 * realValue, tweetId]
+        );
       });
+    } else if (!upTweet) {
+      // has never voted before
+      await getConnection().transaction(async tm => {
+        await tm.query(
+          `insert into up_tweet ("userId", "tweetId", value)
+          values ($1, $2, $3)`,
+          [userId, tweetId, realValue]
+        );
 
-      await getConnection()
-        .createQueryBuilder()
-        .update(Tweet)
-        .set({
-          points: realValue,
-        })
-        .where('id = :id', { id: tweetId })
-        .execute();
+        await tm.query(
+          `
+        update tweet
+        set points = points + $1
+        where id = $2;
+        `,
+          [realValue, tweetId]
+        );
+      });
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteTweet(
+    @Arg('tweetId', () => Int) tweetId: number,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean> {
+    const tweet = await Tweet.findOne(tweetId);
+    try {
+      if (req.session.userId !== tweet?.creatorId)
+        throw new Error('Not authorized');
+
+      await tweet?.remove();
+    } catch (error) {
+      throw new Error(error);
     }
 
     return true;
