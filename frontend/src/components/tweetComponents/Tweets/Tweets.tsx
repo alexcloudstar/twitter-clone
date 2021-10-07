@@ -1,4 +1,4 @@
-import Tweet from 'components/Tweet/Tweet';
+import { Tweet } from '../Tweet';
 import React, { FC } from 'react';
 import { useGetTweetsQuery } from 'src/generated/graphql';
 import { TweetsWrapper } from './style';

@@ -7,8 +7,8 @@ import {
 } from './styled';
 import { WelcomeProps } from './types';
 import welcomeBg from 'assets/img/WelcomeBg.png';
-import { Register } from 'components/Register';
-import { Login } from 'components/Login';
+import { Register } from 'components/routes/Register';
+import { Login } from 'components/routes';
 import { Link } from 'react-router-dom';
 
 const Welcome: FC<WelcomeProps> = (): JSX.Element => {

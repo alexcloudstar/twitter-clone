@@ -1,5 +1,5 @@
-import { Button } from 'components/Button';
-import { ErrorComponent } from 'components/ErrorComponent';
+import { Button } from 'components/globals/Button';
+import { ErrorComponent } from 'components/globals/ErrorComponent';
 import React, { FC, useCallback, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCreateTweetMutation } from 'src/generated/graphql';

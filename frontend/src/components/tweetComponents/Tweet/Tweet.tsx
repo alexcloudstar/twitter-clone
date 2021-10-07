@@ -1,4 +1,4 @@
-import { TweetActions } from 'components/TweetActions';
+import { TweetActions } from '../TweetActions';
 import React, { FC } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import {

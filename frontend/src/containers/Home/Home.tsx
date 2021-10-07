@@ -1,5 +1,5 @@
-import { CreateTweet } from 'components/CreateTweet';
-import { Tweets } from 'components/Tweets';
+import { CreateTweet } from 'components/tweetComponents/CreateTweet';
+import { Tweets } from 'components/tweetComponents/Tweets';
 import React, { FC } from 'react';
 import { HomeWrapper } from './style';
 import { HomeProps } from './types';

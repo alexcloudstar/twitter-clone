@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Button } from 'components/Button';
-import { ErrorComponent } from 'components/ErrorComponent';
+import { Button, ErrorComponent } from 'components/globals';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import { useLoginMutation } from 'src/generated/graphql';

@@ -1,4 +1,4 @@
-import { ErrorComponent } from 'components/ErrorComponent';
+import { ErrorComponent } from 'components/globals';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';

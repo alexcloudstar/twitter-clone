@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import {
 	useDeleteTweetMutation,
 	useUpVoteTweetMutation
@@ -28,7 +29,9 @@ const TweetActions: FC<TweetActionsProps> = ({ tweetId, points }) => {
 			<TweetActionUpVoteWrapper onClick={onUpVote}>
 				up vote {points > 0 && points}
 			</TweetActionUpVoteWrapper>
-			<TweetActionReplyWrapper>reply</TweetActionReplyWrapper>
+			<Link to={`/tweet/${tweetId}`}>
+				<TweetActionReplyWrapper>reply</TweetActionReplyWrapper>
+			</Link>
 			<TweetActionDeleteWrapper onClick={onDeleteTweet}>
 				delete
 			</TweetActionDeleteWrapper>
