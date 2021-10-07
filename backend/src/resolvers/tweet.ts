@@ -86,7 +86,7 @@ export class TweetResolver {
       throw new Error(error.message);
     }
   }
-  // TODO: Fix UpVote system
+
   @Mutation(() => Boolean)
   async upVoteTweet(
     @Arg('tweetId', () => Int) tweetId: number,
@@ -94,48 +94,48 @@ export class TweetResolver {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const isUpTweet = value !== -1;
+    const realValue = isUpTweet ? 1 : -1;
     const { userId } = req.session;
     const upTweet = await UpTweet.findOne({ where: { tweetId, userId } });
-    const addUpTweet =
-      upTweet?.value || upTweet?.value === 0 ? upTweet.value + value : 0;
-    const substractUpTweet = upTweet?.value ? upTweet.value - 1 : 0;
-    const realValue = isUpTweet ? addUpTweet : substractUpTweet;
 
     if (upTweet && upTweet.value !== realValue) {
-      await getConnection()
-        .createQueryBuilder()
-        .update(UpTweet)
-        .set({
-          userId,
-          tweetId,
-          value: realValue,
-        })
-        .where('tweetId = :tweetId', { tweetId })
-        .execute();
+      await getConnection().transaction(async tm => {
+        await tm.query(
+          `
+            update up_tweet
+            set value = $1
+            where "tweetId" = $2 and "userId"= $3
+          `,
+          [realValue, tweetId, userId]
+        );
 
-      await getConnection()
-        .createQueryBuilder()
-        .update(Tweet)
-        .set({
-          points: realValue,
-        })
-        .where('id = :id', { id: tweetId })
-        .execute();
-    } else if (!upTweet) {
-      await UpTweet.insert({
-        userId,
-        tweetId,
-        value: realValue,
+        await tm.query(
+          `
+            update tweet
+            set points = points + $1
+            where id = $2;
+        `,
+          [2 * realValue, tweetId]
+        );
       });
+    } else if (!upTweet) {
+      // has never voted before
+      await getConnection().transaction(async tm => {
+        await tm.query(
+          `insert into up_tweet ("userId", "tweetId", value)
+          values ($1, $2, $3)`,
+          [userId, tweetId, realValue]
+        );
 
-      await getConnection()
-        .createQueryBuilder()
-        .update(Tweet)
-        .set({
-          points: realValue,
-        })
-        .where('id = :id', { id: tweetId })
-        .execute();
+        await tm.query(
+          `
+        update tweet
+        set points = points + $1
+        where id = $2;
+        `,
+          [realValue, tweetId]
+        );
+      });
     }
 
     return true;
