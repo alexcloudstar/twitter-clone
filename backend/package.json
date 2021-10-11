@@ -10,12 +10,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon dist/index.js",
     "start": "node dist/index.js",
-    "start2": "ts-node src/index.ts",
-    "dev2": "nodemon --exec ts-node src/index.ts",
-    "dev3": "nodemon --exec ts-node src/index.ts tsc -p ./tsconfig.json && node ./dist/index.js",
-    "devAll": "concurrently \"yarn dev2\" \"cd ../frontend && yarn start\""
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "devAll": "concurrently \"yarn dev\" \"cd ../frontend && yarn start\""
   },
   "dependencies": {
     "apollo-server-express": "^3.3.0",
