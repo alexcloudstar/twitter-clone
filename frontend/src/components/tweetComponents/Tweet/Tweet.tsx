@@ -7,6 +7,7 @@ import {
 	useGetTweetsQuery
 } from 'src/generated/graphql';
 import { TweetWrapper, UsernameWrapper } from './style';
+import ReplyTweet from '../ReplyTweet/CreateTweet';
 
 const Tweet: FC<Tweet> = ({
 	id,
@@ -50,6 +51,10 @@ const Tweet: FC<Tweet> = ({
 				tweetId={id ? id : data.getTweet.id}
 				points={points ? points : data?.getTweet?.points}
 			/>
+			<ReplyTweet />
+			<div>
+				<h1>TODO: Add Replies component & map over them</h1>
+			</div>
 		</TweetWrapper>
 	);
 };
