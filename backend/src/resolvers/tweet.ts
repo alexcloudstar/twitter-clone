@@ -279,6 +279,6 @@ export class TweetResolver {
       });
     }
 
-    return true;
+    return isUpReply;
   }
 }
