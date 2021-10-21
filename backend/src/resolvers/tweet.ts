@@ -168,10 +168,6 @@ export class TweetResolver {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const tweet = await Tweet.findOne(tweetId);
-    console.log(tweetId);
-    console.log(reply);
-
-    console.log(req.session.userId);
 
     try {
       await Replies.create({
