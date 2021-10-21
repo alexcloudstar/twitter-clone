@@ -1,4 +1,17 @@
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { ApolloServer } from 'apollo-server-express';
+import connectRedis from 'connect-redis';
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
+import Redis from 'ioredis';
 import path from 'path';
+import { buildSchema } from 'type-graphql';
+import { createConnection } from 'typeorm';
+import { COOKIE_NAME, __prod__ } from './constants';
+import { HelloResolver } from './resolvers/hello';
+import { TweetResolver } from './resolvers/tweet';
+import { UserResolver } from './resolvers/user';
 const {
   PORT,
   DATABASE_URL,
@@ -6,22 +19,6 @@ const {
   REDIS_URL,
   SESSION_SECRET,
 } = require('../config');
-import { ApolloServer } from 'apollo-server-express';
-import express from 'express';
-import { buildSchema } from 'type-graphql';
-import { createConnection } from 'typeorm';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { User } from './entities/User';
-import connectRedis from 'connect-redis';
-import cors from 'cors';
-import session from 'express-session';
-import Redis from 'ioredis';
-import { COOKIE_NAME, __prod__ } from './constants';
-import { Tweet } from './entities/Tweet';
-import { UpTweet } from './entities/UpTweet';
-import { HelloResolver } from './resolvers/hello';
-import { UserResolver } from './resolvers/user';
-import { TweetResolver } from './resolvers/tweet';
 
 const main = async () => {
   const conn = await createConnection({
@@ -30,7 +27,7 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities: [User, Tweet, UpTweet],
+    entities: [path.join(__dirname, './entities/*')],
   });
 
   await conn.runMigrations();

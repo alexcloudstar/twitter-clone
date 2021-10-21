@@ -13,6 +13,8 @@ import { Tweet } from '../entities/Tweet';
 import { User } from '../entities/User';
 import { MyContext } from '../types/MyContext';
 import { getConnection } from 'typeorm';
+import { Replies } from '../entities/Replies';
+import { UpReply } from '../entities/UpReply';
 
 @InputType()
 export class TweetFields {
@@ -154,6 +156,127 @@ export class TweetResolver {
       await tweet?.remove();
     } catch (error) {
       throw new Error(error);
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async replyToTweet(
+    @Arg('tweetId', () => Int) tweetId: number,
+    @Arg('reply', () => String) reply: string,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean> {
+    const tweet = await Tweet.findOne(tweetId);
+    console.log(tweetId);
+    console.log(reply);
+
+    console.log(req.session.userId);
+
+    try {
+      await Replies.create({
+        creatorId: req.session.userId,
+        tweetId,
+        reply,
+        tweet,
+      }).save();
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  @Query(() => [Replies])
+  async getReplies(): Promise<Replies[]> {
+    const replies = await Replies.find();
+
+    return replies;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteReply(
+    @Arg('replyId', () => Int) replyId: number,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean> {
+    const reply = await Replies.findOne(replyId);
+
+    try {
+      if (req.session.userId !== reply?.creatorId)
+        throw new Error('Not authorized');
+      await reply?.remove();
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  @Query(() => [Replies])
+  async getRepliesByTweetId(
+    @Arg('tweetId', () => Int) tweetId: number
+  ): Promise<Replies[] | boolean> {
+    let replies;
+
+    try {
+      replies = await Replies.find({ where: { tweetId } });
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+
+    return replies;
+  }
+
+  @Mutation(() => Boolean)
+  async upVoteReply(
+    @Arg('replyId', () => Int) replyId: number,
+    @Arg('value', () => Int) value: number,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean> {
+    const isUpReply = value !== -1;
+    const realValue = isUpReply ? 1 : -1;
+    const { userId } = req.session;
+    const upReply = await UpReply.findOne({ where: { replyId, userId } });
+
+    if (upReply && upReply.value !== realValue) {
+      await getConnection().transaction(async tm => {
+        await tm.query(
+          `
+            update up_reply
+            set value = $1
+            where "replyId" = $2 and "userId"= $3
+          `,
+          [realValue, replyId, userId]
+        );
+
+        await tm.query(
+          `
+            update replies
+            set points = points + $1
+            where id = $2;
+        `,
+          [realValue, replyId]
+        );
+      });
+    } else if (!upReply) {
+      // has never voted before
+      await getConnection().transaction(async tm => {
+        await tm.query(
+          `insert into up_reply ("userId", "replyId", value)
+          values ($1, $2, $3)`,
+          [userId, replyId, realValue]
+        );
+
+        await tm.query(
+          `
+        update replies
+        set points = points + $1
+        where id = $2;
+        `,
+          [realValue, replyId]
+        );
+      });
     }
 
     return true;
