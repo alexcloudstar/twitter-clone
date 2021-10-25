@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { Tweet, useGetTweetQuery } from 'src/generated/graphql';
+import { formatDate } from 'utils/formatDate';
 import Replies from '../Replies';
 import ReplyTweet from '../ReplyTweet/Reply';
 import { TweetActions } from '../TweetActions';
-import { CreatedAtWrapper, TweetWrapper, UsernameWrapper } from './style';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import { TweetContentWrapper, TweetWrapper } from './style';
 
 const Tweet: FC<Tweet> = ({
 	id,
 	tweet,
 	points,
 	createdAt,
-	creatorId,
-	updatedAt,
-	voteStatus,
 	creatorUsername
 }) => {
 	const match: { params: { id: string } } = useRouteMatch();
@@ -27,34 +27,27 @@ const Tweet: FC<Tweet> = ({
 
 	return (
 		<TweetWrapper tweetId={id}>
-			<Link to={`/tweet/${id ? id : data.getTweet.id}`}>
-				<h5>
-					<Link
-						to={`/profile/${
-							creatorUsername ? creatorUsername : data.getTweet.creatorUsername
-						}`}
-					>
-						{tweet ? tweet : data.getTweet.tweet}{' '}
-						<UsernameWrapper>
-							@
-							{creatorUsername
-								? creatorUsername
-								: data.getTweet.creatorUsername}
-						</UsernameWrapper>
-						<CreatedAtWrapper>
-							{createdAt ? createdAt : data.getTweet.createdAt}
-						</CreatedAtWrapper>
-					</Link>
-				</h5>
-			</Link>
-			<TweetActions
-				tweetId={id ? id : data.getTweet.id}
+			<Header
+				creatorUsername={
+					creatorUsername ? creatorUsername : data?.getTweet?.creatorUsername
+				}
+				tweet={tweet ? tweet : data?.getTweet?.tweet}
+				createdAt={
+					createdAt
+						? formatDate({ date: +createdAt, formatDate: 'MMM dd' })
+						: formatDate({
+								date: +data?.getTweet?.createdAt,
+								formatDate: 'MMM'
+						  })
+				}
+			/>
+			<TweetContentWrapper>
+				{tweet ? tweet : data?.getTweet?.tweet}
+			</TweetContentWrapper>
+			<Footer
+				tweetId={id ? id : data?.getTweet?.id}
 				points={points ? points : data?.getTweet?.points}
 			/>
-			<ReplyTweet />
-			<div>
-				<Replies tweetId={id ? id : data.getTweet.id} />
-			</div>
 		</TweetWrapper>
 	);
 };

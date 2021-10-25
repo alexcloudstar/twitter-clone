@@ -47,6 +47,7 @@
 	},
 	"dependencies": {
 		"@apollo/client": "^3.4.15",
+		"date-fns": "^2.25.0",
 		"graphql": "^15.6.0",
 		"history": "^5.0.1",
 		"react": "^17.0.2",

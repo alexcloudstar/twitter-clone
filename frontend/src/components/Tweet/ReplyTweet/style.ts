@@ -8,9 +8,12 @@ export const ReplyTweetWrapper = styled.div`
 export const ReplyTweetForm = styled.form`
 	width: 100%;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: flex-end;
 	position: relative;
+	align-items: center;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 50px;
 
 	textarea {
 		width: 100%;
@@ -19,7 +22,7 @@ export const ReplyTweetForm = styled.form`
 		padding: 10px;
 		display: block;
 		border-radius: 10px;
-		border: 1px solid #1da1f2;
+		padding-top: 20px;
 
 		&:focus {
 			border-color: #1da1f2;

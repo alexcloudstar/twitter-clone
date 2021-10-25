@@ -1,6 +1,6 @@
 import { Button } from 'components/globals/Button';
 import { ErrorComponent } from 'components/globals/ErrorComponent';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouteMatch } from 'react-router';
 import { useReplyToTweetMutation } from 'src/generated/graphql';
@@ -13,6 +13,8 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 		handleSubmit,
 		formState: { errors }
 	} = useForm<ReplyTweetState>();
+
+	const [value, setValue] = useState('');
 
 	const match: { params: { id: string } } = useRouteMatch();
 
@@ -31,6 +33,10 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 		}
 	};
 
+	const onChange = (e) => {
+		setValue(e.target.value);
+	};
+
 	return (
 		<ReplyTweetWrapper>
 			<ReplyTweetForm onSubmit={handleSubmit(onSubmit)}>
@@ -39,8 +45,11 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 					id="replyToTweet"
 					placeholder="Tweet your reply"
 					{...register('reply', { required: true })}
+					onChange={onChange}
 				></textarea>
-				<Button type="submit">Reply to Tweet</Button>
+				<Button type="submit" props={{ disabled: !value }}>
+					Reply
+				</Button>
 				{errors.reply && <ErrorComponent errorMsg={'This field is required'} />}
 			</ReplyTweetForm>
 		</ReplyTweetWrapper>
