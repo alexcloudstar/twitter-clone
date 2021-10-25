@@ -1,0 +1,9 @@
+query GetTweetReplies($tweetId: Int!) {
+	getTweetReplies(tweetId: $tweetId) {
+		id
+		reply
+		creatorId
+		tweetId
+		points
+	}
+}

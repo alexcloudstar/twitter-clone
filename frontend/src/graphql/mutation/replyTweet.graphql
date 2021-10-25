@@ -1,0 +1,3 @@
+mutation replyToTweet($tweetId: Int!, $reply: String!) {
+	replyToTweet(tweetId: $tweetId, reply: $reply)
+}

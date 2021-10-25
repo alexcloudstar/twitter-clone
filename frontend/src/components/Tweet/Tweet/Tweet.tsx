@@ -1,13 +1,10 @@
-import { TweetActions } from '../TweetActions';
 import React, { FC } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import {
-	Tweet,
-	useGetTweetQuery,
-	useGetTweetsQuery
-} from 'src/generated/graphql';
-import { TweetWrapper, UsernameWrapper } from './style';
-import ReplyTweet from '../ReplyTweet/CreateTweet';
+import { Tweet, useGetTweetQuery } from 'src/generated/graphql';
+import Replies from '../Replies';
+import ReplyTweet from '../ReplyTweet/Reply';
+import { TweetActions } from '../TweetActions';
+import { CreatedAtWrapper, TweetWrapper, UsernameWrapper } from './style';
 
 const Tweet: FC<Tweet> = ({
 	id,
@@ -32,18 +29,21 @@ const Tweet: FC<Tweet> = ({
 		<TweetWrapper tweetId={id}>
 			<Link to={`/tweet/${id ? id : data.getTweet.id}`}>
 				<h5>
-					{tweet ? tweet : data.getTweet.tweet}{' '}
 					<Link
 						to={`/profile/${
 							creatorUsername ? creatorUsername : data.getTweet.creatorUsername
 						}`}
 					>
+						{tweet ? tweet : data.getTweet.tweet}{' '}
 						<UsernameWrapper>
 							@
 							{creatorUsername
 								? creatorUsername
 								: data.getTweet.creatorUsername}
 						</UsernameWrapper>
+						<CreatedAtWrapper>
+							{createdAt ? createdAt : data.getTweet.createdAt}
+						</CreatedAtWrapper>
 					</Link>
 				</h5>
 			</Link>
@@ -53,7 +53,7 @@ const Tweet: FC<Tweet> = ({
 			/>
 			<ReplyTweet />
 			<div>
-				<h1>TODO: Add Replies component & map over them</h1>
+				<Replies tweetId={id ? id : data.getTweet.id} />
 			</div>
 		</TweetWrapper>
 	);

@@ -1,6 +1,6 @@
 import { NotFound, ProtectedRoute } from 'components/routes';
 
-import { Tweet } from 'components/tweetComponents';
+import { Tweet } from 'components/Tweet';
 import { Home } from 'containers/Home';
 import { Welcome } from 'containers/Welcome';
 import React from 'react';
