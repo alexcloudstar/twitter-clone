@@ -209,7 +209,7 @@ export class TweetResolver {
   }
 
   @Query(() => [Replies])
-  async getRepliesByTweetId(
+  async getTweetReplies(
     @Arg('tweetId', () => Int) tweetId: number
   ): Promise<Replies[] | boolean> {
     let replies;
