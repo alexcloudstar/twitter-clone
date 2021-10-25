@@ -3,5 +3,5 @@ export type ReplyTweetProps = {
 };
 
 export type ReplyTweetState = {
-	tweet: string;
+	reply: string;
 };

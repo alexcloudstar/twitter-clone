@@ -4,25 +4,24 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Replies } from './Replies';
-import { UpTweet } from './UpTweet';
+import { Tweet } from './Tweet';
+import { UpReply } from './UpReply';
 import { User } from './User';
 
 @ObjectType()
 @Entity()
-export class Tweet extends BaseEntity {
+export class Replies extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Field(() => String)
   @Column()
-  tweet!: string;
+  reply!: string;
 
   @Field()
   @Column()
@@ -30,15 +29,11 @@ export class Tweet extends BaseEntity {
 
   @Field()
   @Column()
-  creatorUsername: string;
+  tweetId: number;
 
   @Field(() => User, { nullable: true })
-  @ManyToOne(() => User, user => user.tweets)
+  @ManyToOne(() => User, user => user.replies)
   creator?: User;
-
-  @Field(() => [Replies], { nullable: true })
-  @ManyToMany(() => Replies, replies => replies.tweet)
-  replies?: Replies[];
 
   @Field()
   @Column({ type: 'int', default: 0 })
@@ -47,8 +42,12 @@ export class Tweet extends BaseEntity {
   @Field(() => Int, { nullable: true })
   voteStatus: number | null;
 
-  @OneToMany(() => UpTweet, uptweet => uptweet.tweet)
-  uptweets: UpTweet[];
+  @Field(() => Tweet, { nullable: true })
+  @OneToMany(() => Tweet, tweet => tweet.replies)
+  tweet: Tweet;
+
+  @OneToMany(() => UpReply, upreply => upreply.tweet)
+  upreplies: UpReply[];
 
   @Field(() => String)
   @CreateDateColumn()

@@ -1,8 +1,9 @@
 import { Button } from 'components/globals/Button';
 import { ErrorComponent } from 'components/globals/ErrorComponent';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCreateTweetMutation } from 'src/generated/graphql';
+import { useRouteMatch } from 'react-router';
+import { useReplyToTweetMutation } from 'src/generated/graphql';
 import { ReplyTweetForm, ReplyTweetWrapper } from './style';
 import { ReplyTweetProps, ReplyTweetState } from './types';
 
@@ -13,18 +14,21 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 		formState: { errors }
 	} = useForm<ReplyTweetState>();
 
-	// const [replyTweetTweet] = useReplyTweetMutation(); // TODO: need to add this to the graphql
+	const match: { params: { id: string } } = useRouteMatch();
+
+	const [replyTweet] = useReplyToTweetMutation(); // TODO: need to add this to the graphql
 
 	const onSubmit: SubmitHandler<ReplyTweetState> = async (data) => {
-		// try {
-		// 	await replyTweetTweet({
-		// 		variables: {
-		// 			tweet: data.tweet
-		// 		}
-		// 	});
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+		try {
+			await replyTweet({
+				variables: {
+					tweetId: +match.params.id,
+					reply: data.reply
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -33,11 +37,11 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 				<textarea
 					name="replyToTweet"
 					id="replyToTweet"
-					placeholder="What's happening?"
-					{...register('tweet', { required: true })}
+					placeholder="Tweet your reply"
+					{...register('reply', { required: true })}
 				></textarea>
 				<Button type="submit">Reply to Tweet</Button>
-				{errors.tweet && <ErrorComponent errorMsg={'This field is required'} />}
+				{errors.reply && <ErrorComponent errorMsg={'This field is required'} />}
 			</ReplyTweetForm>
 		</ReplyTweetWrapper>
 	);
