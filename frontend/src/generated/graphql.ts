@@ -82,13 +82,11 @@ export type MutationReplyToTweetArgs = {
 
 export type MutationUpVoteReplyArgs = {
   replyId: Scalars['Int'];
-  value: Scalars['Int'];
 };
 
 
 export type MutationUpVoteTweetArgs = {
   tweetId: Scalars['Int'];
-  value: Scalars['Int'];
 };
 
 export type Query = {
@@ -222,7 +220,6 @@ export type ReplyToTweetMutation = { __typename?: 'Mutation', replyToTweet: bool
 
 export type UpVoteTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
-  value: Scalars['Int'];
 }>;
 
 
@@ -523,8 +520,8 @@ export type ReplyToTweetMutationHookResult = ReturnType<typeof useReplyToTweetMu
 export type ReplyToTweetMutationResult = Apollo.MutationResult<ReplyToTweetMutation>;
 export type ReplyToTweetMutationOptions = Apollo.BaseMutationOptions<ReplyToTweetMutation, ReplyToTweetMutationVariables>;
 export const UpVoteTweetDocument = gql`
-    mutation UpVoteTweet($tweetId: Int!, $value: Int!) {
-  upVoteTweet(tweetId: $tweetId, value: $value)
+    mutation UpVoteTweet($tweetId: Int!) {
+  upVoteTweet(tweetId: $tweetId)
 }
     `;
 export type UpVoteTweetMutationFn = Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
@@ -556,7 +553,6 @@ export function withUpVoteTweet<TProps, TChildProps = {}, TDataName extends stri
  * const [upVoteTweetMutation, { data, loading, error }] = useUpVoteTweetMutation({
  *   variables: {
  *      tweetId: // value for 'tweetId'
- *      value: // value for 'value'
  *   },
  * });
  */
