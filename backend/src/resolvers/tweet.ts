@@ -92,43 +92,35 @@ export class TweetResolver {
   @Mutation(() => Boolean)
   async upVoteTweet(
     @Arg('tweetId', () => Int) tweetId: number,
-    @Arg('value', () => Int) value: number,
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
-    const isUpTweet = value !== -1;
-    const realValue = isUpTweet ? 1 : -1;
+    const realValue: number = 1;
     const { userId } = req.session;
     const upTweet = await UpTweet.findOne({ where: { tweetId, userId } });
 
-    if (upTweet && upTweet.value !== realValue) {
+    if (upTweet) {
+      await upTweet.remove();
+
       await getConnection().transaction(async tm => {
         await tm.query(
           `
-            update up_tweet
-            set value = $1
-            where "tweetId" = $2 and "userId"= $3
-          `,
-          [realValue, tweetId, userId]
-        );
-
-        await tm.query(
-          `
             update tweet
-            set points = points + $1
+            set points = points - $1
             where id = $2;
         `,
           [realValue, tweetId]
         );
       });
+
+      return true;
     } else if (!upTweet) {
       // has never voted before
+      await UpTweet.create({
+        userId,
+        tweetId,
+        value: realValue,
+      }).save();
       await getConnection().transaction(async tm => {
-        await tm.query(
-          `insert into up_tweet ("userId", "tweetId", value)
-          values ($1, $2, $3)`,
-          [userId, tweetId, realValue]
-        );
-
         await tm.query(
           `
         update tweet
@@ -138,9 +130,11 @@ export class TweetResolver {
           [realValue, tweetId]
         );
       });
+
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   @Mutation(() => Boolean)
@@ -227,34 +221,27 @@ export class TweetResolver {
   @Mutation(() => Boolean)
   async upVoteReply(
     @Arg('replyId', () => Int) replyId: number,
-    @Arg('value', () => Int) value: number,
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
-    const isUpReply = value !== -1;
-    const realValue = isUpReply ? 1 : -1;
+    const realValue = 1;
     const { userId } = req.session;
     const upReply = await UpReply.findOne({ where: { replyId, userId } });
 
-    if (upReply && upReply.value !== realValue) {
+    if (upReply) {
+      await upReply.remove();
+
       await getConnection().transaction(async tm => {
         await tm.query(
           `
-            update up_reply
-            set value = $1
-            where "replyId" = $2 and "userId"= $3
-          `,
-          [realValue, replyId, userId]
-        );
-
-        await tm.query(
-          `
             update replies
-            set points = points + $1
+            set points = points - $1
             where id = $2;
         `,
           [realValue, replyId]
         );
       });
+
+      return true;
     } else if (!upReply) {
       // has never voted before
       await getConnection().transaction(async tm => {
@@ -273,8 +260,9 @@ export class TweetResolver {
           [realValue, replyId]
         );
       });
+      return true;
     }
 
-    return isUpReply;
+    return false;
   }
 }

@@ -17,7 +17,7 @@ const TweetActions: FC<TweetActionsProps> = ({ tweetId, points }) => {
 
 	const onUpVote = () =>
 		upVoteTweet({
-			variables: { tweetId: tweetId, value: points > 0 ? -1 : 1 }
+			variables: { tweetId: tweetId }
 		});
 
 	const [deleteTweet] = useDeleteTweetMutation();
