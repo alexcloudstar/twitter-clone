@@ -41,6 +41,10 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ default: '' })
+  bio: string;
+
+  @Field()
+  @Column({ default: '' })
   location: string;
 
   @Field()
