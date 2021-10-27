@@ -1,3 +1,4 @@
+import { Header } from 'components/Header';
 import { NotFound, ProtectedRoute } from 'components/routes';
 import { Tweet } from 'components/Tweet';
 import { Home } from 'containers/Home';
@@ -8,15 +9,18 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const App = (): JSX.Element => {
 	return (
-		<BrowserRouter>
-			<Switch>
-				<Route exact path="/" component={Welcome} />
-				<ProtectedRoute path="/home" component={Home} />
-				<ProtectedRoute path="/tweet/:id" component={Tweet} />
-				<ProtectedRoute path="/profile/:id" component={Profile} />
-				<Route component={NotFound} />
-			</Switch>
-		</BrowserRouter>
+		<>
+			<Header />
+			<BrowserRouter>
+				<Switch>
+					<Route exact path="/" component={Welcome} />
+					<ProtectedRoute path="/home" component={Home} />
+					<ProtectedRoute path="/tweet/:id" component={Tweet} />
+					<ProtectedRoute path="/profile/:id" component={Profile} />
+					<Route component={NotFound} />
+				</Switch>
+			</BrowserRouter>
+		</>
 	);
 };
 
