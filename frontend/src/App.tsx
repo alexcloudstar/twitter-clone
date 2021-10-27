@@ -10,8 +10,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 const App = (): JSX.Element => {
 	return (
 		<>
-			<Header />
 			<BrowserRouter>
+				<Header />
 				<Switch>
 					<Route exact path="/" component={Welcome} />
 					<ProtectedRoute path="/home" component={Home} />
