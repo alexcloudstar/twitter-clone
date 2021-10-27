@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type FieldError = {
@@ -150,12 +152,18 @@ export type TweetFields = {
 
 export type User = {
   __typename?: 'User';
+  avatarUrl: Scalars['String'];
+  bio: Scalars['String'];
+  birthday: Scalars['DateTime'];
+  coverPhotoUrl: Scalars['String'];
   createdAt: Scalars['String'];
   email: Scalars['String'];
   id: Scalars['Float'];
-  password: Scalars['String'];
+  location: Scalars['String'];
+  name: Scalars['String'];
   updatedAt: Scalars['String'];
   username: Scalars['String'];
+  website: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -208,7 +216,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string, password: string }> } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string }> } };
 
 export type ReplyToTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -249,7 +257,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, password: string }> } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string }> } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -428,7 +436,6 @@ export const RegisterDocument = gql`
       email
       createdAt
       updatedAt
-      password
     }
   }
 }
@@ -717,7 +724,13 @@ export const GetUserDocument = gql`
       id
       username
       email
-      password
+      avatarUrl
+      coverPhotoUrl
+      name
+      location
+      website
+      birthday
+      bio
     }
   }
 }

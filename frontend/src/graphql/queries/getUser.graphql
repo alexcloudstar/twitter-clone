@@ -4,7 +4,13 @@ query GetUser($user_id: Float!) {
 			id
 			username
 			email
-			password
+			avatarUrl
+			coverPhotoUrl
+			name
+			location
+			website
+			birthday
+			bio
 		}
 	}
 }
