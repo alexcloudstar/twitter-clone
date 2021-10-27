@@ -28,6 +28,29 @@ export class User extends BaseEntity {
   email!: string;
 
   @Field()
+  @Column({ nullable: true })
+  avatarUrl: string;
+
+  @Field()
+  @Column({ nullable: true })
+  coverPhotoUrl: string;
+
+  @Field()
+  @Column({ nullable: true })
+  name: string;
+
+  @Field()
+  @Column({ nullable: true })
+  location: string;
+
+  @Field()
+  @Column({ nullable: true })
+  website: string;
+
+  @Field()
+  @Column({ nullable: true })
+  birthday: Date;
+
   @Column()
   password!: string;
 
