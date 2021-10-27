@@ -28,27 +28,27 @@ export class User extends BaseEntity {
   email!: string;
 
   @Field()
-  @Column({ nullable: true })
+  @Column({ default: '' })
   avatarUrl: string;
 
   @Field()
-  @Column({ nullable: true })
+  @Column({ default: '' })
   coverPhotoUrl: string;
 
   @Field()
-  @Column({ nullable: true })
+  @Column({ default: '' })
   name: string;
 
   @Field()
-  @Column({ nullable: true })
+  @Column({ default: '' })
   location: string;
 
   @Field()
-  @Column({ nullable: true })
+  @Column({ default: '' })
   website: string;
 
   @Field()
-  @Column({ nullable: true })
+  @Column({ type: Date, default: new Date() })
   birthday: Date;
 
   @Column()
