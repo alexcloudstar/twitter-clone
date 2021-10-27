@@ -1,4 +1,5 @@
 export type ButtonProps = {
-	props?: unknown;
 	type: 'button' | 'submit' | 'reset';
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	props?: any;
 };

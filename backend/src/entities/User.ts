@@ -7,7 +7,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Replies } from './Replies';
 import { Tweet } from './Tweet';
+import { UpReply } from './UpReply';
 import { UpTweet } from './UpTweet';
 
 @ObjectType()
@@ -34,6 +36,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => UpTweet, uptweet => uptweet.user)
   uptweets: UpTweet[];
+
+  @OneToMany(() => UpReply, upreply => upreply.user)
+  upreplies: UpReply[];
+
+  @OneToMany(() => UpTweet, uptweet => uptweet.user)
+  replies: Replies[];
 
   @Field(() => String)
   @CreateDateColumn()

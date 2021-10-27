@@ -9,9 +9,14 @@ export const StyledButton = styled.button<ButtonProps>`
 	margin-top: 1rem;
 	transition: all 0.4s ease-in-out;
 	color: #fff;
+	border-radius: 50px;
 
 	&:hover {
 		background-color: #657786;
 		border-color: #1da1f2;
+	}
+
+	&:disabled {
+		opacity: 0.4;
 	}
 `;
