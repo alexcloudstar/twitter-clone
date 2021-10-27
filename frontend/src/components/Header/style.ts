@@ -17,7 +17,7 @@ export const Logo = styled.h1`
 `;
 
 export const SearchBarGridStyled = styled(Grid)`
-	padding-right: 60px;
+	/* padding-right: 60px; */
 `;
 
 export const StyledAvatar = styled(Avatar)`

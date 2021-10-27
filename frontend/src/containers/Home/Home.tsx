@@ -1,14 +1,13 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 import { Grid } from '@mui/material';
 import { Layout } from 'components/globals';
-import { CreateTweet } from 'components/Tweet/CreateTweet';
-import { Tweets } from 'components/Tweet/Tweets';
+import { Tweets } from 'containers/Tweets';
+import { Stories } from 'containers/Stories';
 import React, { FC } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { HomeWrapper, LinkWrapper, StyledButton } from './style';
 import { HomeProps } from './types';
-import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Stories } from 'containers/Stories';
 
 const Home: FC<HomeProps> = () => {
 	return (
@@ -28,7 +27,7 @@ const Home: FC<HomeProps> = () => {
 				<Grid item md={4}>
 					<Stories />
 					<div id="row2">
-						<CreateTweet />
+						{/* <CreateTweet /> */}
 						<Tweets />
 					</div>
 				</Grid>
