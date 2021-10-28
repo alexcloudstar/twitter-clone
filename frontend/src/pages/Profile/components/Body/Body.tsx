@@ -69,6 +69,7 @@ const Body: FC<BodyProps> = ({
 					Born {format(new Date(birthday), 'LLLL, dd, yyyy')}
 				</span>
 			)}
+			{console.log(birthday)}
 			{joined && (
 				<span>
 					<EventNoteIcon />

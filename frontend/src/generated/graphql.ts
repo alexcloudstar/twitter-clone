@@ -201,6 +201,14 @@ export type DeleteTweetMutationVariables = Exact<{
 
 export type DeleteTweetMutation = { __typename?: 'Mutation', deleteTweet: boolean };
 
+export type EditTweetMutationVariables = Exact<{
+  tweetId: Scalars['Int'];
+  newTweetValue: Scalars['String'];
+}>;
+
+
+export type EditTweetMutation = { __typename?: 'Mutation', editTweet: { __typename?: 'Tweet', tweet: string } };
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -389,6 +397,53 @@ export function useDeleteTweetMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteTweetMutationHookResult = ReturnType<typeof useDeleteTweetMutation>;
 export type DeleteTweetMutationResult = Apollo.MutationResult<DeleteTweetMutation>;
 export type DeleteTweetMutationOptions = Apollo.BaseMutationOptions<DeleteTweetMutation, DeleteTweetMutationVariables>;
+export const EditTweetDocument = gql`
+    mutation EditTweet($tweetId: Int!, $newTweetValue: String!) {
+  editTweet(tweetId: $tweetId, newTweetValue: $newTweetValue) {
+    tweet
+  }
+}
+    `;
+export type EditTweetMutationFn = Apollo.MutationFunction<EditTweetMutation, EditTweetMutationVariables>;
+export type EditTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<EditTweetMutation, EditTweetMutationVariables>
+    } & TChildProps;
+export function withEditTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditTweetMutation,
+  EditTweetMutationVariables,
+  EditTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditTweetMutation, EditTweetMutationVariables, EditTweetProps<TChildProps, TDataName>>(EditTweetDocument, {
+      alias: 'editTweet',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditTweetMutation__
+ *
+ * To run a mutation, you first call `useEditTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditTweetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editTweetMutation, { data, loading, error }] = useEditTweetMutation({
+ *   variables: {
+ *      tweetId: // value for 'tweetId'
+ *      newTweetValue: // value for 'newTweetValue'
+ *   },
+ * });
+ */
+export function useEditTweetMutation(baseOptions?: Apollo.MutationHookOptions<EditTweetMutation, EditTweetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditTweetMutation, EditTweetMutationVariables>(EditTweetDocument, options);
+      }
+export type EditTweetMutationHookResult = ReturnType<typeof useEditTweetMutation>;
+export type EditTweetMutationResult = Apollo.MutationResult<EditTweetMutation>;
+export type EditTweetMutationOptions = Apollo.BaseMutationOptions<EditTweetMutation, EditTweetMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {

@@ -49,7 +49,10 @@ const Tweet: FC<TweetProps> = ({
 							<Link to={`/profile/${creatorId}`}>
 								<h3>Alex Cloudstar</h3>
 							</Link>
-							<MoreOptions id={id || data.getTweet.id} />
+							<MoreOptions
+								id={id || data.getTweet.id}
+								tweet={tweet || data.getTweet.tweet}
+							/>
 						</Header>
 						<Body>
 							<span>{tweet}</span>

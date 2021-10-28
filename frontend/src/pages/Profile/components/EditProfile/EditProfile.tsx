@@ -24,7 +24,7 @@ const EditProfile: FC<Omit<User, 'updatedAt'>> = (userData) => {
 			>
 				<ClickAwayListener onClickAway={handleClose}>
 					<StyledModalBox>
-						<EditForm {...userData} />
+						<EditForm {...userData} handleClose={handleClose} />
 					</StyledModalBox>
 				</ClickAwayListener>
 			</StyledModal>

@@ -1,8 +1,8 @@
 import { Layout } from 'components/globals';
-import { format } from 'date-fns';
 import React, { FC } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useGetUserQuery } from 'src/generated/graphql';
+import { formatBirthday } from 'utils/dateFormats';
 import { Header, Tabs } from './components';
 import { Body } from './components/Body';
 import { ProfileWrapper, StyledGrid } from './style';
@@ -17,10 +17,7 @@ const Profile: FC<ProfileProps> = () => {
 
 	if (loading) return <div>Loading...</div>;
 
-	const formatedJoined = format(
-		new Date(+data.getUser.user.createdAt),
-		'LLLL, dd, yyyy'
-	);
+	const formatedJoined = formatBirthday(+data.getUser.user.createdAt);
 
 	return (
 		<ProfileWrapper>

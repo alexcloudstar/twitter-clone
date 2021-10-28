@@ -1,18 +1,24 @@
 import React, { FC, useState } from 'react';
 import { MoreOptionsWrapper } from './style';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Menu, MenuItem } from '@mui/material';
+import { ClickAwayListener, Menu, MenuItem } from '@mui/material';
 import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
-import { SnackBar } from 'components/globals';
+import { SnackBar, StyledModal, StyledModalBox } from 'components/globals';
+import { EditForm } from './EditForm';
 
-type MoreOptionsProps = Pick<Tweet, 'id'>;
+type MoreOptionsProps = {
+	tweet?: Tweet['tweet'];
+} & Pick<Tweet, 'id'>;
 
-const MoreOptions: FC<MoreOptionsProps> = ({ id }) => {
+const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
 		message: null,
 		variant: null
 	});
+	const [openEditModal, setOpenEditModal] = useState(false);
+	const handleOpenEditModal = () => setOpenEditModal(true);
+	const handleCloseEditModal = () => setOpenEditModal(false);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
@@ -37,8 +43,8 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id }) => {
 			console.log(error);
 			setSnackBarProps({
 				isOpen: true,
-				message: 'Oops, there was an error ⚠️',
-				variant: 'info'
+				message: 'Oops, there was an error 😢',
+				variant: 'danger'
 			});
 		}
 	};
@@ -75,9 +81,26 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id }) => {
 				}}
 			>
 				<MenuItem onClick={onDeleteTweet}>Delete Tweet</MenuItem>
-				<MenuItem onClick={handleClose}>Edit Tweet</MenuItem>
+				<MenuItem onClick={handleOpenEditModal}>Edit Tweet</MenuItem>
 				<MenuItem onClick={handleClose}>Action 3</MenuItem>
 			</Menu>
+
+			<StyledModal
+				open={openEditModal}
+				onClose={handleCloseEditModal}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<ClickAwayListener onClickAway={handleCloseEditModal}>
+					<StyledModalBox>
+						<EditForm
+							tweetId={id}
+							tweet={tweet}
+							handleClose={handleCloseEditModal}
+						/>
+					</StyledModalBox>
+				</ClickAwayListener>
+			</StyledModal>
 		</>
 	);
 };
