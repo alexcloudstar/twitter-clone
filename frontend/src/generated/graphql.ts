@@ -233,6 +233,13 @@ export type UpVoteTweetMutationVariables = Exact<{
 
 export type UpVoteTweetMutation = { __typename?: 'Mutation', upVoteTweet: boolean };
 
+export type UpVoteReplyMutationVariables = Exact<{
+  replyId: Scalars['Int'];
+}>;
+
+
+export type UpVoteReplyMutation = { __typename?: 'Mutation', upVoteReply: boolean };
+
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -575,6 +582,50 @@ export function useUpVoteTweetMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpVoteTweetMutationHookResult = ReturnType<typeof useUpVoteTweetMutation>;
 export type UpVoteTweetMutationResult = Apollo.MutationResult<UpVoteTweetMutation>;
 export type UpVoteTweetMutationOptions = Apollo.BaseMutationOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export const UpVoteReplyDocument = gql`
+    mutation UpVoteReply($replyId: Int!) {
+  upVoteReply(replyId: $replyId)
+}
+    `;
+export type UpVoteReplyMutationFn = Apollo.MutationFunction<UpVoteReplyMutation, UpVoteReplyMutationVariables>;
+export type UpVoteReplyProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<UpVoteReplyMutation, UpVoteReplyMutationVariables>
+    } & TChildProps;
+export function withUpVoteReply<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpVoteReplyMutation,
+  UpVoteReplyMutationVariables,
+  UpVoteReplyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpVoteReplyMutation, UpVoteReplyMutationVariables, UpVoteReplyProps<TChildProps, TDataName>>(UpVoteReplyDocument, {
+      alias: 'upVoteReply',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpVoteReplyMutation__
+ *
+ * To run a mutation, you first call `useUpVoteReplyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpVoteReplyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upVoteReplyMutation, { data, loading, error }] = useUpVoteReplyMutation({
+ *   variables: {
+ *      replyId: // value for 'replyId'
+ *   },
+ * });
+ */
+export function useUpVoteReplyMutation(baseOptions?: Apollo.MutationHookOptions<UpVoteReplyMutation, UpVoteReplyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpVoteReplyMutation, UpVoteReplyMutationVariables>(UpVoteReplyDocument, options);
+      }
+export type UpVoteReplyMutationHookResult = ReturnType<typeof useUpVoteReplyMutation>;
+export type UpVoteReplyMutationResult = Apollo.MutationResult<UpVoteReplyMutation>;
+export type UpVoteReplyMutationOptions = Apollo.BaseMutationOptions<UpVoteReplyMutation, UpVoteReplyMutationVariables>;
 export const GetAllUsersDocument = gql`
     query GetAllUsers {
   getAllUsers {

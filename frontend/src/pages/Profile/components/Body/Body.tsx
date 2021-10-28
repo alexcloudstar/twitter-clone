@@ -9,7 +9,7 @@ import { User } from 'src/generated/graphql';
 import { format } from 'date-fns';
 
 type BodyProps = {
-	joined: string;
+	joined?: string;
 } & Omit<User, 'updatedAt'>;
 
 const Body: FC<BodyProps> = ({

@@ -5,6 +5,7 @@ import _1 from 'src/assets/img/stories_avatars/_1.png';
 import { Tweet, useGetTweetQuery } from 'src/generated/graphql';
 import Actions from '../Actions/Actions';
 import MoreOptions from './components/MoreOptions';
+import Replies from './components/Replies';
 import { Body, Header, UserWrapper, Wrapper } from './style';
 
 type TweetProps = {
@@ -16,7 +17,6 @@ const Tweet: FC<TweetProps> = ({
 	id,
 	tweet,
 	points,
-	createdAt,
 	creatorUsername,
 	creatorId,
 	showActions,
@@ -24,7 +24,7 @@ const Tweet: FC<TweetProps> = ({
 }) => {
 	const match: { params: { id: string } } = useRouteMatch();
 
-	const { data, loading, error } = useGetTweetQuery({
+	const { data, loading } = useGetTweetQuery({
 		variables: { tweetId: +match.params.id },
 		skip: !!id
 	});
@@ -58,11 +58,11 @@ const Tweet: FC<TweetProps> = ({
 								alt=""
 							/>
 						</Body>
-						{showActions && <Actions id={id} points={points} />}
+						{showActions && <Actions id={id} points={points} isReply={false} />}
 					</Grid>
 				</Grid>
 			</Wrapper>
-			{showReplies && <Wrapper>Replies</Wrapper>}
+			{showReplies && <Replies tweetId={id} />}
 		</>
 	);
 };

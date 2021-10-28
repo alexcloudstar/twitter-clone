@@ -1,3 +1,5 @@
 import { Tweet } from 'src/generated/graphql';
 
-export type ActionsProps = Pick<Tweet, 'id' | 'points'>;
+export type ActionsProps = {
+	isReply: boolean;
+} & Pick<Tweet, 'id' | 'points'>;
