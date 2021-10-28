@@ -36,10 +36,7 @@ const Tweet: FC<TweetProps> = ({
 					<Link to={`/profile/${creatorId}`}>
 						<Header>
 							<UserWrapper>
-								<img
-									src={_1}
-									alt={creatorUsername || data?.getTweet.creatorUsername}
-								/>
+								<img src={_1} alt={creatorUsername} />
 							</UserWrapper>
 						</Header>
 					</Link>
@@ -52,18 +49,13 @@ const Tweet: FC<TweetProps> = ({
 						<MoreOptions id={id || data.getTweet.id} />
 					</Header>
 					<Body>
-						<span>{tweet || data?.getTweet.tweet}</span>
+						<span>{tweet}</span>
 						<img
 							src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
 							alt=""
 						/>
 					</Body>
-					{showActions && (
-						<Actions
-							id={id || data?.getTweet.id}
-							points={points || data?.getTweet.points}
-						/>
-					)}
+					{showActions && <Actions id={id} points={points} />}
 				</Grid>
 			</Grid>
 		</Wrapper>
