@@ -33,6 +33,7 @@ const Tweets: FC = () => {
 						creatorUsername={creatorUsername}
 						id={id}
 						showActions
+						showReplies={false}
 					/>
 				)
 			)}

@@ -20,17 +20,6 @@ const Tweet: FC = () => {
 	return (
 		<TweetWrapper>
 			<Layout>
-				<Grid item md={2}>
-					<LinkWrapper>
-						<NavLink to="/home" activeClassName="active">
-							<HomeIcon /> <span>Home</span>
-						</NavLink>
-						<NavLink to="/profile/1" activeClassName="active">
-							<AccountCircleIcon /> <span>Profile</span>
-						</NavLink>
-						<StyledButton variant="contained">Tweet</StyledButton>
-					</LinkWrapper>
-				</Grid>
 				<Grid item md={4}>
 					<TweetComp
 						createdAt={data.getTweet.createdAt}
@@ -42,10 +31,8 @@ const Tweet: FC = () => {
 						creatorUsername={data.getTweet.creatorUsername}
 						id={data.getTweet.id}
 						showActions
+						showReplies
 					/>
-				</Grid>
-				<Grid item md={3}>
-					<h3>Third row</h3>
 				</Grid>
 			</Layout>
 		</TweetWrapper>

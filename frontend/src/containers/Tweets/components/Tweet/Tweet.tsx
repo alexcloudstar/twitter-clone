@@ -9,6 +9,7 @@ import { Body, Header, UserWrapper, Wrapper } from './style';
 
 type TweetProps = {
 	showActions: boolean;
+	showReplies: boolean;
 } & Tweet;
 
 const Tweet: FC<TweetProps> = ({
@@ -18,7 +19,8 @@ const Tweet: FC<TweetProps> = ({
 	createdAt,
 	creatorUsername,
 	creatorId,
-	showActions = true
+	showActions,
+	showReplies
 }) => {
 	const match: { params: { id: string } } = useRouteMatch();
 
@@ -30,35 +32,38 @@ const Tweet: FC<TweetProps> = ({
 	if (loading) return <div>Loading...</div>;
 
 	return (
-		<Wrapper>
-			<Grid container>
-				<Grid md={2}>
-					<Link to={`/profile/${creatorId}`}>
-						<Header>
-							<UserWrapper>
-								<img src={_1} alt={creatorUsername} />
-							</UserWrapper>
-						</Header>
-					</Link>
-				</Grid>
-				<Grid md={10}>
-					<Header>
+		<>
+			<Wrapper>
+				<Grid container>
+					<Grid md={2}>
 						<Link to={`/profile/${creatorId}`}>
-							<h3>Alex Cloudstar</h3>
+							<Header>
+								<UserWrapper>
+									<img src={_1} alt={creatorUsername} />
+								</UserWrapper>
+							</Header>
 						</Link>
-						<MoreOptions id={id || data.getTweet.id} />
-					</Header>
-					<Body>
-						<span>{tweet}</span>
-						<img
-							src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-							alt=""
-						/>
-					</Body>
-					{showActions && <Actions id={id} points={points} />}
+					</Grid>
+					<Grid md={10}>
+						<Header>
+							<Link to={`/profile/${creatorId}`}>
+								<h3>Alex Cloudstar</h3>
+							</Link>
+							<MoreOptions id={id || data.getTweet.id} />
+						</Header>
+						<Body>
+							<span>{tweet}</span>
+							<img
+								src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+								alt=""
+							/>
+						</Body>
+						{showActions && <Actions id={id} points={points} />}
+					</Grid>
 				</Grid>
-			</Grid>
-		</Wrapper>
+			</Wrapper>
+			{showReplies && <Wrapper>Replies</Wrapper>}
+		</>
 	);
 };
 
