@@ -201,6 +201,14 @@ export type DeleteTweetMutationVariables = Exact<{
 
 export type DeleteTweetMutation = { __typename?: 'Mutation', deleteTweet: boolean };
 
+export type EditTweetMutationVariables = Exact<{
+  tweetId: Scalars['Int'];
+  newTweetValue: Scalars['String'];
+}>;
+
+
+export type EditTweetMutation = { __typename?: 'Mutation', editTweet: { __typename?: 'Tweet', tweet: string } };
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -233,6 +241,18 @@ export type UpVoteTweetMutationVariables = Exact<{
 
 export type UpVoteTweetMutation = { __typename?: 'Mutation', upVoteTweet: boolean };
 
+export type UpVoteReplyMutationVariables = Exact<{
+  replyId: Scalars['Int'];
+}>;
+
+
+export type UpVoteReplyMutation = { __typename?: 'Mutation', upVoteReply: boolean };
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: { __typename?: 'UsersResponse', users: Array<{ __typename?: 'User', id: number, username: string, createdAt: string }> } };
+
 export type GetTweetQueryVariables = Exact<{
   tweetId: Scalars['Float'];
 }>;
@@ -257,7 +277,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string }> } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string, createdAt: string }> } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -377,6 +397,53 @@ export function useDeleteTweetMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteTweetMutationHookResult = ReturnType<typeof useDeleteTweetMutation>;
 export type DeleteTweetMutationResult = Apollo.MutationResult<DeleteTweetMutation>;
 export type DeleteTweetMutationOptions = Apollo.BaseMutationOptions<DeleteTweetMutation, DeleteTweetMutationVariables>;
+export const EditTweetDocument = gql`
+    mutation EditTweet($tweetId: Int!, $newTweetValue: String!) {
+  editTweet(tweetId: $tweetId, newTweetValue: $newTweetValue) {
+    tweet
+  }
+}
+    `;
+export type EditTweetMutationFn = Apollo.MutationFunction<EditTweetMutation, EditTweetMutationVariables>;
+export type EditTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<EditTweetMutation, EditTweetMutationVariables>
+    } & TChildProps;
+export function withEditTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditTweetMutation,
+  EditTweetMutationVariables,
+  EditTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditTweetMutation, EditTweetMutationVariables, EditTweetProps<TChildProps, TDataName>>(EditTweetDocument, {
+      alias: 'editTweet',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditTweetMutation__
+ *
+ * To run a mutation, you first call `useEditTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditTweetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editTweetMutation, { data, loading, error }] = useEditTweetMutation({
+ *   variables: {
+ *      tweetId: // value for 'tweetId'
+ *      newTweetValue: // value for 'newTweetValue'
+ *   },
+ * });
+ */
+export function useEditTweetMutation(baseOptions?: Apollo.MutationHookOptions<EditTweetMutation, EditTweetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditTweetMutation, EditTweetMutationVariables>(EditTweetDocument, options);
+      }
+export type EditTweetMutationHookResult = ReturnType<typeof useEditTweetMutation>;
+export type EditTweetMutationResult = Apollo.MutationResult<EditTweetMutation>;
+export type EditTweetMutationOptions = Apollo.BaseMutationOptions<EditTweetMutation, EditTweetMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {
@@ -570,6 +637,101 @@ export function useUpVoteTweetMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpVoteTweetMutationHookResult = ReturnType<typeof useUpVoteTweetMutation>;
 export type UpVoteTweetMutationResult = Apollo.MutationResult<UpVoteTweetMutation>;
 export type UpVoteTweetMutationOptions = Apollo.BaseMutationOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export const UpVoteReplyDocument = gql`
+    mutation UpVoteReply($replyId: Int!) {
+  upVoteReply(replyId: $replyId)
+}
+    `;
+export type UpVoteReplyMutationFn = Apollo.MutationFunction<UpVoteReplyMutation, UpVoteReplyMutationVariables>;
+export type UpVoteReplyProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<UpVoteReplyMutation, UpVoteReplyMutationVariables>
+    } & TChildProps;
+export function withUpVoteReply<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpVoteReplyMutation,
+  UpVoteReplyMutationVariables,
+  UpVoteReplyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpVoteReplyMutation, UpVoteReplyMutationVariables, UpVoteReplyProps<TChildProps, TDataName>>(UpVoteReplyDocument, {
+      alias: 'upVoteReply',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpVoteReplyMutation__
+ *
+ * To run a mutation, you first call `useUpVoteReplyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpVoteReplyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upVoteReplyMutation, { data, loading, error }] = useUpVoteReplyMutation({
+ *   variables: {
+ *      replyId: // value for 'replyId'
+ *   },
+ * });
+ */
+export function useUpVoteReplyMutation(baseOptions?: Apollo.MutationHookOptions<UpVoteReplyMutation, UpVoteReplyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpVoteReplyMutation, UpVoteReplyMutationVariables>(UpVoteReplyDocument, options);
+      }
+export type UpVoteReplyMutationHookResult = ReturnType<typeof useUpVoteReplyMutation>;
+export type UpVoteReplyMutationResult = Apollo.MutationResult<UpVoteReplyMutation>;
+export type UpVoteReplyMutationOptions = Apollo.BaseMutationOptions<UpVoteReplyMutation, UpVoteReplyMutationVariables>;
+export const GetAllUsersDocument = gql`
+    query GetAllUsers {
+  getAllUsers {
+    users {
+      id
+      username
+      createdAt
+    }
+  }
+}
+    `;
+export type GetAllUsersProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetAllUsersQuery, GetAllUsersQueryVariables>
+    } & TChildProps;
+export function withGetAllUsers<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetAllUsersQuery,
+  GetAllUsersQueryVariables,
+  GetAllUsersProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetAllUsersQuery, GetAllUsersQueryVariables, GetAllUsersProps<TChildProps, TDataName>>(GetAllUsersDocument, {
+      alias: 'getAllUsers',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetAllUsersQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+      }
+export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        }
+export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
+export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
+export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetTweetDocument = gql`
     query GetTweet($tweetId: Float!) {
   getTweet(tweetId: $tweetId) {
@@ -731,6 +893,7 @@ export const GetUserDocument = gql`
       website
       birthday
       bio
+      createdAt
     }
   }
 }

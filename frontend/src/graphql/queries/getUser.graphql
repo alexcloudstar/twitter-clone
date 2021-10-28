@@ -11,6 +11,7 @@ query GetUser($user_id: Float!) {
 			website
 			birthday
 			bio
+			createdAt
 		}
 	}
 }

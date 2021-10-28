@@ -1,0 +1,5 @@
+mutation EditTweet($tweetId: Int!, $newTweetValue: String!) {
+	editTweet(tweetId: $tweetId, newTweetValue: $newTweetValue) {
+		tweet
+	}
+}

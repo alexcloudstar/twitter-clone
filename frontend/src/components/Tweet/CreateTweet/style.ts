@@ -8,11 +8,12 @@ export const CreateTweetForm = styled.form`
 	flex-direction: column;
 	align-items: flex-end;
 	position: relative;
+	margin: 0 auto;
 
 	textarea {
 		width: 100%;
 		resize: none;
-		height: 70px;
+		height: 150px;
 		padding: 10px;
 		display: block;
 		border-radius: 10px;

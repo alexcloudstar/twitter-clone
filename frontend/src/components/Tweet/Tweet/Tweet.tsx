@@ -1,10 +1,7 @@
 import React, { FC } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { Tweet, useGetTweetQuery } from 'src/generated/graphql';
-import { formatDate } from 'utils/formatDate';
-import Replies from '../Replies';
-import ReplyTweet from '../ReplyTweet/Reply';
-import { TweetActions } from '../TweetActions';
+import { formatDate } from 'utils/dateFormats';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { TweetContentWrapper, TweetWrapper } from './style';
