@@ -1,8 +1,6 @@
 import { Header } from 'components/Header';
 import { NotFound, ProtectedRoute } from 'components/routes';
-import { Tweet } from 'components/Tweet';
-import { Home } from 'containers/Home';
-import { Profile } from 'containers/Profile';
+import { Home, Profile, Tweet } from 'src/pages';
 import { Welcome } from 'containers/Welcome';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';

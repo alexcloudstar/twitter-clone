@@ -47,9 +47,9 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 					{...register('reply', { required: true })}
 					onChange={onChange}
 				></textarea>
-				<Button type="submit" props={{ disabled: !value }}>
+				{/* <Button type="submit" props={{ disabled: !value }}>
 					Reply
-				</Button>
+				</Button> */}
 				{errors.reply && <ErrorComponent errorMsg={'This field is required'} />}
 			</ReplyTweetForm>
 		</ReplyTweetWrapper>

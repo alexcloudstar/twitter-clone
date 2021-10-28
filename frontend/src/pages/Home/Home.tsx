@@ -1,15 +1,14 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import { Grid } from '@mui/material';
-import { Layout } from 'components/globals';
+import { Button, Layout, LinkWrapper } from 'components/globals';
 import { Tweets } from 'containers/Tweets';
 import { Stories } from 'containers/Stories';
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { HomeWrapper, LinkWrapper, StyledButton } from './style';
-import { HomeProps } from './types';
+import { HomeWrapper } from './style';
 
-const Home: FC<HomeProps> = () => {
+const Home: FC = () => {
 	return (
 		<HomeWrapper>
 			<Layout>
@@ -21,15 +20,14 @@ const Home: FC<HomeProps> = () => {
 						<NavLink to="/profile/1" activeClassName="active">
 							<AccountCircleIcon /> <span>Profile</span>
 						</NavLink>
-						<StyledButton variant="contained">Tweet</StyledButton>
+						<Button variant="contained">Tweet</Button>
 					</LinkWrapper>
 				</Grid>
 				<Grid item md={4}>
 					<Stories />
-					<div id="row2">
-						{/* <CreateTweet /> */}
-						<Tweets />
-					</div>
+
+					{/* <CreateTweet /> */}
+					<Tweets />
 				</Grid>
 				<Grid item md={3}>
 					<h3>Third row</h3>

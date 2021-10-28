@@ -21,8 +21,6 @@ const Profile: FC<ProfileProps> = () => {
 
 	if (loading) return <div>Loading...</div>;
 
-	console.log(data);
-
 	return (
 		<ProfileWrapper>
 			<h1>{data.getUser.user.username}</h1>
