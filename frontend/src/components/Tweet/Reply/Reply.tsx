@@ -1,9 +1,5 @@
 import React, { FC } from 'react';
-import {
-	Replies,
-	ReplyToTweetProps,
-	useGetUserQuery
-} from 'src/generated/graphql';
+import { Replies, useGetUserQuery } from 'src/generated/graphql';
 import { Tweet } from '..';
 import { ReplyWrapper } from './style';
 

@@ -1,15 +1,7 @@
 import styled from 'styled-components';
 
-export const HeaderWrapper = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-	margin-bottom: 10px;
-`;
-
 export const TweetWrapper = styled.div<{ tweetId: number }>`
-	margin-bottom: 15px;
+	margin-top: 30px;
 	width: ${({ tweetId }) => !tweetId && '50%'};
 	margin: ${({ tweetId }) => !tweetId && '3rem auto'};
 
@@ -26,6 +18,8 @@ export const TweetWrapper = styled.div<{ tweetId: number }>`
 		margin-top: 0;
 	}
 `;
+
+export const HeaderWrapper = styled.div``;
 
 export const UsernameWrapper = styled.span`
 	color: #797979;
