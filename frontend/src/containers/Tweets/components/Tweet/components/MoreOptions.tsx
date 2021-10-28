@@ -74,8 +74,8 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id }) => {
 					horizontal: 'left'
 				}}
 			>
-				<MenuItem onClick={onDeleteTweet}>Delete</MenuItem>
-				<MenuItem onClick={handleClose}>Action 2</MenuItem>
+				<MenuItem onClick={onDeleteTweet}>Delete Tweet</MenuItem>
+				<MenuItem onClick={handleClose}>Edit Tweet</MenuItem>
 				<MenuItem onClick={handleClose}>Action 3</MenuItem>
 			</Menu>
 		</>

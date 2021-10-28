@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import { Layout } from 'components/globals';
 import { format } from 'date-fns';
 import React, { FC } from 'react';
@@ -6,7 +5,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { useGetUserQuery } from 'src/generated/graphql';
 import { Header, Tabs } from './components';
 import { Body } from './components/Body';
-import { ProfileWrapper } from './style';
+import { ProfileWrapper, StyledGrid } from './style';
 import { ProfileProps } from './types';
 
 const Profile: FC<ProfileProps> = () => {
@@ -26,11 +25,11 @@ const Profile: FC<ProfileProps> = () => {
 	return (
 		<ProfileWrapper>
 			<Layout>
-				<Grid item md={4}>
-					<Header />
+				<StyledGrid item md={4}>
+					<Header {...data.getUser.user} />
 					<Body joined={formatedJoined} {...data.getUser.user} />
 					<Tabs />
-				</Grid>
+				</StyledGrid>
 			</Layout>
 		</ProfileWrapper>
 	);

@@ -1,10 +1,9 @@
-import { Grid } from '@mui/material';
-import React, { FC } from 'react';
-import { useGetAllUsersQuery } from 'src/generated/graphql';
-import { RightSideWrapper, Title, UserComponent } from '../style';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { useGetAllUsersQuery } from 'src/generated/graphql';
+import { RightSideWrapper, StyledGrid, Title, UserComponent } from '../style';
 
 const RightSide: FC = () => {
 	const { data, loading } = useGetAllUsersQuery();
@@ -12,7 +11,7 @@ const RightSide: FC = () => {
 	if (loading) return <div>Loading...</div>;
 
 	return (
-		<Grid item md={3}>
+		<StyledGrid item md={3}>
 			<RightSideWrapper>
 				<Title>
 					Registered Users <PeopleAltIcon />
@@ -28,7 +27,7 @@ const RightSide: FC = () => {
 					</Link>
 				))}
 			</RightSideWrapper>
-		</Grid>
+		</StyledGrid>
 	);
 };
 

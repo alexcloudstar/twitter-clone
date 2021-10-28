@@ -1,7 +1,11 @@
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
+export const StyledGrid = styled(Grid)`
+	margin-top: 30px !important;
+`;
+
 export const RightSideWrapper = styled.div`
-	padding: 20px;
 	color: #f1f1f1;
 	border-radius: 30px;
 	background-color: rgb(42 163 239 / 10%);

@@ -1,14 +1,9 @@
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import React, { FC } from 'react';
+import { UserDataProps } from '../../types';
 import { EditProfile } from '../EditProfile';
-import {
-	CoverPhotoWrapper,
-	EditBtn,
-	ProfileHeader,
-	ProfilePhotoWrapper
-} from './style';
+import { CoverPhotoWrapper, ProfileHeader, ProfilePhotoWrapper } from './style';
 
-const Header: FC = () => (
+const Header: FC<UserDataProps> = (userData) => (
 	<ProfileHeader>
 		<CoverPhotoWrapper>
 			<img
@@ -22,7 +17,7 @@ const Header: FC = () => (
 				alt=""
 			/>
 		</ProfilePhotoWrapper>
-		<EditProfile />
+		<EditProfile {...userData} />
 	</ProfileHeader>
 );
 

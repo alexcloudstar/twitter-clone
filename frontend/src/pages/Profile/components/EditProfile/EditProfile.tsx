@@ -2,10 +2,12 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ClickAwayListener } from '@mui/material';
 import { StyledModal, StyledModalBox } from 'components/globals';
 import React, { FC, useState } from 'react';
+import { User } from 'src/generated/graphql';
 import { EditBtn } from '../Header/style';
+import { EditForm } from './components';
 
-const EditProfile: FC = () => {
-	const [open, setOpen] = useState(false);
+const EditProfile: FC<Omit<User, 'updatedAt'>> = (userData) => {
+	const [open, setOpen] = useState(true);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
@@ -22,7 +24,7 @@ const EditProfile: FC = () => {
 			>
 				<ClickAwayListener onClickAway={handleClose}>
 					<StyledModalBox>
-						<div>312</div>
+						<EditForm {...userData} />
 					</StyledModalBox>
 				</ClickAwayListener>
 			</StyledModal>
