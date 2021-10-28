@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
 	ChangeFormText,
 	WelcomeLeft,
@@ -9,14 +9,22 @@ import { WelcomeProps } from './types';
 import welcomeBg from 'assets/img/WelcomeBg.png';
 import { Register } from 'components/routes/Register';
 import { Login } from 'components/routes';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useMeQuery } from 'src/generated/graphql';
 
 const Welcome: FC<WelcomeProps> = (): JSX.Element => {
+	const history = useHistory();
+	const { data } = useMeQuery();
+
 	const [isLogin, setIsLogin] = useState<boolean>(true);
 
 	const changeForm = (): void => {
 		setIsLogin(!isLogin);
 	};
+
+	useEffect(() => {
+		data && data.me ? history.push('/home') : history.push('/');
+	}, [data, history]);
 
 	return (
 		<WelcomeWrapper>

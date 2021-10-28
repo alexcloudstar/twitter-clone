@@ -28,6 +28,33 @@ export class User extends BaseEntity {
   email!: string;
 
   @Field()
+  @Column({ default: '' })
+  avatarUrl: string;
+
+  @Field()
+  @Column({ default: '' })
+  coverPhotoUrl: string;
+
+  @Field()
+  @Column({ default: '' })
+  name: string;
+
+  @Field()
+  @Column({ default: '' })
+  bio: string;
+
+  @Field()
+  @Column({ default: '' })
+  location: string;
+
+  @Field()
+  @Column({ default: '' })
+  website: string;
+
+  @Field()
+  @Column({ type: Date, default: new Date() })
+  birthday: Date;
+
   @Column()
   password!: string;
 

@@ -1,23 +1,24 @@
+import { Header } from 'components/Header';
 import { NotFound, ProtectedRoute } from 'components/routes';
-
-import { Tweet } from 'components/Tweet';
-import { Home } from 'containers/Home';
+import { Home, Profile, Tweet } from 'src/pages';
 import { Welcome } from 'containers/Welcome';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const App = (): JSX.Element => {
-	// TODO: Implement /tweet/:id & /myProfile route && /profile route
 	return (
-		<BrowserRouter>
-			<Switch>
-				<Route exact path="/" component={Welcome} />
-				<ProtectedRoute path="/home" component={Home} />
-				<ProtectedRoute path="/tweet/:id" component={Tweet} />
-				<ProtectedRoute path="/profile/:username" component={Home} />
-				<Route component={NotFound} />
-			</Switch>
-		</BrowserRouter>
+		<>
+			<BrowserRouter>
+				<Header />
+				<Switch>
+					<Route exact path="/" component={Welcome} />
+					<ProtectedRoute path="/home" component={Home} />
+					<ProtectedRoute path="/tweet/:id" component={Tweet} />
+					<ProtectedRoute path="/profile/:id" component={Profile} />
+					<Route component={NotFound} />
+				</Switch>
+			</BrowserRouter>
+		</>
 	);
 };
 

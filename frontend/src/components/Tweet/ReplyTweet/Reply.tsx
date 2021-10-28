@@ -1,4 +1,4 @@
-import { Button } from 'components/globals/Button';
+import { StyledButton } from 'components/globals';
 import { ErrorComponent } from 'components/globals/ErrorComponent';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -47,9 +47,9 @@ const ReplyTweet: FC<ReplyTweetProps> = () => {
 					{...register('reply', { required: true })}
 					onChange={onChange}
 				></textarea>
-				<Button type="submit" props={{ disabled: !value }}>
+				{/* <Button type="submit" props={{ disabled: !value }}>
 					Reply
-				</Button>
+				</Button> */}
 				{errors.reply && <ErrorComponent errorMsg={'This field is required'} />}
 			</ReplyTweetForm>
 		</ReplyTweetWrapper>

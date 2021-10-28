@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Button, ErrorComponent } from 'components/globals';
+import { StyledButton, ErrorComponent } from 'components/globals';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
@@ -61,7 +61,7 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 					)}
 				</LoginHolder>
 				<ErrorComponent errorMsg={errorMessage} />
-				<Button type="submit">Login</Button>
+				<StyledButton type="submit">Login</StyledButton>
 			</LoginForm>
 		</LoginWrapper>
 	);
