@@ -7,7 +7,7 @@ import { EditBtn } from '../Header/style';
 import { EditForm } from './components';
 
 const EditProfile: FC<Omit<User, 'updatedAt'>> = (userData) => {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
