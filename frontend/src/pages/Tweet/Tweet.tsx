@@ -1,7 +1,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import { Grid } from '@mui/material';
-import { Button, Layout, LinkWrapper } from 'components/globals';
+import { StyledButton, Layout, LinkWrapper } from 'components/globals';
 import React, { FC } from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import { useGetTweetQuery } from 'src/generated/graphql';
@@ -28,7 +28,7 @@ const Tweet: FC = () => {
 						<NavLink to="/profile/1" activeClassName="active">
 							<AccountCircleIcon /> <span>Profile</span>
 						</NavLink>
-						<Button variant="contained">Tweet</Button>
+						<StyledButton variant="contained">Tweet</StyledButton>
 					</LinkWrapper>
 				</Grid>
 				<Grid item md={4}>

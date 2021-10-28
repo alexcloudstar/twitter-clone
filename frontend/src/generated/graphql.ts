@@ -233,6 +233,11 @@ export type UpVoteTweetMutationVariables = Exact<{
 
 export type UpVoteTweetMutation = { __typename?: 'Mutation', upVoteTweet: boolean };
 
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: { __typename?: 'UsersResponse', users: Array<{ __typename?: 'User', id: number, username: string, createdAt: string }> } };
+
 export type GetTweetQueryVariables = Exact<{
   tweetId: Scalars['Float'];
 }>;
@@ -257,7 +262,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string }> } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string, createdAt: string }> } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -570,6 +575,57 @@ export function useUpVoteTweetMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpVoteTweetMutationHookResult = ReturnType<typeof useUpVoteTweetMutation>;
 export type UpVoteTweetMutationResult = Apollo.MutationResult<UpVoteTweetMutation>;
 export type UpVoteTweetMutationOptions = Apollo.BaseMutationOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export const GetAllUsersDocument = gql`
+    query GetAllUsers {
+  getAllUsers {
+    users {
+      id
+      username
+      createdAt
+    }
+  }
+}
+    `;
+export type GetAllUsersProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetAllUsersQuery, GetAllUsersQueryVariables>
+    } & TChildProps;
+export function withGetAllUsers<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetAllUsersQuery,
+  GetAllUsersQueryVariables,
+  GetAllUsersProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetAllUsersQuery, GetAllUsersQueryVariables, GetAllUsersProps<TChildProps, TDataName>>(GetAllUsersDocument, {
+      alias: 'getAllUsers',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetAllUsersQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+      }
+export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        }
+export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
+export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
+export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetTweetDocument = gql`
     query GetTweet($tweetId: Float!) {
   getTweet(tweetId: $tweetId) {
@@ -731,6 +787,7 @@ export const GetUserDocument = gql`
       website
       birthday
       bio
+      createdAt
     }
   }
 }

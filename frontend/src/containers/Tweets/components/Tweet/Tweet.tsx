@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import React, { FC } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import _1 from 'src/assets/img/stories_avatars/_1.png';
 import { Tweet, useGetTweetQuery } from 'src/generated/graphql';
 import Actions from '../Actions/Actions';
@@ -17,6 +17,7 @@ const Tweet: FC<TweetProps> = ({
 	points,
 	createdAt,
 	creatorUsername,
+	creatorId,
 	showActions = true
 }) => {
 	const match: { params: { id: string } } = useRouteMatch();
@@ -32,19 +33,23 @@ const Tweet: FC<TweetProps> = ({
 		<Wrapper>
 			<Grid container>
 				<Grid md={2}>
-					<Header>
-						<UserWrapper>
-							<img
-								src={_1}
-								alt={creatorUsername || data?.getTweet.creatorUsername}
-							/>
-						</UserWrapper>
-					</Header>
+					<Link to={`/profile/${creatorId}`}>
+						<Header>
+							<UserWrapper>
+								<img
+									src={_1}
+									alt={creatorUsername || data?.getTweet.creatorUsername}
+								/>
+							</UserWrapper>
+						</Header>
+					</Link>
 				</Grid>
 				<Grid md={10}>
 					<Header>
-						<h3>Alex Cloudstar</h3>
-						<MoreOptions />
+						<Link to={`/profile/${creatorId}`}>
+							<h3>Alex Cloudstar</h3>
+						</Link>
+						<MoreOptions id={id || data.getTweet.id} />
 					</Header>
 					<Body>
 						<span>{tweet || data?.getTweet.tweet}</span>

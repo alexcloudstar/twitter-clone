@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
 	color: #f1f1f1;
 	border-radius: 30px;
 	background-color: rgb(42 163 239 / 10%);
+	margin-bottom: 30px;
 `;
 
 export const Header = styled.header`

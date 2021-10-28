@@ -1,4 +1,4 @@
-import { Button } from 'components/globals/Button';
+import { StyledButton } from 'components/globals';
 import { ErrorComponent } from 'components/globals/ErrorComponent';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
