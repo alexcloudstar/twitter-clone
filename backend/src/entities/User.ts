@@ -75,7 +75,7 @@ export class User extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => Story, story => story.story)
+  @OneToMany(() => Story, story => story.storyUrl)
   story: Story[];
 
   @Field(() => String)

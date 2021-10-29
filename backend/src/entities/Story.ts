@@ -4,10 +4,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from './User';
 
 @ObjectType()
 @Entity()
@@ -18,7 +16,7 @@ export class Story extends BaseEntity {
 
   @Field(() => String)
   @Column()
-  story!: string;
+  storyUrl!: string;
 
   @Field()
   @Column()
@@ -27,10 +25,6 @@ export class Story extends BaseEntity {
   @Field()
   @Column()
   creatorUsername: string;
-
-  @Field(() => User)
-  @ManyToOne(() => User, user => user.tweets)
-  creator: User;
 
   @Field(() => String)
   @CreateDateColumn()
