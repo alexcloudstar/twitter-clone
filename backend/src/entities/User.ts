@@ -11,6 +11,7 @@ import { Replies } from './Reply';
 import { Tweet } from './Tweet';
 import { UpReply } from './UpReply';
 import { UpTweet } from './UpTweet';
+import { Story } from './Story';
 
 @ObjectType()
 @Entity()
@@ -73,6 +74,9 @@ export class User extends BaseEntity {
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
+
+  @OneToMany(() => Story, story => story.story)
+  story: Story[];
 
   @Field(() => String)
   @CreateDateColumn()
