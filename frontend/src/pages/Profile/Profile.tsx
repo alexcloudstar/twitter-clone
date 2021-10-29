@@ -9,10 +9,10 @@ import { ProfileWrapper, StyledGrid } from './style';
 import { ProfileProps } from './types';
 
 const Profile: FC<ProfileProps> = () => {
-	const match: { params: { id: string } } = useRouteMatch();
+	const match: { params: { username: string } } = useRouteMatch();
 
 	const { data, loading } = useGetUserQuery({
-		variables: { user_id: +match.params.id }
+		variables: { username: match.params.username }
 	});
 
 	if (loading) return <div>Loading...</div>;

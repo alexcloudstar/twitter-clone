@@ -4,12 +4,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Replies } from './Replies';
+import { Replies } from './Reply';
 import { UpTweet } from './UpTweet';
 import { User } from './User';
 
@@ -32,12 +31,11 @@ export class Tweet extends BaseEntity {
   @Column()
   creatorUsername: string;
 
-  @Field(() => User, { nullable: true })
+  @Field(() => User)
   @ManyToOne(() => User, user => user.tweets)
-  creator?: User;
+  creator: User;
 
-  @Field(() => [Replies], { nullable: true })
-  @ManyToMany(() => Replies, replies => replies.tweet)
+  @OneToMany(() => Replies, replies => replies.tweet)
   replies?: Replies[];
 
   @Field()

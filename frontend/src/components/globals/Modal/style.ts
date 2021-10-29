@@ -6,6 +6,7 @@ export const StyledModal = styled(Modal)``;
 
 export const StyledModalBox = styled(Box)`
 	width: 50%;
+	max-width: max-content;
 	position: absolute;
 	top: 50%;
 	left: 50%;

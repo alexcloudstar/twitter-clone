@@ -11,7 +11,7 @@ import { Body, Header, UserWrapper, Wrapper } from './style';
 type TweetProps = {
 	showActions: boolean;
 	showReplies: boolean;
-} & Tweet;
+} & Omit<Tweet, 'creator'>;
 
 const Tweet: FC<TweetProps> = ({
 	id,

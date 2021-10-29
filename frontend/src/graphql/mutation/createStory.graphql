@@ -1,0 +1,3 @@
+mutation CreateStory($storyImageUrl: String!) {
+	createStory(storyImageUrl: $storyImageUrl)
+}

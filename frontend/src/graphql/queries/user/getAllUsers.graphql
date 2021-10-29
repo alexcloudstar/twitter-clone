@@ -3,6 +3,7 @@ query GetAllUsers {
 		users {
 			id
 			username
+			name
 			createdAt
 		}
 	}

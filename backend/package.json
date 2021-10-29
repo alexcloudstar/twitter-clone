@@ -14,7 +14,8 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "devAll": "concurrently \"yarn dev\" \"cd ../frontend && yarn start\"",
     "generate-migration": "yarn build && typeorm migration:generate -n",
-    "run-migration": "yarn build && typeorm migration:run"
+    "run-migration": "yarn build && typeorm migration:run",
+    "schema:sync": "yarn build && typeorm schema:sync"
   },
   "dependencies": {
     "apollo-server-express": "^3.3.0",

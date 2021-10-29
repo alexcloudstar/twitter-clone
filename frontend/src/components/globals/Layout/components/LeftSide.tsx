@@ -1,20 +1,23 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import { ClickAwayListener, Grid } from '@mui/material';
+import { CreateTweet } from 'components/CreateTweet';
 import {
 	LinkWrapper,
 	StyledButton,
 	StyledModal,
 	StyledModalBox
 } from 'components/globals';
-import { CreateTweet } from 'components/Tweet/CreateTweet';
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useMeQuery } from 'src/generated/graphql';
 
 const LeftSide: FC = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const { data } = useMeQuery();
 
 	return (
 		<>
@@ -23,7 +26,7 @@ const LeftSide: FC = () => {
 					<NavLink to="/home" activeClassName="active">
 						<HomeIcon /> <span>Home</span>
 					</NavLink>
-					<NavLink to="/profile/1" activeClassName="active">
+					<NavLink to={`/profile/${data.me.username}`} activeClassName="active">
 						<AccountCircleIcon /> <span>Profile</span>
 					</NavLink>
 					<StyledButton variant="contained" onClick={handleOpen}>
