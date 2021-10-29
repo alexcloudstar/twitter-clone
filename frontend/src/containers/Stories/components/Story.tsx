@@ -1,9 +1,7 @@
 import { ClickAwayListener, LinearProgress } from '@mui/material';
 import { StyledModal, StyledModalBox } from 'components/globals';
-import { EditForm } from 'containers/Tweets/components/Tweet/components/EditForm';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Story } from 'src/generated/graphql';
-
 import { StyledStory, StyledStoryContainer } from './style';
 
 type StoryProps = {
@@ -13,23 +11,44 @@ type StoryProps = {
 };
 
 const Story: FC<StoryProps> = ({ story, borderColor, username }) => {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 	const [progress, setProgress] = useState(0);
+	const [isActive, setIsActive] = useState(false);
 
-	const timer = setTimeout(() => {
-		setProgress(progress + 1);
-		if (progress === 100) handleClose();
-	}, 100);
+	function toggle() {
+		setIsActive(!isActive);
+	}
+
+	function reset() {
+		setProgress(0);
+		setIsActive(false);
+	}
 
 	const handleOpen = () => {
 		setOpen(true);
+		toggle();
 	};
 
 	const handleClose = () => {
 		setOpen(false);
-		setProgress(0);
-		clearTimeout(timer);
+		reset();
 	};
+
+	useEffect(() => {
+		let interval = null;
+		if (isActive) {
+			interval = setInterval(() => {
+				setProgress((seconds) => seconds + 1);
+			}, 100);
+		} else if (!isActive && progress !== 0) clearInterval(interval);
+
+		if (progress === 100) handleClose();
+
+		return () => {
+			clearInterval(interval);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isActive, progress]);
 
 	return (
 		<>
