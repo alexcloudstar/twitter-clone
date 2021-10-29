@@ -1,18 +1,8 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import HomeIcon from '@mui/icons-material/Home';
-import { ClickAwayListener, Grid } from '@mui/material';
-import {
-	Layout,
-	LinkWrapper,
-	StyledButton,
-	StyledModal,
-	StyledModalBox
-} from 'components/globals';
-import { CreateTweet } from 'components/Tweet/CreateTweet';
+import { Grid } from '@mui/material';
+import { Layout } from 'components/globals';
 import { Stories } from 'containers/Stories';
 import { Tweets } from 'containers/Tweets';
-import React, { FC, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { FC } from 'react';
 import { HomeWrapper } from './style';
 
 const Home: FC = () => {

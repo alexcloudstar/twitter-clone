@@ -1,13 +1,13 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import { ClickAwayListener, Grid } from '@mui/material';
+import { CreateTweet } from 'components/CreateTweet';
 import {
 	LinkWrapper,
 	StyledButton,
 	StyledModal,
 	StyledModalBox
 } from 'components/globals';
-import { CreateTweet } from 'components/Tweet/CreateTweet';
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
