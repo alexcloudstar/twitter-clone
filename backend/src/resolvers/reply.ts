@@ -1,4 +1,4 @@
-import { Replies } from '../entities/Replies';
+import { Replies } from '../entities/Reply';
 import { Tweet } from '../entities/Tweet';
 import { UpReply } from '../entities/UpReply';
 import { MyContext } from '../types/MyContext';

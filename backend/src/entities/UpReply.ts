@@ -1,6 +1,6 @@
 import { ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Replies } from './Replies';
+import { Replies } from './Reply';
 import { Tweet } from './Tweet';
 import { User } from './User';
 

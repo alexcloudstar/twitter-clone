@@ -8,7 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Replies } from './Replies';
+import { Replies } from './Reply';
 import { UpTweet } from './UpTweet';
 import { User } from './User';
 
