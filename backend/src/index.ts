@@ -23,16 +23,17 @@ const {
 } = require('../config');
 
 const main = async () => {
+  // @ts-ignore
   const conn = await createConnection({
     type: 'postgres',
     url: DATABASE_URL,
     logging: false,
-    synchronize: true,
+    synchronize: false,
     migrations: [path.join(__dirname, './migrations/*')],
     entities: [path.join(__dirname, './entities/*')],
   });
 
-  await conn.runMigrations();
+  // await conn.runMigrations();
 
   const app = express();
 
