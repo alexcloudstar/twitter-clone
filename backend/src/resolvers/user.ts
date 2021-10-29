@@ -13,6 +13,7 @@ import { UsernamePasswordInput } from './UsernamePasswordInput';
 import { getConnection, getRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { MyContext } from 'src/types/MyContext';
+import { EditUserProfile } from './EditUserProfile';
 
 @ObjectType()
 class FieldError {
@@ -106,7 +107,7 @@ export class UserResolver {
   @Mutation(() => User)
   async editProfile(
     @Arg('userId', () => Int) userId: number,
-    @Arg('username', () => String) username: string,
+    @Arg('options') options: EditUserProfile,
     @Ctx() { req }: MyContext
   ): Promise<User> {
     const currentUser = await User.findOne(userId);
@@ -122,7 +123,7 @@ export class UserResolver {
         .createQueryBuilder()
         .update(User)
         .set({
-          username,
+          ...options,
         })
         .where('id = :id', { id: userId })
         .returning('*')
