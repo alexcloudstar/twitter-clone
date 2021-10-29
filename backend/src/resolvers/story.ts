@@ -9,7 +9,7 @@ export class StoryResolver {
   async createStory(
     @Arg('storyImageUrl', () => String) storyImageUrl: string,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<boolean> {
     const creator = await User.findOne(req.session.userId);
 
     try {
@@ -32,7 +32,7 @@ export class StoryResolver {
   async deleteStory(
     @Arg('storyId', () => String) storyId: string,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<boolean> {
     const story = await Story.findOne(storyId);
 
     try {
@@ -61,11 +61,15 @@ export class StoryResolver {
   }
 
   @Query(() => Story)
-  async getStory(@Arg('storyId', () => String) storyId: string) {
+  async getStory(
+    @Arg('storyId', () => String) storyId: string
+  ): Promise<Story | undefined> {
     try {
       const story = await Story.findOne(storyId);
 
-      return story;
+      if (story) return story;
+
+      throw new Error('Story not found');
     } catch (error) {
       console.log(error);
       throw new Error(error);
