@@ -12,9 +12,14 @@ import {
 	SearchBarGridStyled
 } from './style';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useMeQuery } from 'src/generated/graphql';
 
 const Header: FC = () => {
+	const { data, loading } = useMeQuery();
+
+	if (loading) return <div>Loading...</div>;
+
 	return (
 		<HeaderWrapper>
 			<Grid container spacing={3} justifyContent="center">
@@ -32,8 +37,8 @@ const Header: FC = () => {
 					<UserShortcutWrapper>
 						<StyledAvatar>A</StyledAvatar>
 						<UsernameWrapper>
-							<span>Alex Cloudstar</span>
-							<span>@alexcloudstar</span>
+							{data?.me?.name !== 'null' && <span>{data?.me?.name}</span>}
+							<span>@{data.me.username}</span>
 						</UsernameWrapper>
 					</UserShortcutWrapper>
 					<ConfigWrapper>

@@ -3,7 +3,7 @@ import { NotFound, ProtectedRoute } from 'components/routes';
 import { Home, Profile, Tweet } from 'src/pages';
 import { Welcome } from 'containers/Welcome';
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
 
 const App = (): JSX.Element => {
 	return (

@@ -54,6 +54,7 @@ export const UserShortcutWrapper = styled.div`
 export const UsernameWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 
 	span {
 		&:first-child {

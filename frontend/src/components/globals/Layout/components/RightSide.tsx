@@ -16,16 +16,26 @@ const RightSide: FC = () => {
 				<Title>
 					Registered Users <PeopleAltIcon />
 				</Title>
-				{data.getAllUsers.users.map(({ id, username, createdAt }, index) => (
-					<Link to={`/profile/${id}`} key={id}>
-						<UserComponent>
-							<span>
-								{index + 1}. {username}
-							</span>
-							<span>{format(new Date(+createdAt), 'LLLL, dd, yyyy')}</span>
-						</UserComponent>
-					</Link>
-				))}
+				{data.getAllUsers.users.map(
+					({ id, name, username, createdAt }, index) => (
+						<>
+							{name !== 'null' ? (
+								<Link to={`/profile/${username}`} key={id}>
+									<UserComponent>
+										<span>
+											{index + 1}. {name}
+										</span>
+										<span>
+											{format(new Date(+createdAt), 'LLLL, dd, yyyy')}
+										</span>
+									</UserComponent>
+								</Link>
+							) : (
+								<h5>No Registered Users</h5>
+							)}
+						</>
+					)
+				)}
 			</RightSideWrapper>
 		</StyledGrid>
 	);

@@ -15,33 +15,27 @@ type BodyProps = {
 const Body: FC<BodyProps> = ({
 	username,
 	location,
-	avatarUrl,
 	bio,
 	birthday,
-	coverPhotoUrl,
-	email,
-	id,
 	name,
 	website,
 	joined
 }) => (
 	<ProfileBody>
-		<h2>{username}</h2>
+		{name !== 'null' && <h2>{name}</h2>}
 		<h3>@{username}</h3>
 
+		{bio !== 'null' && <span>{bio}</span>}
+
 		<UserInfoFields>
-			{location && (
+			{location !== 'null' && (
 				<span>
 					<LocationOnIcon />
 					{location}
 				</span>
 			)}
-			<span>
-				<LocationOnIcon />
-				Romania
-			</span>
 
-			{website && (
+			{website !== 'null' && (
 				<span>
 					<a
 						href={`https://${website}`}
@@ -53,23 +47,14 @@ const Body: FC<BodyProps> = ({
 					</a>
 				</span>
 			)}
-			<span>
-				<a
-					href="https://alexcloudstar.com"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<PhonelinkIcon />
-					www.alexcloudstar.com
-				</a>
-			</span>
+
 			{birthday && (
 				<span>
 					<CakeIcon />
 					Born {format(new Date(birthday), 'LLLL, dd, yyyy')}
 				</span>
 			)}
-			{console.log(birthday)}
+
 			{joined && (
 				<span>
 					<EventNoteIcon />

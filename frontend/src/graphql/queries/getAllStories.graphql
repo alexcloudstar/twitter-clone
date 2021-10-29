@@ -1,0 +1,8 @@
+query GetAllStories {
+	getStories {
+		id
+		storyUrl
+		creatorId
+		creatorUsername
+	}
+}
