@@ -34,7 +34,9 @@ export class RepliesResolver {
   async getReplies(): Promise<Replies[]> {
     const replies = await Replies.find();
 
-    return replies;
+    if (replies) return replies;
+
+    throw new Error('No replies found');
   }
 
   @Mutation(() => Boolean)
@@ -52,7 +54,7 @@ export class RepliesResolver {
       return true;
     } catch (error) {
       console.log(error);
-      return false;
+      throw new Error('Reply not found');
     }
   }
 
