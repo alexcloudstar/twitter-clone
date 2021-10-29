@@ -28,12 +28,12 @@ const main = async () => {
     type: 'postgres',
     url: DATABASE_URL,
     logging: false,
-    synchronize: false,
+    synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
     entities: [path.join(__dirname, './entities/*')],
   });
 
-  // await conn.runMigrations();
+  await conn.runMigrations();
 
   const app = express();
 
