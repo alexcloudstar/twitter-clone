@@ -43,7 +43,7 @@ export class Replies extends BaseEntity {
   voteStatus: number | null;
 
   @Field(() => Tweet, { nullable: true })
-  @OneToMany(() => Tweet, tweet => tweet.replies)
+  @ManyToOne(() => Tweet, tweet => tweet.replies)
   tweet: Tweet;
 
   @OneToMany(() => UpReply, upreply => upreply.tweet)

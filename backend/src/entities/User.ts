@@ -7,10 +7,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Replies } from './Replies';
+import { Replies } from './Reply';
 import { Tweet } from './Tweet';
 import { UpReply } from './UpReply';
 import { UpTweet } from './UpTweet';
+import { Story } from './Story';
 
 @ObjectType()
 @Entity()
@@ -28,27 +29,27 @@ export class User extends BaseEntity {
   email!: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   avatarUrl: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   coverPhotoUrl: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   name: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   bio: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   location: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   website: string;
 
   @Field()
@@ -73,6 +74,9 @@ export class User extends BaseEntity {
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
+
+  @OneToMany(() => Story, story => story.storyUrl)
+  story: Story[];
 
   @Field(() => String)
   @CreateDateColumn()
