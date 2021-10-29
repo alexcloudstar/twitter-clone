@@ -10,6 +10,7 @@ import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { COOKIE_NAME, __prod__ } from './constants';
 import { HelloResolver } from './resolvers/hello';
+import { RepliesResolver } from './resolvers/replies';
 import { TweetResolver } from './resolvers/tweet';
 import { UserResolver } from './resolvers/user';
 const {
@@ -25,7 +26,7 @@ const main = async () => {
     type: 'postgres',
     url: DATABASE_URL,
     logging: true,
-    synchronize: true,
+    synchronize: false,
     migrations: [path.join(__dirname, './migrations/*')],
     entities: [path.join(__dirname, './entities/*')],
   });
@@ -68,7 +69,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver, TweetResolver],
+      resolvers: [HelloResolver, UserResolver, TweetResolver, RepliesResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({
