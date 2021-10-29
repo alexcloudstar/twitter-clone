@@ -143,16 +143,17 @@ export class TweetResolver {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const tweet = await Tweet.findOne(tweetId);
+
     try {
       if (req.session.userId !== tweet?.creatorId)
         throw new Error('Not authorized');
 
       await tweet?.remove();
+      return true;
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
+      return false;
     }
-
-    return true;
   }
 
   @Mutation(() => Boolean)
@@ -170,6 +171,7 @@ export class TweetResolver {
         reply,
         tweet,
       }).save();
+
       return true;
     } catch (error) {
       console.log(error);
@@ -194,6 +196,7 @@ export class TweetResolver {
     try {
       if (req.session.userId !== reply?.creatorId)
         throw new Error('Not authorized');
+
       await reply?.remove();
       return true;
     } catch (error) {

@@ -28,27 +28,27 @@ export class User extends BaseEntity {
   email!: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   avatarUrl: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   coverPhotoUrl: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   name: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   bio: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   location: string;
 
   @Field()
-  @Column({ default: '' })
+  @Column({ default: 'nulll' })
   website: string;
 
   @Field()
