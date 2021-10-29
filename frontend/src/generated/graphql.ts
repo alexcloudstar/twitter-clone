@@ -17,6 +17,17 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type EditUserProfile = {
+  avatarUrl?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  coverPhotoUrl?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -25,8 +36,10 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createStory: Scalars['Boolean'];
   createTweet: Tweet;
   deleteReply: Scalars['Boolean'];
+  deleteStory: Scalars['Boolean'];
   deleteTweet: Scalars['Boolean'];
   editProfile: User;
   editTweet: Tweet;
@@ -35,6 +48,11 @@ export type Mutation = {
   replyToTweet: Scalars['Boolean'];
   upVoteReply: Scalars['Boolean'];
   upVoteTweet: Scalars['Boolean'];
+};
+
+
+export type MutationCreateStoryArgs = {
+  storyImageUrl: Scalars['String'];
 };
 
 
@@ -48,14 +66,19 @@ export type MutationDeleteReplyArgs = {
 };
 
 
+export type MutationDeleteStoryArgs = {
+  storyId: Scalars['String'];
+};
+
+
 export type MutationDeleteTweetArgs = {
   tweetId: Scalars['Int'];
 };
 
 
 export type MutationEditProfileArgs = {
+  options: EditUserProfile;
   userId: Scalars['Int'];
-  username: Scalars['String'];
 };
 
 
@@ -95,12 +118,19 @@ export type Query = {
   __typename?: 'Query';
   getAllUsers: UsersResponse;
   getReplies: Array<Replies>;
+  getStories: Array<Story>;
+  getStory: Story;
   getTweet: Tweet;
   getTweetReplies: Array<Replies>;
   getTweets: Array<Tweet>;
   getUser: UserResponse;
   hello: Scalars['String'];
   me?: Maybe<User>;
+};
+
+
+export type QueryGetStoryArgs = {
+  storyId: Scalars['String'];
 };
 
 
@@ -115,7 +145,7 @@ export type QueryGetTweetRepliesArgs = {
 
 
 export type QueryGetUserArgs = {
-  user_id: Scalars['Float'];
+  username: Scalars['String'];
 };
 
 export type Replies = {
@@ -132,15 +162,24 @@ export type Replies = {
   voteStatus?: Maybe<Scalars['Int']>;
 };
 
+export type Story = {
+  __typename?: 'Story';
+  createdAt: Scalars['String'];
+  creatorId: Scalars['Float'];
+  creatorUsername: Scalars['String'];
+  id: Scalars['Float'];
+  storyUrl: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type Tweet = {
   __typename?: 'Tweet';
   createdAt: Scalars['String'];
-  creator?: Maybe<User>;
+  creator: User;
   creatorId: Scalars['Float'];
   creatorUsername: Scalars['String'];
   id: Scalars['Float'];
   points: Scalars['Float'];
-  replies?: Maybe<Array<Replies>>;
   tweet: Scalars['String'];
   updatedAt: Scalars['String'];
   voteStatus?: Maybe<Scalars['Int']>;
@@ -183,7 +222,7 @@ export type UsersResponse = {
   users: Array<User>;
 };
 
-export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number>, creatorUsername: string };
+export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
 
@@ -192,7 +231,7 @@ export type CreateTweetMutationVariables = Exact<{
 }>;
 
 
-export type CreateTweetMutation = { __typename?: 'Mutation', createTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number>, creatorUsername: string } };
+export type CreateTweetMutation = { __typename?: 'Mutation', createTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string } };
 
 export type DeleteTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -215,7 +254,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string, id: number }> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', user?: { __typename?: 'User', username: string, id: number } | null | undefined } };
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
@@ -224,7 +263,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string }> } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string } | null | undefined } };
 
 export type ReplyToTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -258,7 +297,7 @@ export type GetTweetQueryVariables = Exact<{
 }>;
 
 
-export type GetTweetQuery = { __typename?: 'Query', getTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number>, creatorUsername: string } };
+export type GetTweetQuery = { __typename?: 'Query', getTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string } };
 
 export type GetTweetRepliesQueryVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -270,14 +309,14 @@ export type GetTweetRepliesQuery = { __typename?: 'Query', getTweetReplies: Arra
 export type GetTweetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTweetsQuery = { __typename?: 'Query', getTweets: Array<{ __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: Maybe<number>, creatorUsername: string }> };
+export type GetTweetsQuery = { __typename?: 'Query', getTweets: Array<{ __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string }> };
 
 export type GetUserQueryVariables = Exact<{
-  user_id: Scalars['Float'];
+  username: Scalars['String'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string, createdAt: string }> } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string, createdAt: string } | null | undefined } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -287,7 +326,7 @@ export type HelloQuery = { __typename?: 'Query', hello: string };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string }> };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string } | null | undefined };
 
 export const RegularTweetFragmentDoc = gql`
     fragment RegularTweet on Tweet {
@@ -880,8 +919,8 @@ export type GetTweetsQueryHookResult = ReturnType<typeof useGetTweetsQuery>;
 export type GetTweetsLazyQueryHookResult = ReturnType<typeof useGetTweetsLazyQuery>;
 export type GetTweetsQueryResult = Apollo.QueryResult<GetTweetsQuery, GetTweetsQueryVariables>;
 export const GetUserDocument = gql`
-    query GetUser($user_id: Float!) {
-  getUser(user_id: $user_id) {
+    query GetUser($username: String!) {
+  getUser(username: $username) {
     user {
       id
       username
@@ -924,7 +963,7 @@ export function withGetUser<TProps, TChildProps = {}, TDataName extends string =
  * @example
  * const { data, loading, error } = useGetUserQuery({
  *   variables: {
- *      user_id: // value for 'user_id'
+ *      username: // value for 'username'
  *   },
  * });
  */

@@ -10,11 +10,14 @@ import {
 } from 'components/globals';
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useMeQuery } from 'src/generated/graphql';
 
 const LeftSide: FC = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const { data } = useMeQuery();
 
 	return (
 		<>
@@ -23,7 +26,7 @@ const LeftSide: FC = () => {
 					<NavLink to="/home" activeClassName="active">
 						<HomeIcon /> <span>Home</span>
 					</NavLink>
-					<NavLink to="/profile/1" activeClassName="active">
+					<NavLink to={`/profile/${data.me.username}`} activeClassName="active">
 						<AccountCircleIcon /> <span>Profile</span>
 					</NavLink>
 					<StyledButton variant="contained" onClick={handleOpen}>
