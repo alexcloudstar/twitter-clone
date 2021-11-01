@@ -8,9 +8,10 @@ import { MoreOptionsWrapper } from './style';
 
 type MoreOptionsProps = {
 	tweet?: Tweet['tweet'];
+	tweetImage?: Tweet['tweetImage'];
 } & Pick<Tweet, 'id'>;
 
-const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
+const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
 		message: null,
@@ -89,6 +90,7 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
 				<EditForm
 					tweetId={id}
 					tweet={tweet}
+					tweetImage={tweetImage}
 					handleClose={handleCloseEditModal}
 				/>
 			</Modal>

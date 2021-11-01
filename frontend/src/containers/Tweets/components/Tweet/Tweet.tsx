@@ -63,6 +63,7 @@ const Tweet: FC<TweetProps> = ({
 							<MoreOptions
 								id={id || data.getTweet.id}
 								tweet={tweet || data.getTweet.tweet}
+								tweetImage={tweetImage || data.getTweet.tweetImage}
 							/>
 						</Header>
 						<Body>
