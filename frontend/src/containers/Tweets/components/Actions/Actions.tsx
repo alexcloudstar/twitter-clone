@@ -1,6 +1,7 @@
 import { ClickAwayListener } from '@mui/material';
 import { CreateReply } from 'components/CreateReply';
-import { StyledModal, StyledModalBox } from 'components/globals';
+import { Modal } from 'components/globals';
+
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Reply from './components/Reply';
@@ -32,18 +33,9 @@ const Actions: FC<ActionsProps> = ({ id, points, isReply }) => {
 				)}
 				<Save />
 			</ActionsWrapper>
-			<StyledModal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<ClickAwayListener onClickAway={handleClose}>
-					<StyledModalBox>
-						<CreateReply tweetId={id} handleCloseModal={handleClose} />
-					</StyledModalBox>
-				</ClickAwayListener>
-			</StyledModal>
+			<Modal open={open} onClose={handleClose}>
+				<CreateReply tweetId={id} handleCloseModal={handleClose} />
+			</Modal>
 		</>
 	);
 };

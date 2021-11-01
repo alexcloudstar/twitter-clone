@@ -2,12 +2,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import { ClickAwayListener, Grid } from '@mui/material';
 import { CreateTweet } from 'components/CreateTweet';
-import {
-	LinkWrapper,
-	StyledButton,
-	StyledModal,
-	StyledModalBox
-} from 'components/globals';
+import { LinkWrapper, Modal, StyledButton } from 'components/globals';
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useMeQuery } from 'src/generated/graphql';
@@ -34,18 +29,9 @@ const LeftSide: FC = () => {
 					</StyledButton>
 				</LinkWrapper>
 			</Grid>
-			<StyledModal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<ClickAwayListener onClickAway={handleClose}>
-					<StyledModalBox>
-						<CreateTweet handleCloseModal={handleClose} />
-					</StyledModalBox>
-				</ClickAwayListener>
-			</StyledModal>
+			<Modal open={open} onClose={handleClose}>
+				<CreateTweet handleCloseModal={handleClose} />
+			</Modal>
 		</>
 	);
 };

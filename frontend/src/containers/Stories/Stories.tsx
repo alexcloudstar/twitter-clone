@@ -1,20 +1,14 @@
-import React, { FC, useState } from 'react';
-import { AddStoryWrapper, StoriesWrapper } from './style';
-import { Story as StoryType } from 'src/generated/graphql';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Story from './components/Story';
-import _1 from 'src/assets/img/stories_avatars/_1.png';
-import _2 from 'src/assets/img/stories_avatars/_2.png';
-import _3 from 'src/assets/img/stories_avatars/_3.png';
-import _4 from 'src/assets/img/stories_avatars/_4.png';
-import _5 from 'src/assets/img/stories_avatars/_5.png';
-import _6 from 'src/assets/img/stories_avatars/_6.png';
-import { ClickAwayListener } from '@mui/material';
-import { CreateTweet } from 'components/CreateTweet';
-import { StyledModal, StyledModalBox } from 'components/globals';
-import { EditForm } from './components/EditForm';
-import { useGetAllStoriesQuery } from 'src/generated/graphql';
+import { Modal } from 'components/globals';
+import React, { FC, useState } from 'react';
+import {
+	Story as StoryType,
+	useGetAllStoriesQuery
+} from 'src/generated/graphql';
 import { randomColor } from 'utils/randomHexColor';
+import { EditForm } from './components/EditForm';
+import Story from './components/Story';
+import { AddStoryWrapper, StoriesWrapper } from './style';
 
 const Stories: FC = () => {
 	const [open, setOpen] = useState(false);
@@ -44,18 +38,9 @@ const Stories: FC = () => {
 				})}
 			</StoriesWrapper>
 
-			<StyledModal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<ClickAwayListener onClickAway={handleClose}>
-					<StyledModalBox>
-						<EditForm handleClose={handleClose} />
-					</StyledModalBox>
-				</ClickAwayListener>
-			</StyledModal>
+			<Modal open={open} onClose={handleClose}>
+				<EditForm handleClose={handleClose} />
+			</Modal>
 		</>
 	);
 };
