@@ -168,10 +168,15 @@ export class UserResolver {
   }
 
   @Query(() => [Tweet], { nullable: true })
-  async getUserTweets(@Arg('username', () => String) username: string) {
-    const t = await Tweet.find({ where: { creatorUsername: username } });
-    console.log(t);
+  async getUserTweets(
+    @Arg('username', () => String) username: string
+  ): Promise<Tweet[] | undefined> {
+    const tweets = await Tweet.find({ where: { creatorUsername: username } });
 
-    return t;
+    if (!tweets) {
+      throw new Error('User has no tweets yet');
+    }
+
+    return tweets;
   }
 }
