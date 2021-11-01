@@ -154,6 +154,7 @@ export type Replies = {
   createdAt: Scalars['String'];
   creator?: Maybe<User>;
   creatorId: Scalars['Float'];
+  creatorUsername: Scalars['String'];
   id: Scalars['Float'];
   points: Scalars['Float'];
   reply: Scalars['String'];
@@ -271,12 +272,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string } | null | undefined } };
 
-export type UpVoteTweetMutationVariables = Exact<{
+export type ReplyToTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
+  reply: Scalars['String'];
 }>;
 
 
-export type UpVoteTweetMutation = { __typename?: 'Mutation', upVoteTweet: boolean };
+export type ReplyToTweetMutation = { __typename?: 'Mutation', replyToTweet: boolean };
 
 export type UpVoteReplyMutationVariables = Exact<{
   replyId: Scalars['Int'];
@@ -308,13 +310,12 @@ export type EditTweetMutationVariables = Exact<{
 
 export type EditTweetMutation = { __typename?: 'Mutation', editTweet: { __typename?: 'Tweet', tweet: string, tweetImage: string } };
 
-export type ReplyToTweetMutationVariables = Exact<{
+export type UpVoteTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
-  reply: Scalars['String'];
 }>;
 
 
-export type ReplyToTweetMutation = { __typename?: 'Mutation', replyToTweet: boolean };
+export type UpVoteTweetMutation = { __typename?: 'Mutation', upVoteTweet: boolean };
 
 export type GetAllStoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -601,50 +602,51 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const UpVoteTweetDocument = gql`
-    mutation UpVoteTweet($tweetId: Int!) {
-  upVoteTweet(tweetId: $tweetId)
+export const ReplyToTweetDocument = gql`
+    mutation replyToTweet($tweetId: Int!, $reply: String!) {
+  replyToTweet(tweetId: $tweetId, reply: $reply)
 }
     `;
-export type UpVoteTweetMutationFn = Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
-export type UpVoteTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-      [key in TDataName]: Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>
+export type ReplyToTweetMutationFn = Apollo.MutationFunction<ReplyToTweetMutation, ReplyToTweetMutationVariables>;
+export type ReplyToTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<ReplyToTweetMutation, ReplyToTweetMutationVariables>
     } & TChildProps;
-export function withUpVoteTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withReplyToTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  UpVoteTweetMutation,
-  UpVoteTweetMutationVariables,
-  UpVoteTweetProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withMutation<TProps, UpVoteTweetMutation, UpVoteTweetMutationVariables, UpVoteTweetProps<TChildProps, TDataName>>(UpVoteTweetDocument, {
-      alias: 'upVoteTweet',
+  ReplyToTweetMutation,
+  ReplyToTweetMutationVariables,
+  ReplyToTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, ReplyToTweetMutation, ReplyToTweetMutationVariables, ReplyToTweetProps<TChildProps, TDataName>>(ReplyToTweetDocument, {
+      alias: 'replyToTweet',
       ...operationOptions
     });
 };
 
 /**
- * __useUpVoteTweetMutation__
+ * __useReplyToTweetMutation__
  *
- * To run a mutation, you first call `useUpVoteTweetMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpVoteTweetMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useReplyToTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReplyToTweetMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [upVoteTweetMutation, { data, loading, error }] = useUpVoteTweetMutation({
+ * const [replyToTweetMutation, { data, loading, error }] = useReplyToTweetMutation({
  *   variables: {
  *      tweetId: // value for 'tweetId'
+ *      reply: // value for 'reply'
  *   },
  * });
  */
-export function useUpVoteTweetMutation(baseOptions?: Apollo.MutationHookOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>) {
+export function useReplyToTweetMutation(baseOptions?: Apollo.MutationHookOptions<ReplyToTweetMutation, ReplyToTweetMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpVoteTweetMutation, UpVoteTweetMutationVariables>(UpVoteTweetDocument, options);
+        return Apollo.useMutation<ReplyToTweetMutation, ReplyToTweetMutationVariables>(ReplyToTweetDocument, options);
       }
-export type UpVoteTweetMutationHookResult = ReturnType<typeof useUpVoteTweetMutation>;
-export type UpVoteTweetMutationResult = Apollo.MutationResult<UpVoteTweetMutation>;
-export type UpVoteTweetMutationOptions = Apollo.BaseMutationOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export type ReplyToTweetMutationHookResult = ReturnType<typeof useReplyToTweetMutation>;
+export type ReplyToTweetMutationResult = Apollo.MutationResult<ReplyToTweetMutation>;
+export type ReplyToTweetMutationOptions = Apollo.BaseMutationOptions<ReplyToTweetMutation, ReplyToTweetMutationVariables>;
 export const UpVoteReplyDocument = gql`
     mutation UpVoteReply($replyId: Int!) {
   upVoteReply(replyId: $replyId)
@@ -832,51 +834,50 @@ export function useEditTweetMutation(baseOptions?: Apollo.MutationHookOptions<Ed
 export type EditTweetMutationHookResult = ReturnType<typeof useEditTweetMutation>;
 export type EditTweetMutationResult = Apollo.MutationResult<EditTweetMutation>;
 export type EditTweetMutationOptions = Apollo.BaseMutationOptions<EditTweetMutation, EditTweetMutationVariables>;
-export const ReplyToTweetDocument = gql`
-    mutation replyToTweet($tweetId: Int!, $reply: String!) {
-  replyToTweet(tweetId: $tweetId, reply: $reply)
+export const UpVoteTweetDocument = gql`
+    mutation UpVoteTweet($tweetId: Int!) {
+  upVoteTweet(tweetId: $tweetId)
 }
     `;
-export type ReplyToTweetMutationFn = Apollo.MutationFunction<ReplyToTweetMutation, ReplyToTweetMutationVariables>;
-export type ReplyToTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-      [key in TDataName]: Apollo.MutationFunction<ReplyToTweetMutation, ReplyToTweetMutationVariables>
+export type UpVoteTweetMutationFn = Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
+export type UpVoteTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<UpVoteTweetMutation, UpVoteTweetMutationVariables>
     } & TChildProps;
-export function withReplyToTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withUpVoteTweet<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  ReplyToTweetMutation,
-  ReplyToTweetMutationVariables,
-  ReplyToTweetProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withMutation<TProps, ReplyToTweetMutation, ReplyToTweetMutationVariables, ReplyToTweetProps<TChildProps, TDataName>>(ReplyToTweetDocument, {
-      alias: 'replyToTweet',
+  UpVoteTweetMutation,
+  UpVoteTweetMutationVariables,
+  UpVoteTweetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpVoteTweetMutation, UpVoteTweetMutationVariables, UpVoteTweetProps<TChildProps, TDataName>>(UpVoteTweetDocument, {
+      alias: 'upVoteTweet',
       ...operationOptions
     });
 };
 
 /**
- * __useReplyToTweetMutation__
+ * __useUpVoteTweetMutation__
  *
- * To run a mutation, you first call `useReplyToTweetMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useReplyToTweetMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpVoteTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpVoteTweetMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [replyToTweetMutation, { data, loading, error }] = useReplyToTweetMutation({
+ * const [upVoteTweetMutation, { data, loading, error }] = useUpVoteTweetMutation({
  *   variables: {
  *      tweetId: // value for 'tweetId'
- *      reply: // value for 'reply'
  *   },
  * });
  */
-export function useReplyToTweetMutation(baseOptions?: Apollo.MutationHookOptions<ReplyToTweetMutation, ReplyToTweetMutationVariables>) {
+export function useUpVoteTweetMutation(baseOptions?: Apollo.MutationHookOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ReplyToTweetMutation, ReplyToTweetMutationVariables>(ReplyToTweetDocument, options);
+        return Apollo.useMutation<UpVoteTweetMutation, UpVoteTweetMutationVariables>(UpVoteTweetDocument, options);
       }
-export type ReplyToTweetMutationHookResult = ReturnType<typeof useReplyToTweetMutation>;
-export type ReplyToTweetMutationResult = Apollo.MutationResult<ReplyToTweetMutation>;
-export type ReplyToTweetMutationOptions = Apollo.BaseMutationOptions<ReplyToTweetMutation, ReplyToTweetMutationVariables>;
+export type UpVoteTweetMutationHookResult = ReturnType<typeof useUpVoteTweetMutation>;
+export type UpVoteTweetMutationResult = Apollo.MutationResult<UpVoteTweetMutation>;
+export type UpVoteTweetMutationOptions = Apollo.BaseMutationOptions<UpVoteTweetMutation, UpVoteTweetMutationVariables>;
 export const GetAllStoriesDocument = gql`
     query GetAllStories {
   getStories {

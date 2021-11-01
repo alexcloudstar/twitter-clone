@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
 import { ProfilePhotoWrapper } from './style';
 
-export type UserAvatarProps = {
+type UserAvatarProps = {
 	avatar: string;
-	position: 'initial' | 'absolute' | 'relative' | 'inherit';
 };
 
-const UserAvatar: FC<UserAvatarProps> = ({ avatar, position }) => (
-	<ProfilePhotoWrapper position={position}>
+const UserAvatar: FC<UserAvatarProps> = ({ avatar }) => (
+	<ProfilePhotoWrapper>
 		{avatar !== 'null' && avatar !== '' && (
 			<img src={avatar} alt={`profile-photo-${avatar}`} />
 		)}

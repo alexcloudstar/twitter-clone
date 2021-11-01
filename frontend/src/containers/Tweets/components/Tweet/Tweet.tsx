@@ -76,7 +76,13 @@ const Tweet: FC<TweetProps> = ({
 					</Grid>
 				</Grid>
 			</Wrapper>
-			{showReplies && <Replies tweetId={id} />}
+			{showReplies && (
+				<Replies
+					tweetId={id}
+					creatorName={userData?.getUser.user.name}
+					avatar={userData.getUser.user.avatarUrl}
+				/>
+			)}
 		</>
 	);
 };

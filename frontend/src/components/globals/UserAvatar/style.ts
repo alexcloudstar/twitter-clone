@@ -1,9 +1,6 @@
 import styled from 'styled-components';
-import { UserAvatarProps } from './UserAvatar';
 
-export const ProfilePhotoWrapper = styled.div<
-	Pick<UserAvatarProps, 'position'>
->`
+export const ProfilePhotoWrapper = styled.div`
 	width: 50px;
 	height: 50px;
 	border-radius: 100px;
