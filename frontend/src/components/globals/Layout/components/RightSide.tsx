@@ -1,6 +1,6 @@
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { format } from 'date-fns';
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetAllUsersQuery } from 'src/generated/graphql';
 import { RightSideWrapper, StyledGrid, Title, UserComponent } from '../style';
@@ -18,7 +18,7 @@ const RightSide: FC = () => {
 				</Title>
 				{data.getAllUsers.users.map(
 					({ id, name, username, createdAt }, index) => (
-						<>
+						<Fragment key={id}>
 							{name !== 'null' ? (
 								<Link to={`/profile/${username}`} key={id}>
 									<UserComponent>
@@ -33,7 +33,7 @@ const RightSide: FC = () => {
 							) : (
 								<h5>No Registered Users</h5>
 							)}
-						</>
+						</Fragment>
 					)
 				)}
 			</RightSideWrapper>

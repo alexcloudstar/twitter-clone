@@ -1,2 +1,1 @@
-export { StyledModal } from './style';
-export { StyledModalBox } from './style';
+export { default as Modal } from './Modal';

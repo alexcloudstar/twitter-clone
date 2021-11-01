@@ -4,6 +4,7 @@ import { UpReply } from '../entities/UpReply';
 import { MyContext } from '../types/MyContext';
 import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { getConnection } from 'typeorm';
+import { User } from '../entities/User';
 
 @Resolver(Replies)
 export class RepliesResolver {
@@ -14,16 +15,20 @@ export class RepliesResolver {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const tweet = await Tweet.findOne(tweetId);
+    const creator = await User.findOne(req.session.userId);
 
     try {
-      await Replies.create({
-        creatorId: req.session.userId,
-        tweetId,
-        reply,
-        tweet,
-      }).save();
+      if (creator) {
+        await Replies.create({
+          creatorId: creator?.id,
+          tweetId,
+          reply,
+          tweet,
+        }).save();
 
-      return true;
+        return true;
+      }
+      throw new Error();
     } catch (error) {
       console.log(error);
       return false;

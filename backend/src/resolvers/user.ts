@@ -14,6 +14,8 @@ import { getConnection, getRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { MyContext } from 'src/types/MyContext';
 import { EditUserProfile } from './EditUserProfile';
+import { Tweet } from '../entities/Tweet';
+import { Replies } from 'src/entities/Reply';
 
 @ObjectType()
 class FieldError {
@@ -164,5 +166,32 @@ export class UserResolver {
     }
 
     return User.findOne(req.session.userId);
+  }
+
+  @Query(() => [Tweet], { nullable: true })
+  async getUserTweets(
+    @Arg('username', () => String) username: string
+  ): Promise<Tweet[] | undefined> {
+    const tweets = await Tweet.find({ where: { creatorUsername: username } });
+
+    if (!tweets) {
+      throw new Error('User has no tweets yet');
+    }
+
+    return tweets;
+  }
+  @Query(() => [Replies], { nullable: true })
+  async getUserReplies(
+    @Arg('username', () => String) username: string
+  ): Promise<Replies[] | undefined> {
+    const replies = await Replies.find({
+      where: { creatorUsername: username },
+    });
+
+    if (!replies) {
+      throw new Error('User has no replies yet');
+    }
+
+    return replies;
   }
 }

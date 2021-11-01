@@ -1,5 +1,5 @@
-import { ClickAwayListener, LinearProgress } from '@mui/material';
-import { StyledModal, StyledModalBox } from 'components/globals';
+import { LinearProgress } from '@mui/material';
+import { Modal } from 'components/globals';
 import React, { FC, useEffect, useState } from 'react';
 import { Story } from 'src/generated/graphql';
 import { StyledStory, StyledStoryContainer } from './style';
@@ -55,22 +55,12 @@ const Story: FC<StoryProps> = ({ story, borderColor, username }) => {
 			<StyledStory borderColor={borderColor} onClick={handleOpen}>
 				<img src={story} alt={`story-${username}`} />
 			</StyledStory>
-			<StyledModal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<ClickAwayListener onClickAway={handleClose}>
-					<StyledModalBox>
-						<StyledStoryContainer>
-							<LinearProgress variant="determinate" value={progress} />
-
-							<img src={story} alt={`story-${username}`} />
-						</StyledStoryContainer>
-					</StyledModalBox>
-				</ClickAwayListener>
-			</StyledModal>
+			<Modal open={open} onClose={handleClose}>
+				<StyledStoryContainer>
+					<LinearProgress variant="determinate" value={progress} />
+					<img src={story} alt={`story-${username}`} />
+				</StyledStoryContainer>
+			</Modal>
 		</>
 	);
 };

@@ -1,5 +1,14 @@
-mutation EditTweet($tweetId: Int!, $newTweetValue: String!) {
-	editTweet(tweetId: $tweetId, newTweetValue: $newTweetValue) {
+mutation EditTweet(
+	$tweetId: Int!
+	$newTweetValue: String!
+	$newTweetImage: String
+) {
+	editTweet(
+		tweetId: $tweetId
+		newTweetValue: $newTweetValue
+		newTweetImage: $newTweetImage
+	) {
 		tweet
+		tweetImage
 	}
 }

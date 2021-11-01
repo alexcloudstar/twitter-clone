@@ -1,8 +1,13 @@
 import { Grid } from '@mui/material';
+import { UserAvatar } from 'components/globals';
 import React, { FC } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import _1 from 'src/assets/img/stories_avatars/_1.png';
-import { Tweet, useGetTweetQuery } from 'src/generated/graphql';
+import {
+	Tweet,
+	useGetTweetQuery,
+	useGetUserQuery
+} from 'src/generated/graphql';
 import Actions from '../Actions/Actions';
 import MoreOptions from './components/MoreOptions';
 import Replies from './components/Replies';
@@ -16,7 +21,9 @@ type TweetProps = {
 const Tweet: FC<TweetProps> = ({
 	id,
 	tweet,
+	tweetImage,
 	points,
+	creatorName,
 	creatorUsername,
 	creatorId,
 	showActions,
@@ -29,43 +36,56 @@ const Tweet: FC<TweetProps> = ({
 		skip: !!id
 	});
 
-	if (loading) return <div>Loading...</div>;
+	const { data: userData, loading: userLoading } = useGetUserQuery({
+		variables: { username: creatorUsername }
+	});
+
+	if (loading || userLoading) return <div>Loading...</div>;
 
 	return (
 		<>
 			<Wrapper>
 				<Grid container>
-					<Grid md={2}>
-						<Link to={`/profile/${creatorId}`}>
+					<Grid item md={2}>
+						<Link to={`/profile/${userData?.getUser.user.username}`}>
 							<Header>
 								<UserWrapper>
-									<img src={_1} alt={creatorUsername} />
+									<UserAvatar avatar={userData?.getUser.user.avatarUrl} />
 								</UserWrapper>
 							</Header>
 						</Link>
 					</Grid>
-					<Grid md={10}>
+					<Grid item md={10}>
 						<Header>
-							<Link to={`/profile/${creatorId}`}>
-								<h3>Alex Cloudstar</h3>
+							<Link to={`/profile/${userData?.getUser.user.username}`}>
+								<h3>{userData?.getUser.user.name}</h3>
 							</Link>
 							<MoreOptions
 								id={id || data.getTweet.id}
 								tweet={tweet || data.getTweet.tweet}
+								tweetImage={tweetImage || data?.getTweet?.tweetImage}
 							/>
 						</Header>
 						<Body>
 							<span>{tweet}</span>
-							<img
-								src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-								alt=""
-							/>
+							{tweetImage && (
+								<img
+									src={tweetImage}
+									alt={`${userData?.getUser.user.username}-tweet`}
+								/>
+							)}
 						</Body>
 						{showActions && <Actions id={id} points={points} isReply={false} />}
 					</Grid>
 				</Grid>
 			</Wrapper>
-			{showReplies && <Replies tweetId={id} />}
+			{showReplies && (
+				<Replies
+					tweetId={id}
+					creatorName={userData?.getUser.user.name}
+					avatar={userData.getUser.user.avatarUrl}
+				/>
+			)}
 		</>
 	);
 };

@@ -1,16 +1,17 @@
-import React, { FC, useState } from 'react';
-import { MoreOptionsWrapper } from './style';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { ClickAwayListener, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
+import { Modal, SnackBar } from 'components/globals';
+import React, { FC, useRef, useState } from 'react';
 import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
-import { SnackBar, StyledModal, StyledModalBox } from 'components/globals';
 import { EditForm } from './EditForm';
+import { MoreOptionsWrapper } from './style';
 
 type MoreOptionsProps = {
 	tweet?: Tweet['tweet'];
+	tweetImage?: Tweet['tweetImage'];
 } & Pick<Tweet, 'id'>;
 
-const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
+const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
 		message: null,
@@ -20,6 +21,7 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
 	const handleOpenEditModal = () => setOpenEditModal(true);
 	const handleCloseEditModal = () => setOpenEditModal(false);
 
+	const modalRef = useRef(null);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -44,7 +46,7 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Oops, there was an error 😢',
-				variant: 'danger'
+				variant: 'error'
 			});
 		}
 	};
@@ -85,22 +87,14 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet }) => {
 				<MenuItem onClick={handleClose}>Action 3</MenuItem>
 			</Menu>
 
-			<StyledModal
-				open={openEditModal}
-				onClose={handleCloseEditModal}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<ClickAwayListener onClickAway={handleCloseEditModal}>
-					<StyledModalBox>
-						<EditForm
-							tweetId={id}
-							tweet={tweet}
-							handleClose={handleCloseEditModal}
-						/>
-					</StyledModalBox>
-				</ClickAwayListener>
-			</StyledModal>
+			<Modal open={openEditModal} onClose={handleCloseEditModal}>
+				<EditForm
+					tweetId={id}
+					tweet={tweet}
+					tweetImage={tweetImage}
+					handleClose={handleCloseEditModal}
+				/>
+			</Modal>
 		</>
 	);
 };

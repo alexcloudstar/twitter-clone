@@ -6,15 +6,22 @@ import { EditFormWrapper, StyledTextField } from './style';
 
 export type EditProfileState = {
 	newTweetValue: string;
+	newTweetImage: string;
 };
 
 type EditTweetProps = {
 	handleClose: () => void;
 	tweetId: Tweet['id'];
 	tweet?: Tweet['tweet'];
+	tweetImage?: Tweet['tweetImage'];
 };
 
-const EditForm: FC<EditTweetProps> = ({ tweetId, handleClose, tweet }) => {
+const EditForm: FC<EditTweetProps> = ({
+	tweetId,
+	handleClose,
+	tweet,
+	tweetImage
+}) => {
 	const [editTweet] = useEditTweetMutation();
 
 	const [snackBarProps, setSnackBarProps] = useState({
@@ -29,15 +36,27 @@ const EditForm: FC<EditTweetProps> = ({ tweetId, handleClose, tweet }) => {
 		formState: { errors }
 	} = useForm<EditProfileState>({
 		defaultValues: {
-			newTweetValue: tweet
+			newTweetValue: tweet,
+			newTweetImage: tweetImage
 		}
 	});
 
 	const onSubmit: SubmitHandler<EditProfileState> = async ({
-		newTweetValue
+		newTweetValue,
+		newTweetImage
 	}) => {
 		try {
-			editTweet({ variables: { tweetId, newTweetValue } });
+			if (errors) {
+				handleClose();
+				setSnackBarProps({
+					isOpen: true,
+					message: 'Tweet was not updated successfully 😢',
+					variant: 'error'
+				});
+				return;
+			}
+
+			editTweet({ variables: { tweetId, newTweetValue, newTweetImage } });
 			handleClose();
 			setSnackBarProps({
 				isOpen: true,
@@ -46,10 +65,11 @@ const EditForm: FC<EditTweetProps> = ({ tweetId, handleClose, tweet }) => {
 			});
 		} catch (error) {
 			console.log(error);
+			handleClose();
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Tweet was not updated successfully 😢',
-				variant: 'danger'
+				variant: 'error'
 			});
 		}
 	};
@@ -57,12 +77,19 @@ const EditForm: FC<EditTweetProps> = ({ tweetId, handleClose, tweet }) => {
 	return (
 		<>
 			<EditFormWrapper onSubmit={handleSubmit(onSubmit)}>
-				<h3>Profile Form Editor</h3>
+				<h3>Edit Tweet: {tweet}</h3>
 				<StyledTextField
 					id="outlined-basic"
 					variant="outlined"
 					label="Tweet"
 					{...register('newTweetValue')}
+				/>
+
+				<StyledTextField
+					id="outlined-basic"
+					variant="outlined"
+					label="Tweet Image"
+					{...register('newTweetImage')}
 				/>
 
 				<StyledButton variant="contained" type="submit">

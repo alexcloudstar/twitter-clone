@@ -2,7 +2,6 @@ import { Grid } from '@mui/material';
 import { Searchbar } from 'components/Searchbar';
 import React, { FC } from 'react';
 import {
-	StyledAvatar,
 	ConfigWrapper,
 	HeaderWrapper,
 	Logo,
@@ -14,6 +13,7 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Link, useLocation } from 'react-router-dom';
 import { useMeQuery } from 'src/generated/graphql';
+import { UserAvatar } from 'components/globals';
 
 const Header: FC = () => {
 	const { data, loading } = useMeQuery();
@@ -35,10 +35,10 @@ const Header: FC = () => {
 				</SearchBarGridStyled>
 				<RightStyledGrid item md={3}>
 					<UserShortcutWrapper>
-						<StyledAvatar>A</StyledAvatar>
+						<UserAvatar avatar={data?.me?.avatarUrl} />
 						<UsernameWrapper>
 							{data?.me?.name !== 'null' && <span>{data?.me?.name}</span>}
-							<span>@{data.me.username}</span>
+							<span>@{data?.me?.username}</span>
 						</UsernameWrapper>
 					</UserShortcutWrapper>
 					<ConfigWrapper>
