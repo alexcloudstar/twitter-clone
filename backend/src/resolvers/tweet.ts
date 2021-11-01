@@ -45,7 +45,8 @@ export class TweetResolver {
   async editTweet(
     @Arg('tweetId', () => Int) tweetId: number,
     @Arg('newTweetValue', () => String) newTweetValue: string,
-    @Arg('newTweetImage', () => String) newTweetImage: string,
+    @Arg('newTweetImage', () => String, { nullable: true })
+    newTweetImage: string,
     @Ctx() { req }: MyContext
   ): Promise<Tweet> {
     let selectedTweet;

@@ -1,12 +1,10 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import HomeIcon from '@mui/icons-material/Home';
 import { Grid } from '@mui/material';
-import { StyledButton, Layout, LinkWrapper } from 'components/globals';
+import { Layout } from 'components/globals';
+import { Tweet as TweetComp } from 'containers/Tweets/components/Tweet';
 import React, { FC } from 'react';
-import { NavLink, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useGetTweetQuery } from 'src/generated/graphql';
 import { TweetWrapper } from './style';
-import { Tweet as TweetComp } from 'containers/Tweets/components/Tweet';
 
 const Tweet: FC = () => {
 	const match: { params: { id: string } } = useRouteMatch();
@@ -22,14 +20,16 @@ const Tweet: FC = () => {
 			<Layout>
 				<Grid item md={4}>
 					<TweetComp
+						id={data.getTweet.id}
+						tweet={data.getTweet.tweet}
+						tweetImage={data.getTweet.tweetImage}
+						creatorId={data.getTweet.creatorId}
+						creatorName={data.getTweet.creatorName}
+						creatorUsername={data.getTweet.creatorUsername}
+						points={data.getTweet.points}
+						voteStatus={data.getTweet.voteStatus}
 						createdAt={data.getTweet.createdAt}
 						updatedAt={data.getTweet.updatedAt}
-						creatorId={data.getTweet.creatorId}
-						points={data.getTweet.points}
-						tweet={data.getTweet.tweet}
-						voteStatus={data.getTweet.voteStatus}
-						creatorUsername={data.getTweet.creatorUsername}
-						id={data.getTweet.id}
 						showActions
 						showReplies
 					/>

@@ -1,19 +1,20 @@
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Grid } from '@mui/material';
+import { UserAvatar } from 'components/globals';
 import { Searchbar } from 'components/Searchbar';
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { useMeQuery } from 'src/generated/graphql';
+import { getNameInitial } from 'utils/getNameInitial';
 import {
-	StyledAvatar,
 	ConfigWrapper,
 	HeaderWrapper,
 	Logo,
-	UsernameWrapper,
-	UserShortcutWrapper,
 	RightStyledGrid,
-	SearchBarGridStyled
+	SearchBarGridStyled,
+	UsernameWrapper,
+	UserShortcutWrapper
 } from './style';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Link, useLocation } from 'react-router-dom';
-import { useMeQuery } from 'src/generated/graphql';
 
 const Header: FC = () => {
 	const { data, loading } = useMeQuery();
@@ -35,7 +36,7 @@ const Header: FC = () => {
 				</SearchBarGridStyled>
 				<RightStyledGrid item md={3}>
 					<UserShortcutWrapper>
-						<StyledAvatar>A</StyledAvatar>
+						<UserAvatar>{getNameInitial(data?.me?.name)}</UserAvatar>
 						<UsernameWrapper>
 							{data?.me?.name !== 'null' && <span>{data?.me?.name}</span>}
 							<span>@{data.me.username}</span>

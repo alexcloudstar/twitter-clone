@@ -19,8 +19,10 @@ const Tweets: FC = () => {
 					creatorId,
 					points,
 					tweet,
+					tweetImage,
 					voteStatus,
-					creatorUsername
+					creatorUsername,
+					creatorName
 				}) => (
 					<Tweet
 						key={id}
@@ -29,8 +31,10 @@ const Tweets: FC = () => {
 						creatorId={creatorId}
 						points={points}
 						tweet={tweet}
+						tweetImage={tweetImage}
 						voteStatus={voteStatus}
 						creatorUsername={creatorUsername}
+						creatorName={creatorName}
 						id={id}
 						showActions
 						showReplies={false}

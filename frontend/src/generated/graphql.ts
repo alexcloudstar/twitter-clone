@@ -83,6 +83,7 @@ export type MutationEditProfileArgs = {
 
 
 export type MutationEditTweetArgs = {
+  newTweetImage?: Maybe<Scalars['String']>;
   newTweetValue: Scalars['String'];
   tweetId: Scalars['Int'];
 };
@@ -177,16 +178,19 @@ export type Tweet = {
   createdAt: Scalars['String'];
   creator: User;
   creatorId: Scalars['Float'];
+  creatorName: Scalars['String'];
   creatorUsername: Scalars['String'];
   id: Scalars['Float'];
   points: Scalars['Float'];
   tweet: Scalars['String'];
+  tweetImage: Scalars['String'];
   updatedAt: Scalars['String'];
   voteStatus?: Maybe<Scalars['Int']>;
 };
 
 export type TweetFields = {
   tweet: Scalars['String'];
+  tweetImage?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -224,7 +228,7 @@ export type UsersResponse = {
 
 export type RegularEditProfileFragment = { __typename?: 'User', id: number, name: string, website: string, location: string, email: string, coverPhotoUrl: string, birthday: any, bio: string, avatarUrl: string };
 
-export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string };
+export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
 
@@ -286,7 +290,7 @@ export type CreateTweetMutationVariables = Exact<{
 }>;
 
 
-export type CreateTweetMutation = { __typename?: 'Mutation', createTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string } };
+export type CreateTweetMutation = { __typename?: 'Mutation', createTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string } };
 
 export type DeleteTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -298,10 +302,11 @@ export type DeleteTweetMutation = { __typename?: 'Mutation', deleteTweet: boolea
 export type EditTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
   newTweetValue: Scalars['String'];
+  newTweetImage?: Maybe<Scalars['String']>;
 }>;
 
 
-export type EditTweetMutation = { __typename?: 'Mutation', editTweet: { __typename?: 'Tweet', tweet: string } };
+export type EditTweetMutation = { __typename?: 'Mutation', editTweet: { __typename?: 'Tweet', tweet: string, tweetImage: string } };
 
 export type ReplyToTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -326,7 +331,7 @@ export type GetTweetQueryVariables = Exact<{
 }>;
 
 
-export type GetTweetQuery = { __typename?: 'Query', getTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string } };
+export type GetTweetQuery = { __typename?: 'Query', getTweet: { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string } };
 
 export type GetTweetRepliesQueryVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -338,7 +343,7 @@ export type GetTweetRepliesQuery = { __typename?: 'Query', getTweetReplies: Arra
 export type GetTweetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTweetsQuery = { __typename?: 'Query', getTweets: Array<{ __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string }> };
+export type GetTweetsQuery = { __typename?: 'Query', getTweets: Array<{ __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string }> };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -380,6 +385,8 @@ export const RegularTweetFragmentDoc = gql`
   updatedAt
   voteStatus
   creatorUsername
+  creatorName
+  tweetImage
 }
     `;
 export const RegularUserFragmentDoc = gql`
@@ -772,9 +779,14 @@ export type DeleteTweetMutationHookResult = ReturnType<typeof useDeleteTweetMuta
 export type DeleteTweetMutationResult = Apollo.MutationResult<DeleteTweetMutation>;
 export type DeleteTweetMutationOptions = Apollo.BaseMutationOptions<DeleteTweetMutation, DeleteTweetMutationVariables>;
 export const EditTweetDocument = gql`
-    mutation EditTweet($tweetId: Int!, $newTweetValue: String!) {
-  editTweet(tweetId: $tweetId, newTweetValue: $newTweetValue) {
+    mutation EditTweet($tweetId: Int!, $newTweetValue: String!, $newTweetImage: String) {
+  editTweet(
+    tweetId: $tweetId
+    newTweetValue: $newTweetValue
+    newTweetImage: $newTweetImage
+  ) {
     tweet
+    tweetImage
   }
 }
     `;
@@ -808,6 +820,7 @@ export function withEditTweet<TProps, TChildProps = {}, TDataName extends string
  *   variables: {
  *      tweetId: // value for 'tweetId'
  *      newTweetValue: // value for 'newTweetValue'
+ *      newTweetImage: // value for 'newTweetImage'
  *   },
  * });
  */

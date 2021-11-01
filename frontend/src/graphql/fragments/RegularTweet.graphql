@@ -7,4 +7,6 @@ fragment RegularTweet on Tweet {
 	updatedAt
 	voteStatus
 	creatorUsername
+	creatorName
+	tweetImage
 }

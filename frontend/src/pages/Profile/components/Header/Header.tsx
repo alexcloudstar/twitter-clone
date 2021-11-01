@@ -1,4 +1,6 @@
+import { UserAvatar } from 'components/globals';
 import React, { FC } from 'react';
+import { getNameInitial } from 'utils/getNameInitial';
 import { UserDataProps } from '../../types';
 import { EditProfile } from '../EditProfile';
 import { CoverPhotoWrapper, ProfileHeader, ProfilePhotoWrapper } from './style';
@@ -16,10 +18,12 @@ const Header: FC<UserDataProps> = (userData) => (
 		<ProfilePhotoWrapper>
 			{userData.avatarUrl !== 'null' ||
 				(!userData.avatarUrl && (
-					<img
+					<UserAvatar
 						src={userData.avatarUrl}
 						alt={`profile-photo-${userData.avatarUrl}`}
-					/>
+					>
+						{getNameInitial(userData.name)}
+					</UserAvatar>
 				))}
 		</ProfilePhotoWrapper>
 		<EditProfile {...userData} />
