@@ -13,6 +13,8 @@ export class StoryResolver {
     const creator = await User.findOne(req.session.userId);
 
     try {
+      if (!storyImageUrl) throw new Error('Story image url is required');
+
       if (creator) {
         await Story.create({
           storyUrl: storyImageUrl,
