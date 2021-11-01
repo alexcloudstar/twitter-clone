@@ -222,6 +222,8 @@ export type UsersResponse = {
   users: Array<User>;
 };
 
+export type RegularEditProfileFragment = { __typename?: 'User', id: number, name: string, website: string, location: string, email: string, coverPhotoUrl: string, birthday: any, bio: string, avatarUrl: string };
+
 export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
@@ -232,6 +234,21 @@ export type CreateStoryMutationVariables = Exact<{
 
 
 export type CreateStoryMutation = { __typename?: 'Mutation', createStory: boolean };
+
+export type EditProfileMutationVariables = Exact<{
+  userId: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  coverPhotoUrl?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  avatarUrl?: Maybe<Scalars['String']>;
+}>;
+
+
+export type EditProfileMutation = { __typename?: 'Mutation', editProfile: { __typename?: 'User', id: number, name: string, website: string, location: string, email: string, coverPhotoUrl: string, birthday: any, bio: string, avatarUrl: string } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -340,6 +357,19 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', name: string, id: number, username: string } | null | undefined };
 
+export const RegularEditProfileFragmentDoc = gql`
+    fragment RegularEditProfile on User {
+  id
+  name
+  website
+  location
+  email
+  coverPhotoUrl
+  birthday
+  bio
+  avatarUrl
+}
+    `;
 export const RegularTweetFragmentDoc = gql`
     fragment RegularTweet on Tweet {
   id
@@ -402,6 +432,63 @@ export function useCreateStoryMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateStoryMutationHookResult = ReturnType<typeof useCreateStoryMutation>;
 export type CreateStoryMutationResult = Apollo.MutationResult<CreateStoryMutation>;
 export type CreateStoryMutationOptions = Apollo.BaseMutationOptions<CreateStoryMutation, CreateStoryMutationVariables>;
+export const EditProfileDocument = gql`
+    mutation EditProfile($userId: Int!, $name: String, $website: String, $location: String, $email: String, $coverPhotoUrl: String, $birthday: String, $bio: String, $avatarUrl: String) {
+  editProfile(
+    userId: $userId
+    options: {name: $name, website: $website, location: $location, email: $email, coverPhotoUrl: $coverPhotoUrl, birthday: $birthday, bio: $bio, avatarUrl: $avatarUrl}
+  ) {
+    ...RegularEditProfile
+  }
+}
+    ${RegularEditProfileFragmentDoc}`;
+export type EditProfileMutationFn = Apollo.MutationFunction<EditProfileMutation, EditProfileMutationVariables>;
+export type EditProfileProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<EditProfileMutation, EditProfileMutationVariables>
+    } & TChildProps;
+export function withEditProfile<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditProfileMutation,
+  EditProfileMutationVariables,
+  EditProfileProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditProfileMutation, EditProfileMutationVariables, EditProfileProps<TChildProps, TDataName>>(EditProfileDocument, {
+      alias: 'editProfile',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditProfileMutation__
+ *
+ * To run a mutation, you first call `useEditProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editProfileMutation, { data, loading, error }] = useEditProfileMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      name: // value for 'name'
+ *      website: // value for 'website'
+ *      location: // value for 'location'
+ *      email: // value for 'email'
+ *      coverPhotoUrl: // value for 'coverPhotoUrl'
+ *      birthday: // value for 'birthday'
+ *      bio: // value for 'bio'
+ *      avatarUrl: // value for 'avatarUrl'
+ *   },
+ * });
+ */
+export function useEditProfileMutation(baseOptions?: Apollo.MutationHookOptions<EditProfileMutation, EditProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditProfileMutation, EditProfileMutationVariables>(EditProfileDocument, options);
+      }
+export type EditProfileMutationHookResult = ReturnType<typeof useEditProfileMutation>;
+export type EditProfileMutationResult = Apollo.MutationResult<EditProfileMutation>;
+export type EditProfileMutationOptions = Apollo.BaseMutationOptions<EditProfileMutation, EditProfileMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {

@@ -1,0 +1,11 @@
+fragment RegularEditProfile on User {
+	id
+	name
+	website
+	location
+	email
+	coverPhotoUrl
+	birthday
+	bio
+	avatarUrl
+}

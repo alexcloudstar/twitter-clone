@@ -1,0 +1,27 @@
+mutation EditProfile(
+	$userId: Int!
+	$name: String
+	$website: String
+	$location: String
+	$email: String
+	$coverPhotoUrl: String
+	$birthday: String
+	$bio: String
+	$avatarUrl: String
+) {
+	editProfile(
+		userId: $userId
+		options: {
+			name: $name
+			website: $website
+			location: $location
+			email: $email
+			coverPhotoUrl: $coverPhotoUrl
+			birthday: $birthday
+			bio: $bio
+			avatarUrl: $avatarUrl
+		}
+	) {
+		...RegularEditProfile
+	}
+}

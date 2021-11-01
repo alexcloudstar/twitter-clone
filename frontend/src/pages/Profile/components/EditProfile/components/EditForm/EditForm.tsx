@@ -1,7 +1,7 @@
 import { SnackBar, StyledButton } from 'components/globals';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { User } from 'src/generated/graphql';
+import { useEditProfileMutation, User } from 'src/generated/graphql';
 import { UserDataProps } from 'src/pages/Profile/types';
 import { formatBirthday } from 'utils/dateFormats';
 import { EditFormWrapper, StyledTextField } from './style';
@@ -20,33 +20,35 @@ const EditForm: FC<UserDataProps> = ({
 	handleClose
 }) => {
 	const formatedBirthday = formatBirthday(birthday);
+
+	const [editProfile] = useEditProfileMutation();
+
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
 		message: null,
 		variant: null
 	});
-
+	console.log(name);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm<EditProfileState>({
 		defaultValues: {
-			name,
-			website,
-			avatarUrl,
-			bio,
+			name: name !== 'null' ? name : '',
+			website: website !== 'null' ? website : '',
+			avatarUrl: avatarUrl !== 'null' ? avatarUrl : '',
+			bio: bio !== 'null' ? bio : '',
 			birthday: formatedBirthday,
-			coverPhotoUrl,
+			coverPhotoUrl: coverPhotoUrl !== 'null' ? coverPhotoUrl : '',
 			email,
-			location
+			location: location !== 'null' ? location : ''
 		}
 	});
 
 	const onSubmit: SubmitHandler<EditProfileState> = async (data) => {
-		console.log(data);
 		try {
-			// TODO: update user
+			editProfile({ variables: { userId: 1, ...data } });
 			handleClose();
 			setSnackBarProps({
 				isOpen: true,

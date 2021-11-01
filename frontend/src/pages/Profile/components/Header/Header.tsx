@@ -6,7 +6,7 @@ import { CoverPhotoWrapper, ProfileHeader, ProfilePhotoWrapper } from './style';
 const Header: FC<UserDataProps> = (userData) => (
 	<ProfileHeader>
 		<CoverPhotoWrapper>
-			{userData.coverPhotoUrl !== 'null' && (
+			{userData.coverPhotoUrl !== 'null' && userData.coverPhotoUrl !== '' && (
 				<img
 					src={userData.coverPhotoUrl}
 					alt={`cover-photo-${userData.username}`}
@@ -14,12 +14,13 @@ const Header: FC<UserDataProps> = (userData) => (
 			)}
 		</CoverPhotoWrapper>
 		<ProfilePhotoWrapper>
-			{userData.avatarUrl !== 'null' && (
-				<img
-					src={userData.avatarUrl}
-					alt={`profile-photo-${userData.avatarUrl}`}
-				/>
-			)}
+			{userData.avatarUrl !== 'null' ||
+				(!userData.avatarUrl && (
+					<img
+						src={userData.avatarUrl}
+						alt={`profile-photo-${userData.avatarUrl}`}
+					/>
+				))}
 		</ProfilePhotoWrapper>
 		<EditProfile {...userData} />
 	</ProfileHeader>

@@ -57,7 +57,7 @@ const EditForm: FC<EditTweetProps> = ({ tweetId, handleClose, tweet }) => {
 	return (
 		<>
 			<EditFormWrapper onSubmit={handleSubmit(onSubmit)}>
-				<h3>Profile Form Editor</h3>
+				<h3>Edit Tweet: {tweet}</h3>
 				<StyledTextField
 					id="outlined-basic"
 					variant="outlined"
