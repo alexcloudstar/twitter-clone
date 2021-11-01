@@ -125,6 +125,8 @@ export type Query = {
   getTweetReplies: Array<Replies>;
   getTweets: Array<Tweet>;
   getUser: UserResponse;
+  getUserReplies?: Maybe<Array<Replies>>;
+  getUserTweets?: Maybe<Array<Tweet>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
 };
@@ -146,6 +148,16 @@ export type QueryGetTweetRepliesArgs = {
 
 
 export type QueryGetUserArgs = {
+  username: Scalars['String'];
+};
+
+
+export type QueryGetUserRepliesArgs = {
+  username: Scalars['String'];
+};
+
+
+export type QueryGetUserTweetsArgs = {
   username: Scalars['String'];
 };
 
@@ -357,6 +369,20 @@ export type GetUserQueryVariables = Exact<{
 
 
 export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, avatarUrl: string, coverPhotoUrl: string, name: string, location: string, website: string, birthday: any, bio: string, createdAt: string } | null | undefined } };
+
+export type GetUserRepliesQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type GetUserRepliesQuery = { __typename?: 'Query', getUserReplies?: Array<{ __typename?: 'Replies', id: number, reply: string }> | null | undefined };
+
+export type GetUserTweetsQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type GetUserTweetsQuery = { __typename?: 'Query', getUserTweets?: Array<{ __typename?: 'Tweet', id: number, tweet: string, tweetImage: string }> | null | undefined };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1232,6 +1258,105 @@ export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GetUserRepliesDocument = gql`
+    query GetUserReplies($username: String!) {
+  getUserReplies(username: $username) {
+    id
+    reply
+  }
+}
+    `;
+export type GetUserRepliesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetUserRepliesQuery, GetUserRepliesQueryVariables>
+    } & TChildProps;
+export function withGetUserReplies<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetUserRepliesQuery,
+  GetUserRepliesQueryVariables,
+  GetUserRepliesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetUserRepliesQuery, GetUserRepliesQueryVariables, GetUserRepliesProps<TChildProps, TDataName>>(GetUserRepliesDocument, {
+      alias: 'getUserReplies',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetUserRepliesQuery__
+ *
+ * To run a query within a React component, call `useGetUserRepliesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserRepliesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserRepliesQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserRepliesQuery(baseOptions: Apollo.QueryHookOptions<GetUserRepliesQuery, GetUserRepliesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserRepliesQuery, GetUserRepliesQueryVariables>(GetUserRepliesDocument, options);
+      }
+export function useGetUserRepliesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserRepliesQuery, GetUserRepliesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserRepliesQuery, GetUserRepliesQueryVariables>(GetUserRepliesDocument, options);
+        }
+export type GetUserRepliesQueryHookResult = ReturnType<typeof useGetUserRepliesQuery>;
+export type GetUserRepliesLazyQueryHookResult = ReturnType<typeof useGetUserRepliesLazyQuery>;
+export type GetUserRepliesQueryResult = Apollo.QueryResult<GetUserRepliesQuery, GetUserRepliesQueryVariables>;
+export const GetUserTweetsDocument = gql`
+    query GetUserTweets($username: String!) {
+  getUserTweets(username: $username) {
+    id
+    tweet
+    tweetImage
+  }
+}
+    `;
+export type GetUserTweetsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetUserTweetsQuery, GetUserTweetsQueryVariables>
+    } & TChildProps;
+export function withGetUserTweets<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetUserTweetsQuery,
+  GetUserTweetsQueryVariables,
+  GetUserTweetsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetUserTweetsQuery, GetUserTweetsQueryVariables, GetUserTweetsProps<TChildProps, TDataName>>(GetUserTweetsDocument, {
+      alias: 'getUserTweets',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetUserTweetsQuery__
+ *
+ * To run a query within a React component, call `useGetUserTweetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserTweetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserTweetsQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserTweetsQuery(baseOptions: Apollo.QueryHookOptions<GetUserTweetsQuery, GetUserTweetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserTweetsQuery, GetUserTweetsQueryVariables>(GetUserTweetsDocument, options);
+      }
+export function useGetUserTweetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserTweetsQuery, GetUserTweetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserTweetsQuery, GetUserTweetsQueryVariables>(GetUserTweetsDocument, options);
+        }
+export type GetUserTweetsQueryHookResult = ReturnType<typeof useGetUserTweetsQuery>;
+export type GetUserTweetsLazyQueryHookResult = ReturnType<typeof useGetUserTweetsLazyQuery>;
+export type GetUserTweetsQueryResult = Apollo.QueryResult<GetUserTweetsQuery, GetUserTweetsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

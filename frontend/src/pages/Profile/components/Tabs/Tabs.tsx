@@ -3,7 +3,13 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React, { FC, useState } from 'react';
-import { StyledTabs } from './style';
+import { Link } from 'react-router-dom';
+import {
+	useGetUserRepliesQuery,
+	useGetUserTweetsQuery,
+	User
+} from 'src/generated/graphql';
+import { StyledTabs, StyledTabsContent } from './style';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -17,7 +23,7 @@ function TabPanel(props) {
 			{...other}
 		>
 			{value === index && (
-				<Box sx={{ p: 3 }}>
+				<Box>
 					<Typography>{children}</Typography>
 				</Box>
 			)}
@@ -38,12 +44,19 @@ function a11yProps(index) {
 	};
 }
 
-const BasicTabs: FC = () => {
+const BasicTabs: FC<{ username: User['username'] }> = ({ username }) => {
 	const [value, setValue] = useState(0);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	const { data, loading } = useGetUserTweetsQuery({ variables: { username } });
+	const { data: dataReplies, loading: loadingReplies } = useGetUserRepliesQuery(
+		{ variables: { username } }
+	);
+
+	if (loading || loadingReplies) return <div>Loading...</div>;
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -53,15 +66,47 @@ const BasicTabs: FC = () => {
 					onChange={handleChange}
 					aria-label="basic tabs example"
 				>
-					<Tab label="Tweets" {...a11yProps(0)} />
-					<Tab label="Replies" {...a11yProps(1)} />
+					<Tab
+						label={`${data.getUserTweets.length} Tweets`}
+						{...a11yProps(0)}
+					/>
+					<Tab
+						label={`${dataReplies.getUserReplies.length} Replies`}
+						{...a11yProps(1)}
+					/>
 				</StyledTabs>
 			</Box>
 			<TabPanel value={value} index={0}>
-				User Tweets
+				{!data.getUserTweets.length ? (
+					<>no tweets</>
+				) : (
+					data.getUserTweets.map(({ id, tweet }) => (
+						<StyledTabsContent key={id}>
+							<Link to={`/tweet/${id}`}>
+								<div>
+									{tweet}
+									<button>view tweet</button>
+								</div>
+							</Link>
+						</StyledTabsContent>
+					))
+				)}
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				User Replies
+				{!dataReplies.getUserReplies.length ? (
+					<>no replies</>
+				) : (
+					dataReplies.getUserReplies.map(({ id, reply }) => (
+						<StyledTabsContent key={id}>
+							<Link to={`/tweet/${id}`}>
+								<div>
+									{reply}
+									<button>view reply</button>
+								</div>
+							</Link>
+						</StyledTabsContent>
+					))
+				)}
 			</TabPanel>
 		</Box>
 	);

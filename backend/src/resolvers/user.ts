@@ -15,7 +15,7 @@ import bcrypt from 'bcrypt';
 import { MyContext } from 'src/types/MyContext';
 import { EditUserProfile } from './EditUserProfile';
 import { Tweet } from '../entities/Tweet';
-import { Replies } from 'src/entities/Reply';
+import { Replies } from '../entities/Reply';
 
 @ObjectType()
 class FieldError {

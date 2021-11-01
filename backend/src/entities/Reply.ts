@@ -28,6 +28,10 @@ export class Replies extends BaseEntity {
   creatorId: number;
 
   @Field()
+  @Column({ default: '' })
+  creatorUsername: string;
+
+  @Field()
   @Column()
   tweetId: number;
 

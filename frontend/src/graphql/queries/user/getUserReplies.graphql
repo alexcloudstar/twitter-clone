@@ -1,0 +1,6 @@
+query GetUserReplies($username: String!) {
+	getUserReplies(username: $username) {
+		id
+		reply
+	}
+}
