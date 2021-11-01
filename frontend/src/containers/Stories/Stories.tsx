@@ -42,12 +42,6 @@ const Stories: FC = () => {
 						/>
 					);
 				})}
-
-				{/* <Story story={_2} />
-				<Story story={_3} />
-				<Story story={_4} />
-				<Story story={_5} />
-				<Story story={_6} /> */}
 			</StoriesWrapper>
 
 			<StyledModal

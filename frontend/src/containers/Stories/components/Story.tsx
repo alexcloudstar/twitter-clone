@@ -62,7 +62,7 @@ const Story: FC<StoryProps> = ({ story, borderColor, username }) => {
 				aria-describedby="modal-modal-description"
 			>
 				<ClickAwayListener onClickAway={handleClose}>
-					<StyledModalBox>
+					<StyledModalBox maxWidth="fit-content">
 						<StyledStoryContainer>
 							<LinearProgress variant="determinate" value={progress} />
 
