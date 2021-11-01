@@ -94,8 +94,24 @@ const main = async () => {
     cors: false,
   });
 
-  app.listen(parseInt(PORT), () => {
+  const server = app.listen(parseInt(PORT), () => {
     console.log(`Server started on http://localhost:${PORT}/graphql`);
+  });
+
+  const io = require('socket.io')(server, {
+    cors: {
+      origin: CORS_ORIGIN,
+      credentials: true,
+    },
+  });
+
+  // eslint-disable @typescript-eslint/no-explicit-any
+  io.on('connection', (socket: any) => {
+    console.log('connected');
+    socket.on('addStory', (data: any) => {
+      console.log(data);
+      io.sockets.emit('addStory', data);
+    });
   });
 };
 

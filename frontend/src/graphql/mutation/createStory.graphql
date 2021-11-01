@@ -1,3 +1,10 @@
 mutation CreateStory($storyImageUrl: String!) {
-	createStory(storyImageUrl: $storyImageUrl)
+	createStory(storyImageUrl: $storyImageUrl) {
+		createdAt
+		creatorId
+		creatorUsername
+		id
+		storyUrl
+		updatedAt
+	}
 }

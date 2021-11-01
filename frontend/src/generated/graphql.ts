@@ -36,7 +36,7 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createStory: Scalars['Boolean'];
+  createStory: Story;
   createTweet: Tweet;
   deleteReply: Scalars['Boolean'];
   deleteStory: Scalars['Boolean'];
@@ -250,7 +250,7 @@ export type CreateStoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateStoryMutation = { __typename?: 'Mutation', createStory: boolean };
+export type CreateStoryMutation = { __typename?: 'Mutation', createStory: { __typename?: 'Story', createdAt: string, creatorId: number, creatorUsername: string, id: number, storyUrl: string, updatedAt: string } };
 
 export type EditProfileMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -425,7 +425,14 @@ export const RegularUserFragmentDoc = gql`
     `;
 export const CreateStoryDocument = gql`
     mutation CreateStory($storyImageUrl: String!) {
-  createStory(storyImageUrl: $storyImageUrl)
+  createStory(storyImageUrl: $storyImageUrl) {
+    createdAt
+    creatorId
+    creatorUsername
+    id
+    storyUrl
+    updatedAt
+  }
 }
     `;
 export type CreateStoryMutationFn = Apollo.MutationFunction<CreateStoryMutation, CreateStoryMutationVariables>;
