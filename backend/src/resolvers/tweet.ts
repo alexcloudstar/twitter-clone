@@ -1,24 +1,10 @@
-import {
-  Arg,
-  Ctx,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-} from 'type-graphql';
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import { Tweet } from '../entities/Tweet';
 import { UpTweet } from '../entities/UpTweet';
 import { User } from '../entities/User';
 import { MyContext } from '../types/MyContext';
-
-@InputType()
-export class TweetFields {
-  @Field()
-  tweet: string;
-}
+import { TweetFields } from './TweetFields';
 
 @Resolver(Tweet)
 export class TweetResolver {
@@ -51,6 +37,7 @@ export class TweetResolver {
       ...options,
       creatorId: req.session.uerId,
       creatorUsername: creator?.username,
+      creatorName: creator?.name,
       creator: { ...creator },
     }).save();
   }
@@ -58,6 +45,7 @@ export class TweetResolver {
   async editTweet(
     @Arg('tweetId', () => Int) tweetId: number,
     @Arg('newTweetValue', () => String) newTweetValue: string,
+    @Arg('newTweetImage', () => String) newTweetImage: string,
     @Ctx() { req }: MyContext
   ): Promise<Tweet> {
     let selectedTweet;
@@ -76,6 +64,7 @@ export class TweetResolver {
         .update(Tweet)
         .set({
           tweet: newTweetValue,
+          tweetImage: newTweetImage,
         })
         .where('id = :id', { id: tweetId })
         .returning('*')

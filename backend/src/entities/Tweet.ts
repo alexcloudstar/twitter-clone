@@ -23,6 +23,10 @@ export class Tweet extends BaseEntity {
   @Column()
   tweet!: string;
 
+  @Field(() => String)
+  @Column({ default: '' })
+  tweetImage: string;
+
   @Field()
   @Column()
   creatorId: number;
@@ -30,6 +34,10 @@ export class Tweet extends BaseEntity {
   @Field()
   @Column()
   creatorUsername: string;
+
+  @Field()
+  @Column()
+  creatorName: string;
 
   @Field(() => User)
   @ManyToOne(() => User, user => user.tweets)
