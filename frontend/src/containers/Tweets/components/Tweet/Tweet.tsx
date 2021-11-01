@@ -68,10 +68,12 @@ const Tweet: FC<TweetProps> = ({
 						</Header>
 						<Body>
 							<span>{tweet}</span>
-							<img
-								src={tweetImage}
-								alt={`${userData?.getUser.user.username}-tweet`}
-							/>
+							{tweetImage && (
+								<img
+									src={tweetImage}
+									alt={`${userData?.getUser.user.username}-tweet`}
+								/>
+							)}
 						</Body>
 						{showActions && <Actions id={id} points={points} isReply={false} />}
 					</Grid>

@@ -14,6 +14,7 @@ import { getConnection, getRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { MyContext } from 'src/types/MyContext';
 import { EditUserProfile } from './EditUserProfile';
+import { Tweet } from '../entities/Tweet';
 
 @ObjectType()
 class FieldError {
@@ -164,5 +165,13 @@ export class UserResolver {
     }
 
     return User.findOne(req.session.userId);
+  }
+
+  @Query(() => [Tweet], { nullable: true })
+  async getUserTweets(@Arg('username', () => String) username: string) {
+    const t = await Tweet.find({ where: { creatorUsername: username } });
+    console.log(t);
+
+    return t;
   }
 }
