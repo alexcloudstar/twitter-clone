@@ -1,10 +1,10 @@
-import React, { FC, useState } from 'react';
-import { MoreOptionsWrapper } from './style';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { ClickAwayListener, Menu, MenuItem } from '@mui/material';
-import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
+import { Menu, MenuItem } from '@mui/material';
 import { Modal, SnackBar } from 'components/globals';
+import React, { FC, useState } from 'react';
+import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
 import { EditForm } from './EditForm';
+import { MoreOptionsWrapper } from './style';
 
 type MoreOptionsProps = {
 	tweet?: Tweet['tweet'];

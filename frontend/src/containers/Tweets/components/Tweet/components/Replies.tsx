@@ -1,17 +1,11 @@
 import { Grid } from '@mui/material';
+import { UserAvatar } from 'components/globals';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import {
-	Tweet,
-	useGetTweetRepliesQuery,
-	useGetUserQuery,
-	User
-} from 'src/generated/graphql';
+import { useGetTweetRepliesQuery, User } from 'src/generated/graphql';
 import { Actions } from '../..';
 import { Body, Header, UserWrapper, Wrapper } from '../style';
 import MoreOptions from './MoreOptions';
-import _1 from 'src/assets/img/stories_avatars/_1.png';
-import { UserAvatar } from 'components/globals';
 
 type RepliesProps = {
 	tweetId: User['id'];

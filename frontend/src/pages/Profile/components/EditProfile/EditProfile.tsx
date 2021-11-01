@@ -1,7 +1,5 @@
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { ClickAwayListener } from '@mui/material';
 import { Modal } from 'components/globals';
-
 import React, { FC, useState } from 'react';
 import { User } from 'src/generated/graphql';
 import { EditBtn } from '../Header/style';

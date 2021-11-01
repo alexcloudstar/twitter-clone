@@ -1,9 +1,8 @@
-import React, { FC, useState } from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
+import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
+import React, { FC, useState } from 'react';
 import { StyledTabs } from './style';
 
 function TabPanel(props) {

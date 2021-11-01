@@ -1,4 +1,4 @@
-import { ClickAwayListener, LinearProgress } from '@mui/material';
+import { LinearProgress } from '@mui/material';
 import { Modal } from 'components/globals';
 import React, { FC, useEffect, useState } from 'react';
 import { Story } from 'src/generated/graphql';
