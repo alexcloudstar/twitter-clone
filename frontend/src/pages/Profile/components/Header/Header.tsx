@@ -16,15 +16,12 @@ const Header: FC<UserDataProps> = (userData) => (
 			)}
 		</CoverPhotoWrapper>
 		<ProfilePhotoWrapper>
-			{userData.avatarUrl !== 'null' ||
-				(!userData.avatarUrl && (
-					<UserAvatar
-						src={userData.avatarUrl}
-						alt={`profile-photo-${userData.avatarUrl}`}
-					>
-						{getNameInitial(userData.name)}
-					</UserAvatar>
-				))}
+			{userData.avatarUrl !== 'null' && userData.avatarUrl !== '' && (
+				<img
+					src={userData.avatarUrl}
+					alt={`profile-photo-${userData.avatarUrl}`}
+				/>
+			)}
 		</ProfilePhotoWrapper>
 		<EditProfile {...userData} />
 	</ProfileHeader>

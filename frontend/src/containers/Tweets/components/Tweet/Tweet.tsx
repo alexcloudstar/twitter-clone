@@ -50,10 +50,7 @@ const Tweet: FC<TweetProps> = ({
 						<Link to={`/profile/${userData?.getUser.user.username}`}>
 							<Header>
 								<UserWrapper>
-									<UserAvatar
-										src={userData?.getUser.user.avatarUrl}
-										alt={userData?.getUser.user.username}
-									/>
+									<UserAvatar avatar={userData?.getUser.user.avatarUrl} />
 								</UserWrapper>
 							</Header>
 						</Link>

@@ -230,7 +230,7 @@ export type RegularEditProfileFragment = { __typename?: 'User', id: number, name
 
 export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string };
 
-export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
+export type RegularUserFragment = { __typename?: 'User', id: number, username: string, avatarUrl: string };
 
 export type CreateStoryMutationVariables = Exact<{
   storyImageUrl: Scalars['String'];
@@ -360,7 +360,7 @@ export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', name: string, id: number, username: string } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', name: string, id: number, username: string, avatarUrl: string } | null | undefined };
 
 export const RegularEditProfileFragmentDoc = gql`
     fragment RegularEditProfile on User {
@@ -393,6 +393,7 @@ export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
   username
+  avatarUrl
 }
     `;
 export const CreateStoryDocument = gql`
