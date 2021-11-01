@@ -46,7 +46,7 @@ const Tweet: FC<TweetProps> = ({
 		<>
 			<Wrapper>
 				<Grid container>
-					<Grid md={2}>
+					<Grid item md={2}>
 						<Link to={`/profile/${userData?.getUser.user.username}`}>
 							<Header>
 								<UserWrapper>
@@ -55,7 +55,7 @@ const Tweet: FC<TweetProps> = ({
 							</Header>
 						</Link>
 					</Grid>
-					<Grid md={10}>
+					<Grid item md={10}>
 						<Header>
 							<Link to={`/profile/${userData?.getUser.user.username}`}>
 								<h3>{userData?.getUser.user.name}</h3>
@@ -63,7 +63,7 @@ const Tweet: FC<TweetProps> = ({
 							<MoreOptions
 								id={id || data.getTweet.id}
 								tweet={tweet || data.getTweet.tweet}
-								tweetImage={tweetImage || data.getTweet.tweetImage}
+								tweetImage={tweetImage || data?.getTweet?.tweetImage}
 							/>
 						</Header>
 						<Body>

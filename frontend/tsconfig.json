@@ -18,7 +18,8 @@
 			"containers/*": ["src/containers/*"],
 			"components/*": ["src/components/*"],
 			"assets/*": ["src/assets/*"],
-			"utils/*": ["src/utils/*"]
+			"utils/*": ["src/utils/*"],
+			"types/*": ["src/types/*"]
 		}
 	},
 	"include": [

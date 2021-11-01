@@ -46,6 +46,16 @@ const EditForm: FC<EditTweetProps> = ({
 		newTweetImage
 	}) => {
 		try {
+			if (errors) {
+				handleClose();
+				setSnackBarProps({
+					isOpen: true,
+					message: 'Tweet was not updated successfully 😢',
+					variant: 'error'
+				});
+				return;
+			}
+
 			editTweet({ variables: { tweetId, newTweetValue, newTweetImage } });
 			handleClose();
 			setSnackBarProps({
@@ -55,10 +65,11 @@ const EditForm: FC<EditTweetProps> = ({
 			});
 		} catch (error) {
 			console.log(error);
+			handleClose();
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Tweet was not updated successfully 😢',
-				variant: 'danger'
+				variant: 'error'
 			});
 		}
 	};

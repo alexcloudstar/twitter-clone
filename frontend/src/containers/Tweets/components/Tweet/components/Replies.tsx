@@ -25,14 +25,14 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 			{data.getTweetReplies.map(({ creatorId, id, points, reply, tweetId }) => (
 				<Wrapper key={id}>
 					<Grid container>
-						<Grid md={2}>
+						<Grid item md={2}>
 							<Link to={`/profile/${creatorId}`}>
 								<UserWrapper>
 									<UserAvatar avatar={avatar} />
 								</UserWrapper>
 							</Link>
 						</Grid>
-						<Grid md={10}>
+						<Grid item md={10}>
 							<Header>
 								<Link to={`/profile/${creatorId}`}>
 									<h3>{creatorName}</h3>

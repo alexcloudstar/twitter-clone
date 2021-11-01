@@ -35,10 +35,10 @@ const Header: FC = () => {
 				</SearchBarGridStyled>
 				<RightStyledGrid item md={3}>
 					<UserShortcutWrapper>
-						<UserAvatar avatar={data.me.avatarUrl} />
+						<UserAvatar avatar={data?.me?.avatarUrl} />
 						<UsernameWrapper>
 							{data?.me?.name !== 'null' && <span>{data?.me?.name}</span>}
-							<span>@{data.me.username}</span>
+							<span>@{data?.me?.username}</span>
 						</UsernameWrapper>
 					</UserShortcutWrapper>
 					<ConfigWrapper>

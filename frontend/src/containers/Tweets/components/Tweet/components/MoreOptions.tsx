@@ -1,7 +1,7 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Menu, MenuItem } from '@mui/material';
 import { Modal, SnackBar } from 'components/globals';
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
 import { EditForm } from './EditForm';
 import { MoreOptionsWrapper } from './style';
@@ -21,6 +21,7 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 	const handleOpenEditModal = () => setOpenEditModal(true);
 	const handleCloseEditModal = () => setOpenEditModal(false);
 
+	const modalRef = useRef(null);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -45,7 +46,7 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Oops, there was an error 😢',
-				variant: 'danger'
+				variant: 'error'
 			});
 		}
 	};

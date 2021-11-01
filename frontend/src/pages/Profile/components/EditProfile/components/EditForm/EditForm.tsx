@@ -28,7 +28,7 @@ const EditForm: FC<UserDataProps> = ({
 		message: null,
 		variant: null
 	});
-	console.log(name);
+
 	const {
 		register,
 		handleSubmit,
@@ -48,6 +48,17 @@ const EditForm: FC<UserDataProps> = ({
 
 	const onSubmit: SubmitHandler<EditProfileState> = async (data) => {
 		try {
+			if (errors) {
+				handleClose();
+				setSnackBarProps({
+					isOpen: true,
+					message: 'Profile was not updated successfully 😢',
+					variant: 'error'
+				});
+
+				return;
+			}
+
 			editProfile({ variables: { userId: 1, ...data } });
 			handleClose();
 			setSnackBarProps({
@@ -57,10 +68,11 @@ const EditForm: FC<UserDataProps> = ({
 			});
 		} catch (error) {
 			console.log(error);
+			handleClose();
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Profile was not updated successfully 😢',
-				variant: 'danger'
+				variant: 'error'
 			});
 		}
 	};

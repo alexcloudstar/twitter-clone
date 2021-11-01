@@ -1,7 +1,8 @@
-import { SnackBar, StyledButton } from 'components/globals';
-import React, { FC, useState } from 'react';
+import { StyledButton } from 'components/globals';
+import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCreateStoryMutation } from 'src/generated/graphql';
+import SnackBarProps from 'types/SnackBarProps';
 import { EditFormWrapper, StyledTextField } from './style';
 
 export type EditProfileState = {
@@ -10,20 +11,19 @@ export type EditProfileState = {
 
 type AddStoryProps = {
 	handleClose: () => void;
-};
+} & SnackBarProps;
 
-const EditForm: FC<AddStoryProps> = ({ handleClose }) => {
+const EditForm: FC<AddStoryProps> = ({
+	handleClose,
+	snackBarProps,
+	setSnackBarProps
+}) => {
 	const [createStory] = useCreateStoryMutation();
-
-	const [snackBarProps, setSnackBarProps] = useState({
-		isOpen: false,
-		message: null,
-		variant: null
-	});
 
 	const {
 		register,
 		handleSubmit,
+		watch,
 		formState: { errors }
 	} = useForm<EditProfileState>();
 
@@ -31,6 +31,16 @@ const EditForm: FC<AddStoryProps> = ({ handleClose }) => {
 		storyImageUrl
 	}) => {
 		try {
+			if (errors) {
+				handleClose();
+				setSnackBarProps({
+					isOpen: true,
+					message: 'Story was not added 😢',
+					variant: 'error'
+				});
+				return;
+			}
+
 			createStory({ variables: { storyImageUrl } });
 			handleClose();
 			setSnackBarProps({
@@ -40,10 +50,11 @@ const EditForm: FC<AddStoryProps> = ({ handleClose }) => {
 			});
 		} catch (error) {
 			console.log(error);
+			handleClose();
 			setSnackBarProps({
 				isOpen: true,
-				message: 'Story was not added successfully 😢',
-				variant: 'danger'
+				message: 'Story was not added 😢',
+				variant: 'error'
 			});
 		}
 	};
@@ -63,11 +74,6 @@ const EditForm: FC<AddStoryProps> = ({ handleClose }) => {
 					Add Story
 				</StyledButton>
 			</EditFormWrapper>
-			{/* TODO: Fix this (now is rendering in the Modal Form) */}
-			<SnackBar
-				snackBarProps={snackBarProps}
-				setSnackBarProps={setSnackBarProps}
-			/>
 		</>
 	);
 };

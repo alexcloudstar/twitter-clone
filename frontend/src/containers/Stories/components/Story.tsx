@@ -58,7 +58,6 @@ const Story: FC<StoryProps> = ({ story, borderColor, username }) => {
 			<Modal open={open} onClose={handleClose}>
 				<StyledStoryContainer>
 					<LinearProgress variant="determinate" value={progress} />
-
 					<img src={story} alt={`story-${username}`} />
 				</StyledStoryContainer>
 			</Modal>
