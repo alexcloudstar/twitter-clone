@@ -1,17 +1,12 @@
 import { Grid } from '@mui/material';
 import { UserAvatar } from 'components/globals';
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import _1 from 'src/assets/img/stories_avatars/_1.png';
+import { Replies } from 'containers/Replies';
+import React, { FC, useLayoutEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { socket } from 'src/config/socket';
-import {
-	Tweet,
-	useGetTweetQuery,
-	useGetUserQuery
-} from 'src/generated/graphql';
+import { Tweet, useGetUserQuery } from 'src/generated/graphql';
 import Actions from '../Actions/Actions';
 import MoreOptions from './components/MoreOptions';
-import Replies from './components/Replies';
 import { Body, Header, UserWrapper, Wrapper } from './style';
 
 type TweetProps = {
@@ -67,7 +62,7 @@ const Tweet: FC<TweetProps> = ({
 							<Link to={`/profile/${userData?.getUser.user.username}`}>
 								<h3>{userData?.getUser.user.name}</h3>
 							</Link>
-							<MoreOptions id={id} tweet={tweet} tweetImage={tweetImage} />
+							<MoreOptions tweetId={id} tweet={tweet} tweetImage={tweetImage} />
 						</Header>
 						<Body>
 							<span>{tweet}</span>
@@ -89,6 +84,7 @@ const Tweet: FC<TweetProps> = ({
 					tweetId={id}
 					creatorName={userData?.getUser.user.name}
 					avatar={userData.getUser.user.avatarUrl}
+					creatorUsername={userData?.getUser.user.username}
 				/>
 			)}
 		</>

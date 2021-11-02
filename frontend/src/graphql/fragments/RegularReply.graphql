@@ -1,0 +1,7 @@
+fragment RegularReply on Replies {
+	creatorId
+	id
+	points
+	reply
+	tweetId
+}

@@ -130,6 +130,15 @@ const main = async () => {
     socket.on('addTweetReply', (data: any) => {
       io.sockets.emit('addTweetReply', data);
     });
+
+    socket.on('upReply', (data: any) => {
+      io.sockets.emit('upReply', data);
+    });
+
+    socket.on('deleteReply', (data: any) => {
+      console.log(data);
+      io.sockets.emit('deleteReply', data);
+    });
   });
 };
 

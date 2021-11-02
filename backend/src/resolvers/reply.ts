@@ -53,12 +53,17 @@ export class RepliesResolver {
       if (req.session.userId !== reply?.creatorId)
         throw new Error('Not authorized');
 
+      if (!reply) throw new Error('Reply not found');
+
       await reply?.remove();
+
       return true;
     } catch (error) {
       console.log(error);
       throw new Error('Reply not found');
     }
+
+    return false;
   }
 
   @Query(() => [Replies])
@@ -100,7 +105,7 @@ export class RepliesResolver {
         );
       });
 
-      return true;
+      return false;
     } else if (!upReply) {
       // has never voted before
       await getConnection().transaction(async tm => {
@@ -122,6 +127,6 @@ export class RepliesResolver {
       return true;
     }
 
-    return false;
+    throw new Error('Something went wrong');
   }
 }

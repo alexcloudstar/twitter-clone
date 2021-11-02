@@ -1,5 +1,5 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { socket } from 'src/config/socket';
 import { Tweet, useUpVoteTweetMutation } from 'src/generated/graphql';
 import { ActionWrapper } from './style';

@@ -126,11 +126,11 @@ export class TweetResolver {
     throw new Error('Something went wrong');
   }
 
-  @Mutation(() => [Tweet] || Boolean)
+  @Mutation(() => Boolean)
   async deleteTweet(
     @Arg('tweetId', () => Int) tweetId: number,
     @Ctx() { req }: MyContext
-  ): Promise<Tweet[] | Boolean> {
+  ): Promise<Boolean> {
     const tweet = await Tweet.findOne(tweetId);
 
     try {
@@ -141,7 +141,7 @@ export class TweetResolver {
 
       await tweet?.remove();
 
-      return await Tweet.find();
+      return true;
     } catch (error) {
       console.log(error);
       return false;

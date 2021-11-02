@@ -24,14 +24,16 @@ const Tweets: FC = () => {
 	}, [tweets]);
 
 	useEffect(() => {
-		socket.on('deleteTweet', (tweets) => {
-			setTweets(tweets.tweets);
+		socket.on('deleteTweet', ({ tweetId }) => {
+			const newTweets = tweets.filter((tweet) => tweet.id !== tweetId);
+
+			setTweets(newTweets);
 		});
 
 		return () => {
 			socket.off('deleteTweet');
 		};
-	}, []);
+	}, [tweets]);
 
 	useEffect(() => {
 		socket.on('editTweet', (tweets) => {
