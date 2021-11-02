@@ -21,6 +21,7 @@ export class StoryResolver {
           creatorId: req.session.userId,
           creatorUsername: creator.username,
         }).save();
+
         return story;
       }
     } catch (error) {
