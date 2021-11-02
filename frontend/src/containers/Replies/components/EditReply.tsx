@@ -1,6 +1,9 @@
 import { SnackBar, StyledButton } from 'components/globals';
-import { EditFormWrapper } from 'containers/Stories/components/EditForm/style';
-import { StyledTextField } from 'containers/Tweets/components/Tweet/components/EditForm/style';
+
+import {
+	StyledTextField,
+	EditFormWrapper
+} from 'containers/Tweets/components/Tweet/components/EditForm/style';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { socket } from 'src/config/socket';
@@ -43,7 +46,7 @@ const EditForm: FC<EditTweetProps> = ({ replyId, handleClose, reply }) => {
 				variables: { replyId, newReplyValue }
 			});
 
-			socket.emit('editTweet', { tweets: editedReply.data.editReply });
+			socket.emit('editReply', { replies: editedReply.data.editReply });
 
 			handleClose();
 			setSnackBarProps({
@@ -77,7 +80,7 @@ const EditForm: FC<EditTweetProps> = ({ replyId, handleClose, reply }) => {
 					Submit Changes
 				</StyledButton>
 			</EditFormWrapper>
-
+			{/* TODO: Fix this (now is rendering in the Modal Form) */}
 			<SnackBar
 				snackBarProps={snackBarProps}
 				setSnackBarProps={setSnackBarProps}

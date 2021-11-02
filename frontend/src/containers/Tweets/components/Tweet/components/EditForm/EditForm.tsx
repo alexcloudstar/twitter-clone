@@ -47,10 +47,6 @@ const EditForm: FC<EditTweetProps> = ({
 		newTweetImage
 	}) => {
 		try {
-			console.log(tweetId);
-			console.log(newTweetValue);
-			console.log(newTweetImage);
-
 			const editedTweet = await editTweet({
 				variables: { tweetId, newTweetValue, newTweetImage }
 			});

@@ -12,10 +12,9 @@ import {
 import React, { FC, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { socket } from 'src/config/socket';
-import { Replies, User } from 'src/generated/graphql';
+import { Replies, Tweet, User } from 'src/generated/graphql';
 
 type ReplyProps = {
-	tweetId: User['id'];
 	creatorName: User['name'];
 	creatorId: User['id'];
 	avatar: User['avatarUrl'];
@@ -27,7 +26,6 @@ type ReplyProps = {
 const Reply: FC<ReplyProps> = ({
 	avatar,
 	creatorName,
-	tweetId,
 	creatorId,
 	replyId,
 	reply,

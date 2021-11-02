@@ -1,10 +1,10 @@
 import Reply from './components/Reply';
 import React, { FC, useEffect, useState } from 'react';
 import { socket } from 'src/config/socket';
-import { useGetTweetRepliesQuery, User } from 'src/generated/graphql';
+import { Tweet, useGetTweetRepliesQuery, User } from 'src/generated/graphql';
 
 type RepliesProps = {
-	tweetId: User['id'];
+	tweetId: Tweet['id'];
 	creatorName: User['name'];
 	creatorUsername: User['username'];
 	avatar: User['avatarUrl'];
@@ -64,7 +64,6 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 					replyId={id}
 					points={points}
 					reply={reply}
-					tweetId={tweetId}
 					avatar={avatar}
 					creatorId={creatorId}
 					creatorName={creatorName}
