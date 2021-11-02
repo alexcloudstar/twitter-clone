@@ -1,6 +1,5 @@
 import { Grid } from '@mui/material';
 import { UserAvatar } from 'components/globals';
-
 import { Actions } from 'containers/Tweets/components';
 import MoreOptions from 'containers/Tweets/components/Tweet/components/MoreOptions';
 import {
@@ -12,7 +11,7 @@ import {
 import React, { FC, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { socket } from 'src/config/socket';
-import { Replies, Tweet, User } from 'src/generated/graphql';
+import { Replies, User } from 'src/generated/graphql';
 
 type ReplyProps = {
 	creatorName: User['name'];
