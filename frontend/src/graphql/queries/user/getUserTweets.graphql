@@ -1,0 +1,7 @@
+query GetUserTweets($username: String!) {
+	getUserTweets(username: $username) {
+		id
+		tweet
+		tweetImage
+	}
+}

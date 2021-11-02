@@ -1,4 +1,5 @@
 import { Layout } from 'components/globals';
+import { NotFound } from 'components/routes';
 import React, { FC } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useGetUserQuery } from 'src/generated/graphql';
@@ -11,11 +12,13 @@ import { ProfileProps } from './types';
 const Profile: FC<ProfileProps> = () => {
 	const match: { params: { username: string } } = useRouteMatch();
 
-	const { data, loading } = useGetUserQuery({
+	const { data, loading, error } = useGetUserQuery({
 		variables: { username: match.params.username }
 	});
 
 	if (loading) return <div>Loading...</div>;
+
+	if (error) return <NotFound />;
 
 	const formatedJoined = formatBirthday(+data.getUser.user.createdAt);
 
@@ -25,7 +28,7 @@ const Profile: FC<ProfileProps> = () => {
 				<StyledGrid item md={4}>
 					<Header {...data.getUser.user} />
 					<Body joined={formatedJoined} {...data.getUser.user} />
-					<Tabs />
+					<Tabs username={data.getUser.user.username} />
 				</StyledGrid>
 			</Layout>
 		</ProfileWrapper>

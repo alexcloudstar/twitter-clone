@@ -8,25 +8,23 @@ import { User } from '../entities/User';
 
 @Resolver(Replies)
 export class RepliesResolver {
-  @Mutation(() => Boolean)
+  @Mutation(() => Replies || Boolean)
   async replyToTweet(
     @Arg('tweetId', () => Int) tweetId: number,
     @Arg('reply', () => String) reply: string,
     @Ctx() { req }: MyContext
-  ): Promise<Boolean> {
+  ): Promise<Replies | Boolean> {
     const tweet = await Tweet.findOne(tweetId);
     const creator = await User.findOne(req.session.userId);
 
     try {
       if (creator) {
-        await Replies.create({
+        return await Replies.create({
           creatorId: creator?.id,
           tweetId,
           reply,
           tweet,
         }).save();
-
-        return true;
       }
       throw new Error();
     } catch (error) {
@@ -55,12 +53,17 @@ export class RepliesResolver {
       if (req.session.userId !== reply?.creatorId)
         throw new Error('Not authorized');
 
+      if (!reply) throw new Error('Reply not found');
+
       await reply?.remove();
+
       return true;
     } catch (error) {
       console.log(error);
       throw new Error('Reply not found');
     }
+
+    return false;
   }
 
   @Query(() => [Replies])
@@ -102,7 +105,7 @@ export class RepliesResolver {
         );
       });
 
-      return true;
+      return false;
     } else if (!upReply) {
       // has never voted before
       await getConnection().transaction(async tm => {
@@ -124,6 +127,39 @@ export class RepliesResolver {
       return true;
     }
 
-    return false;
+    throw new Error('Something went wrong');
+  }
+
+  @Mutation(() => [Replies])
+  async editReply(
+    @Arg('replyId', () => Int) replyId: number,
+    @Arg('newReplyValue', () => String) newReplyValue: string,
+    @Ctx() { req }: MyContext
+  ): Promise<Replies[]> {
+    let selectedReply;
+
+    try {
+      selectedReply = await Replies.findOne(replyId);
+
+      if (!selectedReply) throw new Error('Reply not found');
+
+      if (selectedReply.creatorId !== req.session.userId) {
+        throw new Error('You are not allowed to edit this tweet');
+      }
+
+      await getConnection()
+        .createQueryBuilder()
+        .update(Replies)
+        .set({
+          reply: newReplyValue,
+        })
+        .where('id = :id', { id: replyId })
+        .returning('*')
+        .execute();
+
+      return await Replies.find();
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }

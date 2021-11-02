@@ -1,17 +1,33 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Menu, MenuItem } from '@mui/material';
 import { Modal, SnackBar } from 'components/globals';
-import React, { FC, useRef, useState } from 'react';
-import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
+import EditReply from 'containers/Replies/components/EditReply';
+import React, { FC, useState } from 'react';
+import { socket } from 'src/config/socket';
+import {
+	Replies,
+	Tweet,
+	useDeleteReplyMutation,
+	useDeleteTweetMutation
+} from 'src/generated/graphql';
 import { EditForm } from './EditForm';
 import { MoreOptionsWrapper } from './style';
 
 type MoreOptionsProps = {
 	tweet?: Tweet['tweet'];
 	tweetImage?: Tweet['tweetImage'];
-} & Pick<Tweet, 'id'>;
+	tweetId?: Tweet['id'];
+	replyId?: Replies['id'];
+	reply?: Replies['reply'];
+};
 
-const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
+const MoreOptions: FC<MoreOptionsProps> = ({
+	tweetId,
+	tweet,
+	tweetImage,
+	replyId,
+	reply
+}) => {
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
 		message: null,
@@ -21,7 +37,6 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 	const handleOpenEditModal = () => setOpenEditModal(true);
 	const handleCloseEditModal = () => setOpenEditModal(false);
 
-	const modalRef = useRef(null);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -32,13 +47,36 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 	};
 
 	const [deleteTweet] = useDeleteTweetMutation();
+	const [deleteReply] = useDeleteReplyMutation();
 
-	const onDeleteTweet = () => {
+	const onDeleteTweet = async () => {
 		try {
-			deleteTweet({ variables: { tweetId: id } });
+			await deleteTweet({ variables: { tweetId: tweetId } });
+
+			socket.emit('deleteTweet', { tweetId });
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Tweet deleted successfully 🎉',
+				variant: 'success'
+			});
+		} catch (error) {
+			console.log(error);
+			setSnackBarProps({
+				isOpen: true,
+				message: 'Oops, there was an error 😢',
+				variant: 'error'
+			});
+		}
+	};
+
+	const onDeleteReply = async () => {
+		try {
+			await deleteReply({ variables: { replyId: replyId } });
+
+			socket.emit('deleteReply', { replyId });
+			setSnackBarProps({
+				isOpen: true,
+				message: 'Reply deleted successfully 🎉',
 				variant: 'success'
 			});
 		} catch (error) {
@@ -82,18 +120,30 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 					horizontal: 'left'
 				}}
 			>
-				<MenuItem onClick={onDeleteTweet}>Delete Tweet</MenuItem>
-				<MenuItem onClick={handleOpenEditModal}>Edit Tweet</MenuItem>
+				<MenuItem onClick={tweet ? onDeleteTweet : onDeleteReply}>
+					Delete {tweet ? 'Tweet' : 'Reply'}
+				</MenuItem>
+				<MenuItem onClick={handleOpenEditModal}>
+					Edit {tweet ? 'Tweet' : 'Reply'}
+				</MenuItem>
 				<MenuItem onClick={handleClose}>Action 3</MenuItem>
 			</Menu>
 
 			<Modal open={openEditModal} onClose={handleCloseEditModal}>
-				<EditForm
-					tweetId={id}
-					tweet={tweet}
-					tweetImage={tweetImage}
-					handleClose={handleCloseEditModal}
-				/>
+				{reply ? (
+					<EditReply
+						replyId={replyId}
+						reply={reply}
+						handleClose={handleCloseEditModal}
+					/>
+				) : (
+					<EditForm
+						tweetId={tweetId}
+						tweet={tweet}
+						tweetImage={tweetImage}
+						handleClose={handleCloseEditModal}
+					/>
+				)}
 			</Modal>
 		</>
 	);

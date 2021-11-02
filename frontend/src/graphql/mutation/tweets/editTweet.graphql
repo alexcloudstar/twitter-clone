@@ -8,7 +8,6 @@ mutation EditTweet(
 		newTweetValue: $newTweetValue
 		newTweetImage: $newTweetImage
 	) {
-		tweet
-		tweetImage
+		...RegularTweet
 	}
 }

@@ -1,6 +1,7 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Modal, SnackBar } from 'components/globals';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
+import { socket } from 'src/config/socket';
 import {
 	Story as StoryType,
 	useGetAllStoriesQuery
@@ -15,6 +16,7 @@ const Stories: FC = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+	const [stories, setStories] = useState([]);
 
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
@@ -24,6 +26,20 @@ const Stories: FC = () => {
 
 	const { data, loading } = useGetAllStoriesQuery();
 
+	useEffect(() => {
+		setStories(data?.getStories);
+	}, [data]);
+
+	useEffect(() => {
+		socket.on('addStory', (story) => {
+			setStories([...stories, story.story]);
+		});
+
+		return () => {
+			socket.off('addStory');
+		};
+	}, [stories]);
+
 	if (loading) return <div>Loading...</div>;
 
 	return (
@@ -32,7 +48,7 @@ const Stories: FC = () => {
 				<AddStoryWrapper onClick={handleOpen}>
 					<AddCircleIcon />
 				</AddStoryWrapper>
-				{data.getStories.map((story: StoryType) => {
+				{stories?.map((story: StoryType) => {
 					const borderColor = randomColor();
 					return (
 						<Story

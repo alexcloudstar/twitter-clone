@@ -52,6 +52,7 @@ const webpackConfig = (env) => ({
 			'process.env.NAME': JSON.stringify(require('./package.json').name),
 			'process.env.VERSION': JSON.stringify(require('./package.json').version),
 			'process.env.API_URL': dotenv.config().parsed.API_URL,
+			'process.env.BE_URL': dotenv.config().parsed.BE_URL,
 			'process.env': JSON.stringify(dotenv.config().parsed)
 		}),
 		new ForkTsCheckerWebpackPlugin({
