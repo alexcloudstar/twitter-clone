@@ -1,19 +1,22 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import React, { FC, useState } from 'react';
+import { socket } from 'src/config/socket';
 import { Tweet, useUpVoteTweetMutation } from 'src/generated/graphql';
 import { ActionWrapper } from './style';
 
 const UpTweet: FC<Pick<Tweet, 'id' | 'points'>> = ({ id, points }) => {
-	const [localPoints, setLocalPoints] = useState(points);
-
 	const [upVoteTweet] = useUpVoteTweetMutation();
 
-	const onUpVote = () => {
+	const onUpVote = async () => {
 		try {
-			upVoteTweet({
+			const upTweetResponse = await upVoteTweet({
 				variables: { tweetId: id }
 			});
-			setLocalPoints(localPoints + 1);
+
+			socket.emit('upTweet', {
+				id,
+				upTweetResponse: upTweetResponse.data.upVoteTweet
+			});
 		} catch (error) {
 			console.log(error);
 		}
@@ -21,7 +24,7 @@ const UpTweet: FC<Pick<Tweet, 'id' | 'points'>> = ({ id, points }) => {
 
 	return (
 		<ActionWrapper>
-			<span>{localPoints}</span>
+			<span>{points}</span>
 			<FavoriteBorderIcon onClick={onUpVote} />
 		</ActionWrapper>
 	);
