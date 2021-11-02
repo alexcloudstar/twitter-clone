@@ -28,7 +28,9 @@ const Stories: FC = () => {
 
 	useEffect(() => {
 		setStories(data?.getStories);
+	}, [data]);
 
+	useEffect(() => {
 		socket.on('addStory', (story) => {
 			setStories([...stories, story.story]);
 		});
@@ -36,7 +38,7 @@ const Stories: FC = () => {
 		return () => {
 			socket.off('addStory');
 		};
-	}, [data, loading, stories]);
+	}, [stories]);
 
 	if (loading) return <div>Loading...</div>;
 

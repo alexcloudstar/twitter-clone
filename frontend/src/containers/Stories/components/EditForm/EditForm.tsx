@@ -32,14 +32,15 @@ const EditForm: FC<AddStoryProps> = ({
 		storyImageUrl
 	}) => {
 		try {
-			await createStory({ variables: { storyImageUrl } });
+			const story = await createStory({ variables: { storyImageUrl } });
 			handleClose();
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Story added successfully 🎉',
 				variant: 'success'
 			});
-			socket.emit('addStory', { story: data.createStory });
+
+			socket.emit('addStory', { story: story.data.createStory });
 		} catch (error) {
 			console.log(error);
 			handleClose();
