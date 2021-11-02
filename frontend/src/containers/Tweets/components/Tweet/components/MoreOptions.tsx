@@ -2,6 +2,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Menu, MenuItem } from '@mui/material';
 import { Modal, SnackBar } from 'components/globals';
 import React, { FC, useRef, useState } from 'react';
+import { socket } from 'src/config/socket';
 import { Tweet, useDeleteTweetMutation } from 'src/generated/graphql';
 import { EditForm } from './EditForm';
 import { MoreOptionsWrapper } from './style';
@@ -21,7 +22,6 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 	const handleOpenEditModal = () => setOpenEditModal(true);
 	const handleCloseEditModal = () => setOpenEditModal(false);
 
-	const modalRef = useRef(null);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -33,9 +33,11 @@ const MoreOptions: FC<MoreOptionsProps> = ({ id, tweet, tweetImage }) => {
 
 	const [deleteTweet] = useDeleteTweetMutation();
 
-	const onDeleteTweet = () => {
+	const onDeleteTweet = async () => {
 		try {
-			deleteTweet({ variables: { tweetId: id } });
+			const tweet = await deleteTweet({ variables: { tweetId: id } });
+
+			socket.emit('deleteTweet', { tweets: tweet.data.deleteTweet });
 			setSnackBarProps({
 				isOpen: true,
 				message: 'Tweet deleted successfully 🎉',

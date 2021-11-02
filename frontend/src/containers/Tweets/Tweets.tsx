@@ -1,17 +1,54 @@
-import { TweetsWrapper } from './style';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { socket } from 'src/config/socket';
 import { useGetTweetsQuery } from 'src/generated/graphql';
 import { Tweet } from './components';
+import { TweetsWrapper } from './style';
 
 const Tweets: FC = () => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const [tweets, setTweets] = useState<any[]>();
 	const { data, loading, error } = useGetTweetsQuery();
+
+	useEffect(() => {
+		setTweets(data?.getTweets);
+	}, [data]);
+
+	useEffect(() => {
+		socket.on('addTweet', (tweet) => {
+			setTweets([...tweets, tweet.tweet]);
+		});
+
+		return () => {
+			socket.off('addTweet');
+		};
+	}, [tweets]);
+
+	useEffect(() => {
+		socket.on('deleteTweet', (tweets) => {
+			setTweets(tweets.tweets);
+		});
+
+		return () => {
+			socket.off('deleteTweet');
+		};
+	}, []);
+
+	useEffect(() => {
+		socket.on('editTweet', (tweets) => {
+			setTweets(tweets.tweets);
+		});
+
+		return () => {
+			socket.off('editTweet');
+		};
+	}, [tweets]);
 
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error...</div>;
 
 	return (
 		<TweetsWrapper>
-			{data.getTweets.map(
+			{tweets?.map(
 				({
 					id,
 					createdAt,

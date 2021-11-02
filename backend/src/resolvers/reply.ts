@@ -8,25 +8,23 @@ import { User } from '../entities/User';
 
 @Resolver(Replies)
 export class RepliesResolver {
-  @Mutation(() => Boolean)
+  @Mutation(() => Replies || Boolean)
   async replyToTweet(
     @Arg('tweetId', () => Int) tweetId: number,
     @Arg('reply', () => String) reply: string,
     @Ctx() { req }: MyContext
-  ): Promise<Boolean> {
+  ): Promise<Replies | Boolean> {
     const tweet = await Tweet.findOne(tweetId);
     const creator = await User.findOne(req.session.userId);
 
     try {
       if (creator) {
-        await Replies.create({
+        return await Replies.create({
           creatorId: creator?.id,
           tweetId,
           reply,
           tweet,
         }).save();
-
-        return true;
       }
       throw new Error();
     } catch (error) {

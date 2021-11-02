@@ -107,10 +107,28 @@ const main = async () => {
 
   // eslint-disable @typescript-eslint/no-explicit-any
   io.on('connection', (socket: any) => {
-    console.log('connected');
     socket.on('addStory', (data: any) => {
-      console.log(data);
       io.sockets.emit('addStory', data);
+    });
+
+    socket.on('addTweet', (data: any) => {
+      io.sockets.emit('addTweet', data);
+    });
+
+    socket.on('deleteTweet', (data: any) => {
+      io.sockets.emit('deleteTweet', data);
+    });
+
+    socket.on('editTweet', (data: any) => {
+      io.sockets.emit('editTweet', data);
+    });
+
+    socket.on('upTweet', (data: any) => {
+      io.sockets.emit('editTweet', data);
+    });
+
+    socket.on('addTweetReply', (data: any) => {
+      io.sockets.emit('addTweetReply', data);
     });
   });
 };

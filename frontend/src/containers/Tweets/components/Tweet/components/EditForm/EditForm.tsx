@@ -1,6 +1,7 @@
 import { SnackBar, StyledButton } from 'components/globals';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { socket } from 'src/config/socket';
 import { Tweet, useEditTweetMutation } from 'src/generated/graphql';
 import { EditFormWrapper, StyledTextField } from './style';
 
@@ -46,17 +47,16 @@ const EditForm: FC<EditTweetProps> = ({
 		newTweetImage
 	}) => {
 		try {
-			if (errors) {
-				handleClose();
-				setSnackBarProps({
-					isOpen: true,
-					message: 'Tweet was not updated successfully 😢',
-					variant: 'error'
-				});
-				return;
-			}
+			console.log(tweetId);
+			console.log(newTweetValue);
+			console.log(newTweetImage);
 
-			editTweet({ variables: { tweetId, newTweetValue, newTweetImage } });
+			const editedTweet = await editTweet({
+				variables: { tweetId, newTweetValue, newTweetImage }
+			});
+
+			socket.emit('editTweet', { tweets: editedTweet.data.editTweet });
+
 			handleClose();
 			setSnackBarProps({
 				isOpen: true,

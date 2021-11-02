@@ -2,6 +2,7 @@ import { StyledButton } from 'components/globals';
 import { ErrorComponent } from 'components/globals/ErrorComponent';
 import React, { FC, useCallback, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { socket } from 'src/config/socket';
 import { useReplyToTweetMutation } from 'src/generated/graphql';
 import { CharacterCount, CreateReplyForm, CreateReplyWrapper } from './style';
 import { CreateReplyProps, CreateReplyState } from './types';
@@ -20,12 +21,14 @@ const CreateReply: FC<CreateReplyProps> = ({ tweetId, handleCloseModal }) => {
 
 	const onSubmit: SubmitHandler<CreateReplyState> = async (data) => {
 		try {
-			await createReply({
+			const reply = await createReply({
 				variables: {
 					tweetId,
 					reply: data.reply
 				}
 			});
+
+			socket.emit('addTweetReply', { reply: reply.data.replyToTweet });
 		} catch (error) {
 			console.log(error);
 		}

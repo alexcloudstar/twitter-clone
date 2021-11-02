@@ -1,7 +1,8 @@
 import { Grid } from '@mui/material';
 import { UserAvatar } from 'components/globals';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { socket } from 'src/config/socket';
 import { useGetTweetRepliesQuery, User } from 'src/generated/graphql';
 import { Actions } from '../..';
 import { Body, Header, UserWrapper, Wrapper } from '../style';
@@ -14,15 +15,31 @@ type RepliesProps = {
 };
 
 const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const [replies, setReplies] = useState<any>();
 	const { data, loading } = useGetTweetRepliesQuery({
 		variables: { tweetId }
 	});
+
+	useEffect(() => {
+		setReplies(data?.getTweetReplies);
+	}, [data?.getTweetReplies]);
+
+	useEffect(() => {
+		socket.on('addTweetReply', (reply) => {
+			setReplies([...replies, reply.reply]);
+		});
+
+		return () => {
+			socket.off('addTweetReply');
+		};
+	}, [replies]);
 
 	if (loading) return <div>Loading...</div>;
 
 	return (
 		<>
-			{data.getTweetReplies.map(({ creatorId, id, points, reply, tweetId }) => (
+			{replies?.map(({ creatorId, id, points, reply, tweetId }) => (
 				<Wrapper key={id}>
 					<Grid container>
 						<Grid item md={2}>
