@@ -33,14 +33,14 @@ export class StoryResolver {
 
   @Mutation(() => Boolean)
   async deleteStory(
-    @Arg('storyId', () => String) storyId: string
-    // @Ctx() { req }: MyContext
+    @Arg('storyId', () => String) storyId: string,
+    @Ctx() { req }: MyContext
   ): Promise<boolean> {
     const story = await Story.findOne(storyId);
 
     try {
-      // if (story?.creatorId !== req.session.userId)
-      //   throw new Error('Not authorized');
+      if (story?.creatorId !== req.session.userId)
+        throw new Error('Not authorized');
 
       if (!story) throw new Error('Story not found');
 
