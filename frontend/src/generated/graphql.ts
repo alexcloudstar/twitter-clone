@@ -36,16 +36,17 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createStory: Scalars['Boolean'];
+  createStory: Story;
   createTweet: Tweet;
   deleteReply: Scalars['Boolean'];
   deleteStory: Scalars['Boolean'];
   deleteTweet: Scalars['Boolean'];
   editProfile: User;
-  editTweet: Tweet;
+  editReply: Array<Replies>;
+  editTweet: Array<Tweet>;
   login: UserResponse;
   register: UserResponse;
-  replyToTweet: Scalars['Boolean'];
+  replyToTweet: Replies;
   upVoteReply: Scalars['Boolean'];
   upVoteTweet: Scalars['Boolean'];
 };
@@ -79,6 +80,12 @@ export type MutationDeleteTweetArgs = {
 export type MutationEditProfileArgs = {
   options: EditUserProfile;
   userId: Scalars['Int'];
+};
+
+
+export type MutationEditReplyArgs = {
+  newReplyValue: Scalars['String'];
+  replyId: Scalars['Int'];
 };
 
 
@@ -241,6 +248,8 @@ export type UsersResponse = {
 
 export type RegularEditProfileFragment = { __typename?: 'User', id: number, name: string, website: string, location: string, email: string, coverPhotoUrl: string, birthday: any, bio: string, avatarUrl: string };
 
+export type RegularReplyFragment = { __typename?: 'Replies', creatorId: number, id: number, points: number, reply: string, tweetId: number };
+
 export type RegularTweetFragment = { __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string, avatarUrl: string };
@@ -250,7 +259,7 @@ export type CreateStoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateStoryMutation = { __typename?: 'Mutation', createStory: boolean };
+export type CreateStoryMutation = { __typename?: 'Mutation', createStory: { __typename?: 'Story', createdAt: string, creatorId: number, creatorUsername: string, id: number, storyUrl: string, updatedAt: string } };
 
 export type EditProfileMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -284,13 +293,28 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', username: string, id: number, email: string, createdAt: string, updatedAt: string } | null | undefined } };
 
+export type DeleteReplyMutationVariables = Exact<{
+  replyId: Scalars['Int'];
+}>;
+
+
+export type DeleteReplyMutation = { __typename?: 'Mutation', deleteReply: boolean };
+
+export type EditReplyMutationVariables = Exact<{
+  replyId: Scalars['Int'];
+  newReplyValue: Scalars['String'];
+}>;
+
+
+export type EditReplyMutation = { __typename?: 'Mutation', editReply: Array<{ __typename?: 'Replies', creatorId: number, id: number, points: number, reply: string, tweetId: number }> };
+
 export type ReplyToTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
   reply: Scalars['String'];
 }>;
 
 
-export type ReplyToTweetMutation = { __typename?: 'Mutation', replyToTweet: boolean };
+export type ReplyToTweetMutation = { __typename?: 'Mutation', replyToTweet: { __typename?: 'Replies', id: number, reply: string, points: number } };
 
 export type UpVoteReplyMutationVariables = Exact<{
   replyId: Scalars['Int'];
@@ -320,7 +344,7 @@ export type EditTweetMutationVariables = Exact<{
 }>;
 
 
-export type EditTweetMutation = { __typename?: 'Mutation', editTweet: { __typename?: 'Tweet', tweet: string, tweetImage: string } };
+export type EditTweetMutation = { __typename?: 'Mutation', editTweet: Array<{ __typename?: 'Tweet', id: number, tweet: string, points: number, createdAt: string, creatorId: number, updatedAt: string, voteStatus?: number | null | undefined, creatorUsername: string, creatorName: string, tweetImage: string }> };
 
 export type UpVoteTweetMutationVariables = Exact<{
   tweetId: Scalars['Int'];
@@ -402,6 +426,15 @@ export const RegularEditProfileFragmentDoc = gql`
   avatarUrl
 }
     `;
+export const RegularReplyFragmentDoc = gql`
+    fragment RegularReply on Replies {
+  creatorId
+  id
+  points
+  reply
+  tweetId
+}
+    `;
 export const RegularTweetFragmentDoc = gql`
     fragment RegularTweet on Tweet {
   id
@@ -425,7 +458,14 @@ export const RegularUserFragmentDoc = gql`
     `;
 export const CreateStoryDocument = gql`
     mutation CreateStory($storyImageUrl: String!) {
-  createStory(storyImageUrl: $storyImageUrl)
+  createStory(storyImageUrl: $storyImageUrl) {
+    createdAt
+    creatorId
+    creatorUsername
+    id
+    storyUrl
+    updatedAt
+  }
 }
     `;
 export type CreateStoryMutationFn = Apollo.MutationFunction<CreateStoryMutation, CreateStoryMutationVariables>;
@@ -628,9 +668,104 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const DeleteReplyDocument = gql`
+    mutation DeleteReply($replyId: Int!) {
+  deleteReply(replyId: $replyId)
+}
+    `;
+export type DeleteReplyMutationFn = Apollo.MutationFunction<DeleteReplyMutation, DeleteReplyMutationVariables>;
+export type DeleteReplyProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<DeleteReplyMutation, DeleteReplyMutationVariables>
+    } & TChildProps;
+export function withDeleteReply<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteReplyMutation,
+  DeleteReplyMutationVariables,
+  DeleteReplyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteReplyMutation, DeleteReplyMutationVariables, DeleteReplyProps<TChildProps, TDataName>>(DeleteReplyDocument, {
+      alias: 'deleteReply',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteReplyMutation__
+ *
+ * To run a mutation, you first call `useDeleteReplyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteReplyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteReplyMutation, { data, loading, error }] = useDeleteReplyMutation({
+ *   variables: {
+ *      replyId: // value for 'replyId'
+ *   },
+ * });
+ */
+export function useDeleteReplyMutation(baseOptions?: Apollo.MutationHookOptions<DeleteReplyMutation, DeleteReplyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteReplyMutation, DeleteReplyMutationVariables>(DeleteReplyDocument, options);
+      }
+export type DeleteReplyMutationHookResult = ReturnType<typeof useDeleteReplyMutation>;
+export type DeleteReplyMutationResult = Apollo.MutationResult<DeleteReplyMutation>;
+export type DeleteReplyMutationOptions = Apollo.BaseMutationOptions<DeleteReplyMutation, DeleteReplyMutationVariables>;
+export const EditReplyDocument = gql`
+    mutation EditReply($replyId: Int!, $newReplyValue: String!) {
+  editReply(replyId: $replyId, newReplyValue: $newReplyValue) {
+    ...RegularReply
+  }
+}
+    ${RegularReplyFragmentDoc}`;
+export type EditReplyMutationFn = Apollo.MutationFunction<EditReplyMutation, EditReplyMutationVariables>;
+export type EditReplyProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<EditReplyMutation, EditReplyMutationVariables>
+    } & TChildProps;
+export function withEditReply<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditReplyMutation,
+  EditReplyMutationVariables,
+  EditReplyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditReplyMutation, EditReplyMutationVariables, EditReplyProps<TChildProps, TDataName>>(EditReplyDocument, {
+      alias: 'editReply',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditReplyMutation__
+ *
+ * To run a mutation, you first call `useEditReplyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditReplyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editReplyMutation, { data, loading, error }] = useEditReplyMutation({
+ *   variables: {
+ *      replyId: // value for 'replyId'
+ *      newReplyValue: // value for 'newReplyValue'
+ *   },
+ * });
+ */
+export function useEditReplyMutation(baseOptions?: Apollo.MutationHookOptions<EditReplyMutation, EditReplyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditReplyMutation, EditReplyMutationVariables>(EditReplyDocument, options);
+      }
+export type EditReplyMutationHookResult = ReturnType<typeof useEditReplyMutation>;
+export type EditReplyMutationResult = Apollo.MutationResult<EditReplyMutation>;
+export type EditReplyMutationOptions = Apollo.BaseMutationOptions<EditReplyMutation, EditReplyMutationVariables>;
 export const ReplyToTweetDocument = gql`
     mutation replyToTweet($tweetId: Int!, $reply: String!) {
-  replyToTweet(tweetId: $tweetId, reply: $reply)
+  replyToTweet(tweetId: $tweetId, reply: $reply) {
+    id
+    reply
+    points
+  }
 }
     `;
 export type ReplyToTweetMutationFn = Apollo.MutationFunction<ReplyToTweetMutation, ReplyToTweetMutationVariables>;
@@ -814,11 +949,10 @@ export const EditTweetDocument = gql`
     newTweetValue: $newTweetValue
     newTweetImage: $newTweetImage
   ) {
-    tweet
-    tweetImage
+    ...RegularTweet
   }
 }
-    `;
+    ${RegularTweetFragmentDoc}`;
 export type EditTweetMutationFn = Apollo.MutationFunction<EditTweetMutation, EditTweetMutationVariables>;
 export type EditTweetProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: Apollo.MutationFunction<EditTweetMutation, EditTweetMutationVariables>

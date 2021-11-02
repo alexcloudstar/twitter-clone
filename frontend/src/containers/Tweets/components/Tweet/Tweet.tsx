@@ -1,16 +1,12 @@
 import { Grid } from '@mui/material';
 import { UserAvatar } from 'components/globals';
-import React, { FC } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import _1 from 'src/assets/img/stories_avatars/_1.png';
-import {
-	Tweet,
-	useGetTweetQuery,
-	useGetUserQuery
-} from 'src/generated/graphql';
+import { Replies } from 'containers/Replies';
+import React, { FC, useLayoutEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { socket } from 'src/config/socket';
+import { Tweet, useGetUserQuery } from 'src/generated/graphql';
 import Actions from '../Actions/Actions';
 import MoreOptions from './components/MoreOptions';
-import Replies from './components/Replies';
 import { Body, Header, UserWrapper, Wrapper } from './style';
 
 type TweetProps = {
@@ -29,18 +25,24 @@ const Tweet: FC<TweetProps> = ({
 	showActions,
 	showReplies
 }) => {
-	const match: { params: { id: string } } = useRouteMatch();
-
-	const { data, loading } = useGetTweetQuery({
-		variables: { tweetId: +match.params.id },
-		skip: !!id
-	});
+	const [tweetPoints, setTweetPoints] = useState(points);
 
 	const { data: userData, loading: userLoading } = useGetUserQuery({
 		variables: { username: creatorUsername }
 	});
 
-	if (loading || userLoading) return <div>Loading...</div>;
+	useLayoutEffect(() => {
+		socket.on('upTweet', (data) => {
+			if (data.id !== id) return setTweetPoints(points);
+
+			const localPoints = data.upTweetResponse
+				? tweetPoints + 1
+				: tweetPoints - 1;
+			setTweetPoints(localPoints);
+		});
+	}, [id, points, tweetPoints]);
+
+	if (userLoading) return <div>Loading...</div>;
 
 	return (
 		<>
@@ -60,11 +62,7 @@ const Tweet: FC<TweetProps> = ({
 							<Link to={`/profile/${userData?.getUser.user.username}`}>
 								<h3>{userData?.getUser.user.name}</h3>
 							</Link>
-							<MoreOptions
-								id={id || data.getTweet.id}
-								tweet={tweet || data.getTweet.tweet}
-								tweetImage={tweetImage || data?.getTweet?.tweetImage}
-							/>
+							<MoreOptions tweetId={id} tweet={tweet} tweetImage={tweetImage} />
 						</Header>
 						<Body>
 							<span>{tweet}</span>
@@ -75,7 +73,9 @@ const Tweet: FC<TweetProps> = ({
 								/>
 							)}
 						</Body>
-						{showActions && <Actions id={id} points={points} isReply={false} />}
+						{showActions && (
+							<Actions id={id} points={tweetPoints} isReply={false} />
+						)}
 					</Grid>
 				</Grid>
 			</Wrapper>
@@ -84,6 +84,7 @@ const Tweet: FC<TweetProps> = ({
 					tweetId={id}
 					creatorName={userData?.getUser.user.name}
 					avatar={userData.getUser.user.avatarUrl}
+					creatorUsername={userData?.getUser.user.username}
 				/>
 			)}
 		</>

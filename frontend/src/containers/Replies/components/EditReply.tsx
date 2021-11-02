@@ -1,29 +1,26 @@
 import { SnackBar, StyledButton } from 'components/globals';
+
+import {
+	StyledTextField,
+	EditFormWrapper
+} from 'containers/Tweets/components/Tweet/components/EditForm/style';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { socket } from 'src/config/socket';
-import { Tweet, useEditTweetMutation } from 'src/generated/graphql';
-import { EditFormWrapper, StyledTextField } from './style';
+import { Replies, useEditReplyMutation } from 'src/generated/graphql';
 
 export type EditProfileState = {
-	newTweetValue: string;
-	newTweetImage: string;
+	newReplyValue: string;
 };
 
 type EditTweetProps = {
 	handleClose: () => void;
-	tweetId: Tweet['id'];
-	tweet?: Tweet['tweet'];
-	tweetImage?: Tweet['tweetImage'];
+	replyId: Replies['id'];
+	reply?: Replies['reply'];
 };
 
-const EditForm: FC<EditTweetProps> = ({
-	tweetId,
-	handleClose,
-	tweet,
-	tweetImage
-}) => {
-	const [editTweet] = useEditTweetMutation();
+const EditForm: FC<EditTweetProps> = ({ replyId, handleClose, reply }) => {
+	const [editReply] = useEditReplyMutation();
 
 	const [snackBarProps, setSnackBarProps] = useState({
 		isOpen: false,
@@ -37,21 +34,19 @@ const EditForm: FC<EditTweetProps> = ({
 		formState: { errors }
 	} = useForm<EditProfileState>({
 		defaultValues: {
-			newTweetValue: tweet,
-			newTweetImage: tweetImage
+			newReplyValue: reply
 		}
 	});
 
 	const onSubmit: SubmitHandler<EditProfileState> = async ({
-		newTweetValue,
-		newTweetImage
+		newReplyValue
 	}) => {
 		try {
-			const editedTweet = await editTweet({
-				variables: { tweetId, newTweetValue, newTweetImage }
+			const editedReply = await editReply({
+				variables: { replyId, newReplyValue }
 			});
 
-			socket.emit('editTweet', { tweets: editedTweet.data.editTweet });
+			socket.emit('editReply', { replies: editedReply.data.editReply });
 
 			handleClose();
 			setSnackBarProps({
@@ -73,19 +68,12 @@ const EditForm: FC<EditTweetProps> = ({
 	return (
 		<>
 			<EditFormWrapper onSubmit={handleSubmit(onSubmit)}>
-				<h3>Edit Tweet: {tweet}</h3>
+				<h3>Edit Reply: {reply}</h3>
 				<StyledTextField
 					id="outlined-basic"
 					variant="outlined"
-					label="Tweet"
-					{...register('newTweetValue')}
-				/>
-
-				<StyledTextField
-					id="outlined-basic"
-					variant="outlined"
-					label="Tweet Image"
-					{...register('newTweetImage')}
+					label="Reply"
+					{...register('newReplyValue')}
 				/>
 
 				<StyledButton variant="contained" type="submit">

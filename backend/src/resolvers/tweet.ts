@@ -26,11 +26,11 @@ export class TweetResolver {
 
     return selectedTweet;
   }
-  @Mutation(() => Tweet)
+  @Mutation(() => Tweet || Boolean)
   async createTweet(
     @Arg('options') options: TweetFields,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<Tweet | boolean> {
     const creator = await User.findOne(req.session.userId);
 
     return Tweet.create({
@@ -41,14 +41,14 @@ export class TweetResolver {
       creator: { ...creator },
     }).save();
   }
-  @Mutation(() => Tweet)
+  @Mutation(() => [Tweet])
   async editTweet(
     @Arg('tweetId', () => Int) tweetId: number,
     @Arg('newTweetValue', () => String) newTweetValue: string,
     @Arg('newTweetImage', () => String, { nullable: true })
     newTweetImage: string,
     @Ctx() { req }: MyContext
-  ): Promise<Tweet> {
+  ): Promise<Tweet[]> {
     let selectedTweet;
 
     try {
@@ -60,7 +60,7 @@ export class TweetResolver {
         throw new Error('You are not allowed to edit this tweet');
       }
 
-      const result = await getConnection()
+      await getConnection()
         .createQueryBuilder()
         .update(Tweet)
         .set({
@@ -71,7 +71,9 @@ export class TweetResolver {
         .returning('*')
         .execute();
 
-      return result.raw[0];
+      const tweets = await Tweet.find();
+
+      return tweets;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -100,7 +102,7 @@ export class TweetResolver {
         );
       });
 
-      return true;
+      return false;
     } else if (!upTweet) {
       // has never voted before
       await UpTweet.create({
@@ -118,11 +120,10 @@ export class TweetResolver {
           [realValue, tweetId]
         );
       });
-
       return true;
     }
 
-    return false;
+    throw new Error('Something went wrong');
   }
 
   @Mutation(() => Boolean)
@@ -136,7 +137,10 @@ export class TweetResolver {
       if (req.session.userId !== tweet?.creatorId)
         throw new Error('Not authorized');
 
+      if (!tweet) throw new Error('Tweet was not found');
+
       await tweet?.remove();
+
       return true;
     } catch (error) {
       console.log(error);

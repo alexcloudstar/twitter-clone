@@ -94,8 +94,54 @@ const main = async () => {
     cors: false,
   });
 
-  app.listen(parseInt(PORT), () => {
+  const server = app.listen(parseInt(PORT), () => {
     console.log(`Server started on http://localhost:${PORT}/graphql`);
+  });
+
+  const io = require('socket.io')(server, {
+    cors: {
+      origin: CORS_ORIGIN,
+      credentials: true,
+    },
+  });
+
+  // eslint-disable @typescript-eslint/no-explicit-any
+  io.on('connection', (socket: any) => {
+    socket.on('addStory', (data: any) => {
+      io.sockets.emit('addStory', data);
+    });
+
+    socket.on('addTweet', (data: any) => {
+      io.sockets.emit('addTweet', data);
+    });
+
+    socket.on('deleteTweet', (data: any) => {
+      io.sockets.emit('deleteTweet', data);
+    });
+
+    socket.on('editTweet', (data: any) => {
+      io.sockets.emit('editTweet', data);
+    });
+
+    socket.on('upTweet', (data: any) => {
+      io.sockets.emit('upTweet', data);
+    });
+
+    socket.on('addTweetReply', (data: any) => {
+      io.sockets.emit('addTweetReply', data);
+    });
+
+    socket.on('upReply', (data: any) => {
+      io.sockets.emit('upReply', data);
+    });
+
+    socket.on('deleteReply', (data: any) => {
+      io.sockets.emit('deleteReply', data);
+    });
+
+    socket.on('editReply', (data: any) => {
+      io.sockets.emit('editReply', data);
+    });
   });
 };
 

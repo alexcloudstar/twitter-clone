@@ -1,0 +1,5 @@
+mutation EditReply($replyId: Int!, $newReplyValue: String!) {
+	editReply(replyId: $replyId, newReplyValue: $newReplyValue) {
+		...RegularReply
+	}
+}
