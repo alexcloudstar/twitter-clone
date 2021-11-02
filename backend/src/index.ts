@@ -124,7 +124,7 @@ const main = async () => {
     });
 
     socket.on('upTweet', (data: any) => {
-      io.sockets.emit('editTweet', data);
+      io.sockets.emit('upTweet', data);
     });
 
     socket.on('addTweetReply', (data: any) => {

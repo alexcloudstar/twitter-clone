@@ -102,7 +102,7 @@ export class TweetResolver {
         );
       });
 
-      return true;
+      return false;
     } else if (!upTweet) {
       // has never voted before
       await UpTweet.create({
@@ -120,11 +120,10 @@ export class TweetResolver {
           [realValue, tweetId]
         );
       });
-
       return true;
     }
 
-    return false;
+    throw new Error('Something went wrong');
   }
 
   @Mutation(() => [Tweet] || Boolean)
