@@ -17,7 +17,8 @@ const EditForm: FC<UserDataProps> = ({
 	coverPhotoUrl,
 	email,
 	location,
-	handleClose
+	handleClose,
+	id
 }) => {
 	const formatedBirthday = formatBirthday(birthday);
 
@@ -48,18 +49,7 @@ const EditForm: FC<UserDataProps> = ({
 
 	const onSubmit: SubmitHandler<EditProfileState> = async (data) => {
 		try {
-			if (errors) {
-				handleClose();
-				setSnackBarProps({
-					isOpen: true,
-					message: 'Profile was not updated successfully 😢',
-					variant: 'error'
-				});
-
-				return;
-			}
-
-			editProfile({ variables: { userId: 1, ...data } });
+			editProfile({ variables: { userId: id, ...data } });
 			handleClose();
 			setSnackBarProps({
 				isOpen: true,
