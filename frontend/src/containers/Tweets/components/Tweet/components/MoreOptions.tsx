@@ -1,7 +1,8 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Menu, MenuItem } from '@mui/material';
 import { Modal, SnackBar } from 'components/globals';
-import React, { FC, useRef, useState } from 'react';
+import EditReply from 'containers/Replies/components/EditReply';
+import React, { FC, useState } from 'react';
 import { socket } from 'src/config/socket';
 import {
 	Replies,
@@ -129,12 +130,20 @@ const MoreOptions: FC<MoreOptionsProps> = ({
 			</Menu>
 
 			<Modal open={openEditModal} onClose={handleCloseEditModal}>
-				<EditForm
-					tweetId={tweetId}
-					tweet={tweet}
-					tweetImage={tweetImage}
-					handleClose={handleCloseEditModal}
-				/>
+				{reply ? (
+					<EditReply
+						replyId={replyId}
+						reply={reply}
+						handleClose={handleCloseEditModal}
+					/>
+				) : (
+					<EditForm
+						tweetId={tweetId}
+						tweet={tweet}
+						tweetImage={tweetImage}
+						handleClose={handleCloseEditModal}
+					/>
+				)}
 			</Modal>
 		</>
 	);

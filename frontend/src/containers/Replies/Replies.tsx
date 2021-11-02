@@ -44,6 +44,16 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 		};
 	}, [replies]);
 
+	useEffect(() => {
+		socket.on('editReply', ({ replies }) => {
+			setReplies(replies);
+		});
+
+		return () => {
+			socket.off('editReply');
+		};
+	}, []);
+
 	if (loading) return <div>Loading...</div>;
 
 	return (

@@ -129,4 +129,37 @@ export class RepliesResolver {
 
     throw new Error('Something went wrong');
   }
+
+  @Mutation(() => [Replies])
+  async editReply(
+    @Arg('replyId', () => Int) replyId: number,
+    @Arg('newReplyValue', () => String) newReplyValue: string,
+    @Ctx() { req }: MyContext
+  ): Promise<Replies[]> {
+    let selectedReply;
+
+    try {
+      selectedReply = await Replies.findOne(replyId);
+
+      if (!selectedReply) throw new Error('Reply not found');
+
+      if (selectedReply.creatorId !== req.session.userId) {
+        throw new Error('You are not allowed to edit this tweet');
+      }
+
+      await getConnection()
+        .createQueryBuilder()
+        .update(Replies)
+        .set({
+          reply: newReplyValue,
+        })
+        .where('id = :id', { id: replyId })
+        .returning('*')
+        .execute();
+
+      return await Replies.find();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }

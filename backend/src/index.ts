@@ -136,8 +136,11 @@ const main = async () => {
     });
 
     socket.on('deleteReply', (data: any) => {
-      console.log(data);
       io.sockets.emit('deleteReply', data);
+    });
+
+    socket.on('editReply', (data: any) => {
+      io.sockets.emit('editReply', data);
     });
   });
 };
