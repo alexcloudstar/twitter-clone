@@ -18,7 +18,7 @@ const Tweet: FC = () => {
 	return (
 		<TweetWrapper>
 			<Layout>
-				<Grid item md={4}>
+				<Grid item sm={12} md={4}>
 					<TweetComp
 						id={data.getTweet.id}
 						tweet={data.getTweet.tweet}

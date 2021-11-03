@@ -10,32 +10,29 @@ const RightSide: FC = () => {
 
 	if (loading) return <div>Loading...</div>;
 
+	const users = [...data.getAllUsers.users].sort((a, b) =>
+		a.createdAt > b.createdAt ? 1 : -1
+	);
+
 	return (
-		<StyledGrid item md={3}>
+		<StyledGrid item sm={12} md={3}>
 			<RightSideWrapper>
 				<Title>
 					Registered Users <PeopleAltIcon />
 				</Title>
-				{data.getAllUsers.users.map(
-					({ id, name, username, createdAt }, index) => (
-						<Fragment key={id}>
-							{name !== 'null' ? (
-								<Link to={`/profile/${username}`} key={id}>
-									<UserComponent>
-										<span>
-											{index + 1}. {name}
-										</span>
-										<span>
-											{format(new Date(+createdAt), 'LLLL, dd, yyyy')}
-										</span>
-									</UserComponent>
-								</Link>
-							) : (
-								<h5>No Registered Users</h5>
-							)}
-						</Fragment>
-					)
-				)}
+				{!users && <h5>No Registered Users</h5>}
+				{users.map(({ id, name, username, createdAt }, index) => (
+					<Fragment key={id}>
+						<Link to={`/profile/${username}`} key={id}>
+							<UserComponent>
+								<span>
+									{index + 1}. {name !== 'null' ? name : username}
+								</span>
+								<span>{format(new Date(+createdAt), 'LLLL, dd, yyyy')}</span>
+							</UserComponent>
+						</Link>
+					</Fragment>
+				))}
 			</RightSideWrapper>
 		</StyledGrid>
 	);

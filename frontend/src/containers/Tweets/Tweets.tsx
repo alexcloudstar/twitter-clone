@@ -48,8 +48,6 @@ const Tweets: FC = () => {
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error...</div>;
 
-	console.log(tweets);
-
 	return (
 		<TweetsWrapper>
 			{tweets?.map(

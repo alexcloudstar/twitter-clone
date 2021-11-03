@@ -1,6 +1,14 @@
 import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
+export const StyledGridContainer = styled(Grid)`
+	flex-direction: column !important;
+
+	@media (min-width: 767px) {
+		flex-direction: row !important;
+	}
+`;
+
 export const StyledGrid = styled(Grid)`
 	margin-top: 30px !important;
 `;

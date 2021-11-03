@@ -3,6 +3,11 @@ import styled from 'styled-components';
 export const StyledLinkWrapper = styled.aside`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+
+	@media (min-width: 767px) {
+		align-items: initial;
+	}
 
 	a {
 		margin-top: 20px;

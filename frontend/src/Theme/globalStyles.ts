@@ -12,12 +12,16 @@ body {
 html,
 body {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     background: linear-gradient(#15202B, #255878) no-repeat center center fixed;
 }
 
 body {
-    padding: 45px 90px;
+    padding: 45px 30px;
+
+    @media(min-width: 991px) {
+        padding: 45px 90px;
+    }
 }
 
 #root {

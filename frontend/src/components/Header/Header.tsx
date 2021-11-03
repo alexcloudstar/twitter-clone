@@ -23,17 +23,17 @@ const Header: FC = () => {
 	return (
 		<HeaderWrapper>
 			<Grid container spacing={3} justifyContent="center">
-				<Grid item md={2}>
+				<Grid item sm={12} md={2}>
 					<Link to="/home">
 						<Logo>
 							Twit<span>Gram.</span>
 						</Logo>
 					</Link>
 				</Grid>
-				<SearchBarGridStyled item md={4}>
+				<SearchBarGridStyled item sm={12} md={4}>
 					<Searchbar />
 				</SearchBarGridStyled>
-				<RightStyledGrid item md={3}>
+				<RightStyledGrid item sm={12} md={3}>
 					<UserShortcutWrapper>
 						<UserAvatar avatar={data?.me?.avatarUrl} />
 						<UsernameWrapper>

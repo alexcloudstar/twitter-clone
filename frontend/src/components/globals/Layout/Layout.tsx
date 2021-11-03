@@ -1,15 +1,18 @@
-import { Grid } from '@mui/material';
+import { Grid, Hidden } from '@mui/material';
 import React, { FC } from 'react';
 import LeftSide from './components/LeftSide';
 import RightSide from './components/RightSide';
+import { StyledGridContainer } from './style';
 
 const Layout: FC = ({ children }) => {
 	return (
-		<Grid container spacing={3} justifyContent="center">
+		<StyledGridContainer container spacing={3} justifyContent="center">
 			<LeftSide />
 			{children}
-			<RightSide />
-		</Grid>
+			<Hidden smDown>
+				<RightSide />
+			</Hidden>
+		</StyledGridContainer>
 	);
 };
 
