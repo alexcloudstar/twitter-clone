@@ -1,4 +1,5 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Tooltip } from '@mui/material';
 import React, { FC } from 'react';
 import { socket } from 'src/config/socket';
 import { Tweet, useUpVoteTweetMutation } from 'src/generated/graphql';
@@ -23,10 +24,12 @@ const UpTweet: FC<Pick<Tweet, 'id' | 'points'>> = ({ id, points }) => {
 	};
 
 	return (
-		<ActionWrapper>
-			<span>{points}</span>
-			<FavoriteBorderIcon onClick={onUpVote} />
-		</ActionWrapper>
+		<Tooltip title="Up Tweet" placement="bottom">
+			<ActionWrapper>
+				<span>{points}</span>
+				<FavoriteBorderIcon onClick={onUpVote} />
+			</ActionWrapper>
+		</Tooltip>
 	);
 };
 
