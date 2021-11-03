@@ -9,6 +9,7 @@ import path from 'path';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { COOKIE_NAME, __prod__ } from './constants';
+import { GlobalSearchResolver } from './resolvers/globalSearch';
 import { HelloResolver } from './resolvers/hello';
 import { RepliesResolver } from './resolvers/reply';
 import { StoryResolver } from './resolvers/story';
@@ -77,6 +78,7 @@ const main = async () => {
         TweetResolver,
         RepliesResolver,
         StoryResolver,
+        GlobalSearchResolver,
       ],
       validate: false,
     }),
