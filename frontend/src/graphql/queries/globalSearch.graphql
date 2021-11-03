@@ -1,0 +1,15 @@
+query GlobalSearch($searchTerm: String!) {
+	search(searchTerm: $searchTerm) {
+		... on User {
+			username
+		}
+		... on Tweet {
+			id
+			tweet
+		}
+		... on Replies {
+			tweetId
+			reply
+		}
+	}
+}

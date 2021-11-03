@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Replies } from './Reply';
+import { Story } from './Story';
 import { Tweet } from './Tweet';
 import { UpReply } from './UpReply';
 import { UpTweet } from './UpTweet';
-import { Story } from './Story';
 
 @ObjectType()
 @Entity()
@@ -71,12 +71,12 @@ export class User extends BaseEntity {
   @OneToMany(() => UpTweet, uptweet => uptweet.user)
   replies: Replies[];
 
+  @OneToMany(() => Story, story => story.storyUrl)
+  story: Story[];
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
-
-  @OneToMany(() => Story, story => story.storyUrl)
-  story: Story[];
 
   @Field(() => String)
   @CreateDateColumn()

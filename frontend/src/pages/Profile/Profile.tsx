@@ -1,4 +1,5 @@
 import { Layout } from 'components/globals';
+import { StyledGridMt } from 'components/globals/StyledGridMt/StyledGridMt';
 import { NotFound } from 'components/routes';
 import React, { FC } from 'react';
 import { useRouteMatch } from 'react-router-dom';
@@ -6,7 +7,7 @@ import { useGetUserQuery } from 'src/generated/graphql';
 import { formatBirthday } from 'utils/dateFormats';
 import { Header, Tabs } from './components';
 import { Body } from './components/Body';
-import { ProfileWrapper, StyledGrid } from './style';
+import { ProfileWrapper } from './style';
 import { ProfileProps } from './types';
 
 const Profile: FC<ProfileProps> = () => {
@@ -25,11 +26,11 @@ const Profile: FC<ProfileProps> = () => {
 	return (
 		<ProfileWrapper>
 			<Layout>
-				<StyledGrid item md={4}>
+				<StyledGridMt item md={4}>
 					<Header {...data.getUser.user} />
 					<Body joined={formatedJoined} {...data.getUser.user} />
 					<Tabs username={data.getUser.user.username} />
-				</StyledGrid>
+				</StyledGridMt>
 			</Layout>
 		</ProfileWrapper>
 	);

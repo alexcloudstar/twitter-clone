@@ -1,5 +1,5 @@
-import { Grid } from '@mui/material';
 import { Layout } from 'components/globals';
+import { StyledGridMt } from 'components/globals/StyledGridMt/StyledGridMt';
 import { Tweet as TweetComp } from 'containers/Tweets/components/Tweet';
 import React, { FC } from 'react';
 import { useRouteMatch } from 'react-router-dom';
@@ -18,7 +18,7 @@ const Tweet: FC = () => {
 	return (
 		<TweetWrapper>
 			<Layout>
-				<Grid item md={4}>
+				<StyledGridMt item md={4}>
 					<TweetComp
 						id={data.getTweet.id}
 						tweet={data.getTweet.tweet}
@@ -33,7 +33,7 @@ const Tweet: FC = () => {
 						showActions
 						showReplies
 					/>
-				</Grid>
+				</StyledGridMt>
 			</Layout>
 		</TweetWrapper>
 	);

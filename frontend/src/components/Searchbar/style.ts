@@ -1,12 +1,13 @@
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import styled from 'styled-components';
 
 export const SearchbarWrapper = styled.div``;
 
 export const StyledTextField = styled(TextField)`
 	background-color: rgb(42 163 239 / 10%);
-	border-radius: 50px;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: 1px solid rgb(42 163 239 / 10%) !important;
 	width: 100%;
 
 	div {
@@ -31,4 +32,28 @@ export const StyledTextField = styled(TextField)`
 			opacity: 1;
 		}
 	}
+`;
+
+export const SearchResultsWrapper = styled.div`
+	background-color: rgb(42 163 239 / 10%);
+	box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
+	width: 100%;
+	padding: 5px 10px;
+	border-bottom-left-radius: 10px;
+
+	a {
+		width: 100%;
+		max-width: 100%;
+		display: flex;
+		color: #fff;
+		padding: 5px 0;
+
+		&:not(:last-child) {
+			border-bottom: 1px solid #fff;
+		}
+	}
+`;
+
+export const StyledInputAdornment = styled(InputAdornment)`
+	cursor: pointer;
 `;
