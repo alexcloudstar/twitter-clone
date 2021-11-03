@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -25,6 +26,14 @@ export const UserWrapper = styled.div`
 	h3 {
 		color: #f1f1f1;
 		margin-left: 20px;
+	}
+`;
+
+export const StyledGridTweetBody = styled(Grid)`
+	width: 70% !important;
+
+	@media (max-width: 767px) {
+		width: initial;
 	}
 `;
 

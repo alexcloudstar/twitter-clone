@@ -10,7 +10,7 @@ const Home: FC = () => {
 		<>
 			<HomeWrapper>
 				<Layout>
-					<Grid item md={4}>
+					<Grid item sm={12} md={4}>
 						<Stories />
 						<Tweets />
 					</Grid>

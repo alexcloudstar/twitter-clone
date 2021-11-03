@@ -1,10 +1,14 @@
 import { SnackBar, StyledButton } from 'components/globals';
+import {
+	EditFormWrapper,
+	StyledTextField
+} from 'components/globals/EditFormWrapper';
+
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useEditProfileMutation, User } from 'src/generated/graphql';
 import { UserDataProps } from 'src/pages/Profile/types';
 import { formatBirthday } from 'utils/dateFormats';
-import { EditFormWrapper, StyledTextField } from './style';
 
 export type EditProfileState = Partial<User>;
 
@@ -70,7 +74,7 @@ const EditForm: FC<UserDataProps> = ({
 	return (
 		<>
 			<EditFormWrapper onSubmit={handleSubmit(onSubmit)}>
-				<h3>Profile Form Editor</h3>
+				<h3>Edit Profile</h3>
 				<StyledTextField
 					id="outlined-basic"
 					variant="outlined"

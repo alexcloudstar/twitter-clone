@@ -5,6 +5,7 @@ import MoreOptions from 'containers/Tweets/components/Tweet/components/MoreOptio
 import {
 	Body,
 	Header,
+	StyledGridTweetBody,
 	UserWrapper,
 	Wrapper
 } from 'containers/Tweets/components/Tweet/style';
@@ -46,14 +47,14 @@ const Reply: FC<ReplyProps> = ({
 	return (
 		<Wrapper>
 			<Grid container>
-				<Grid item md={2}>
+				<Grid item sm={12} md={2}>
 					<Link to={`/profile/${creatorId}`}>
 						<UserWrapper>
 							<UserAvatar avatar={avatar} />
 						</UserWrapper>
 					</Link>
 				</Grid>
-				<Grid item md={10}>
+				<StyledGridTweetBody item sm={12} md={10}>
 					<Header>
 						<Link to={`/profile/${creatorId}`}>
 							<h3>{creatorName}</h3>
@@ -64,7 +65,7 @@ const Reply: FC<ReplyProps> = ({
 						<span>{reply}</span>
 					</Body>
 					<Actions id={replyId} points={replyPoints} isReply />
-				</Grid>
+				</StyledGridTweetBody>
 			</Grid>
 		</Wrapper>
 	);

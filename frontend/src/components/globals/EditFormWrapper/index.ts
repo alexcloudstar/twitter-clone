@@ -8,7 +8,7 @@ export const EditFormWrapper = styled.form`
 	margin: 0 auto;
 	text-align: center;
 	padding: 30px 50px;
-
+	width: 90%;
 	button {
 		margin: 0 auto;
 	}
@@ -16,4 +16,10 @@ export const EditFormWrapper = styled.form`
 
 export const StyledTextField = styled(TextField)`
 	margin: 10px 0 !important;
+	border-radius: 0;
+
+	fieldset {
+		border-radius: 0;
+		background-color: #fff;
+	}
 `;

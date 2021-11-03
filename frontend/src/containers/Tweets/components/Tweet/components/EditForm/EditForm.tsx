@@ -1,9 +1,13 @@
 import { SnackBar, StyledButton } from 'components/globals';
+import {
+	EditFormWrapper,
+	StyledTextField
+} from 'components/globals/EditFormWrapper';
+
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { socket } from 'src/config/socket';
 import { Tweet, useEditTweetMutation } from 'src/generated/graphql';
-import { EditFormWrapper, StyledTextField } from './style';
 
 export type EditProfileState = {
 	newTweetValue: string;

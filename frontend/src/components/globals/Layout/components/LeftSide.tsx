@@ -16,7 +16,7 @@ const LeftSide: FC = () => {
 
 	return (
 		<>
-			<Grid item md={2}>
+			<Grid item sm={12} md={2}>
 				<LinkWrapper>
 					<NavLink to="/home" activeClassName="active">
 						<HomeIcon /> <span>Home</span>
