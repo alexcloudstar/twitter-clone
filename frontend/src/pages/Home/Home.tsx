@@ -1,5 +1,5 @@
-import { Grid } from '@mui/material';
 import { Layout } from 'components/globals';
+import { StyledGridMt } from 'components/globals/StyledGridMt/StyledGridMt';
 import { Stories } from 'containers/Stories';
 import { Tweets } from 'containers/Tweets';
 import React, { FC } from 'react';
@@ -10,10 +10,10 @@ const Home: FC = () => {
 		<>
 			<HomeWrapper>
 				<Layout>
-					<Grid item md={4}>
+					<StyledGridMt item md={4}>
 						<Stories />
 						<Tweets />
-					</Grid>
+					</StyledGridMt>
 				</Layout>
 			</HomeWrapper>
 		</>

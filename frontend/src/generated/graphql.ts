@@ -136,6 +136,7 @@ export type Query = {
   getUserTweets?: Maybe<Array<Tweet>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
+  search: Array<SearchResult>;
 };
 
 
@@ -168,6 +169,11 @@ export type QueryGetUserTweetsArgs = {
   username: Scalars['String'];
 };
 
+
+export type QuerySearchArgs = {
+  searchTerm: Scalars['String'];
+};
+
 export type Replies = {
   __typename?: 'Replies';
   createdAt: Scalars['String'];
@@ -182,6 +188,8 @@ export type Replies = {
   updatedAt: Scalars['String'];
   voteStatus?: Maybe<Scalars['Int']>;
 };
+
+export type SearchResult = Replies | Tweet | User;
 
 export type Story = {
   __typename?: 'Story';
@@ -357,6 +365,13 @@ export type GetAllStoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllStoriesQuery = { __typename?: 'Query', getStories: Array<{ __typename?: 'Story', id: number, storyUrl: string, creatorId: number, creatorUsername: string }> };
+
+export type GlobalSearchQueryVariables = Exact<{
+  searchTerm: Scalars['String'];
+}>;
+
+
+export type GlobalSearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'Replies', tweetId: number, reply: string } | { __typename?: 'Tweet', id: number, tweet: string } | { __typename?: 'User', username: string }> };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1088,6 +1103,64 @@ export function useGetAllStoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetAllStoriesQueryHookResult = ReturnType<typeof useGetAllStoriesQuery>;
 export type GetAllStoriesLazyQueryHookResult = ReturnType<typeof useGetAllStoriesLazyQuery>;
 export type GetAllStoriesQueryResult = Apollo.QueryResult<GetAllStoriesQuery, GetAllStoriesQueryVariables>;
+export const GlobalSearchDocument = gql`
+    query GlobalSearch($searchTerm: String!) {
+  search(searchTerm: $searchTerm) {
+    ... on User {
+      username
+    }
+    ... on Tweet {
+      id
+      tweet
+    }
+    ... on Replies {
+      tweetId
+      reply
+    }
+  }
+}
+    `;
+export type GlobalSearchProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GlobalSearchQuery, GlobalSearchQueryVariables>
+    } & TChildProps;
+export function withGlobalSearch<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GlobalSearchQuery,
+  GlobalSearchQueryVariables,
+  GlobalSearchProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GlobalSearchQuery, GlobalSearchQueryVariables, GlobalSearchProps<TChildProps, TDataName>>(GlobalSearchDocument, {
+      alias: 'globalSearch',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGlobalSearchQuery__
+ *
+ * To run a query within a React component, call `useGlobalSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGlobalSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGlobalSearchQuery({
+ *   variables: {
+ *      searchTerm: // value for 'searchTerm'
+ *   },
+ * });
+ */
+export function useGlobalSearchQuery(baseOptions: Apollo.QueryHookOptions<GlobalSearchQuery, GlobalSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GlobalSearchQuery, GlobalSearchQueryVariables>(GlobalSearchDocument, options);
+      }
+export function useGlobalSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GlobalSearchQuery, GlobalSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GlobalSearchQuery, GlobalSearchQueryVariables>(GlobalSearchDocument, options);
+        }
+export type GlobalSearchQueryHookResult = ReturnType<typeof useGlobalSearchQuery>;
+export type GlobalSearchLazyQueryHookResult = ReturnType<typeof useGlobalSearchLazyQuery>;
+export type GlobalSearchQueryResult = Apollo.QueryResult<GlobalSearchQuery, GlobalSearchQueryVariables>;
 export const HelloDocument = gql`
     query hello {
   hello
