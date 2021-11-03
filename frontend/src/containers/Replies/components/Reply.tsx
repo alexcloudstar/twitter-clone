@@ -45,7 +45,7 @@ const Reply: FC<ReplyProps> = ({
 	}, [replyId, points, replyPoints]);
 
 	return (
-		<Wrapper>
+		<Wrapper isReply>
 			<Grid container>
 				<Grid item sm={12} md={2}>
 					<Link to={`/profile/${creatorId}`}>
