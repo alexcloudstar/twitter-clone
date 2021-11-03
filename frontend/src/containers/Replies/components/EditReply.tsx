@@ -1,9 +1,9 @@
 import { SnackBar, StyledButton } from 'components/globals';
-
 import {
-	StyledTextField,
-	EditFormWrapper
-} from 'containers/Tweets/components/Tweet/components/EditForm/style';
+	EditFormWrapper,
+	StyledTextField
+} from 'components/globals/EditFormWrapper';
+
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { socket } from 'src/config/socket';

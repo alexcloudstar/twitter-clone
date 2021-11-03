@@ -26,7 +26,9 @@ const Profile: FC<ProfileProps> = () => {
 	return (
 		<ProfileWrapper>
 			<Layout>
+
 				<StyledGridMt item md={4}>
+
 					<Header {...data.getUser.user} />
 					<Body joined={formatedJoined} {...data.getUser.user} />
 					<Tabs username={data.getUser.user.username} />

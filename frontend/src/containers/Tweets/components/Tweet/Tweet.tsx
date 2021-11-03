@@ -7,7 +7,13 @@ import { socket } from 'src/config/socket';
 import { Tweet, useGetUserQuery } from 'src/generated/graphql';
 import Actions from '../Actions/Actions';
 import MoreOptions from './components/MoreOptions';
-import { Body, Header, UserWrapper, Wrapper } from './style';
+import {
+	Body,
+	Header,
+	StyledGridTweetBody,
+	UserWrapper,
+	Wrapper
+} from './style';
 
 type TweetProps = {
 	showActions: boolean;
@@ -48,7 +54,7 @@ const Tweet: FC<TweetProps> = ({
 		<>
 			<Wrapper>
 				<Grid container>
-					<Grid item md={2}>
+					<Grid item sm={12} md={2}>
 						<Link to={`/profile/${userData?.getUser.user.username}`}>
 							<Header>
 								<UserWrapper>
@@ -57,7 +63,7 @@ const Tweet: FC<TweetProps> = ({
 							</Header>
 						</Link>
 					</Grid>
-					<Grid item md={10}>
+					<StyledGridTweetBody item sm={12} md={10}>
 						<Header>
 							<Link to={`/profile/${userData?.getUser.user.username}`}>
 								<h3>{userData?.getUser.user.name}</h3>
@@ -76,7 +82,7 @@ const Tweet: FC<TweetProps> = ({
 						{showActions && (
 							<Actions id={id} points={tweetPoints} isReply={false} />
 						)}
-					</Grid>
+					</StyledGridTweetBody>
 				</Grid>
 			</Wrapper>
 			{showReplies && (

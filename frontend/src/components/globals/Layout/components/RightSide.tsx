@@ -15,7 +15,7 @@ const RightSide: FC = () => {
 	);
 
 	return (
-		<StyledGrid item md={3}>
+		<StyledGrid item sm={12} md={3}>
 			<RightSideWrapper>
 				<Title>
 					Registered Users <PeopleAltIcon />

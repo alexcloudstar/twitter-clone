@@ -18,11 +18,15 @@ type StyledModalBoxProps = {
 export const StyledModal = styled(Modal)``;
 
 export const StyledModalBox = styled(Box)<StyledModalBoxProps>`
-	width: 50%;
+	width: 100%;
 	max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}` : '100%')};
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	height: auto;
+
+	@media (min-width: 767px) {
+		width: 50%;
+	}
 `;

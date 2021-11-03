@@ -23,6 +23,11 @@ export const SearchBarGridStyled = styled(Grid)`
 export const RightStyledGrid = styled(Grid)`
 	display: flex;
 	justify-content: space-between;
+	width: 100%;
+
+	@media (min-width: 767px) {
+		width: initial;
+	}
 `;
 export const UserShortcutWrapper = styled.div`
 	display: flex;

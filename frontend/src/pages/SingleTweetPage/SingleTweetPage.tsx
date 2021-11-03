@@ -18,7 +18,9 @@ const Tweet: FC = () => {
 	return (
 		<TweetWrapper>
 			<Layout>
+
 				<StyledGridMt item md={4}>
+
 					<TweetComp
 						id={data.getTweet.id}
 						tweet={data.getTweet.tweet}

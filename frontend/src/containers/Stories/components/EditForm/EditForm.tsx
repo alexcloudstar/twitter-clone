@@ -1,10 +1,14 @@
 import { ErrorComponent, StyledButton } from 'components/globals';
+import {
+	EditFormWrapper,
+	StyledTextField
+} from 'components/globals/EditFormWrapper';
+
 import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { socket } from 'src/config/socket';
 import { useCreateStoryMutation } from 'src/generated/graphql';
 import SnackBarProps from 'types/SnackBarProps';
-import { EditFormWrapper, StyledTextField } from './style';
 
 export type EditProfileState = {
 	storyImageUrl: string;
