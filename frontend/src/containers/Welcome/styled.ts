@@ -6,21 +6,12 @@ export const WelcomeWrapper = styled.div`
 	flex-direction: column;
 `;
 
-export const WelcomeLeft = styled.div`
-	img {
-		object-fit: cover;
-	}
-
-	@media (max-width: 767px) {
-		display: none;
-	}
-`;
-
 export const WelcomeRight = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	height: 100%;
 `;
 
 export const ChangeFormText = styled.div`

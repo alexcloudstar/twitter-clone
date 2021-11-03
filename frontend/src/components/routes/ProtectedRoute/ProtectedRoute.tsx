@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Header } from 'components/Header';
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useMeQuery } from 'src/generated/graphql';
@@ -12,7 +13,14 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
 		<Route
 			{...restOfProps}
 			render={(props) =>
-				data.me ? <Component {...props} /> : <Redirect to="/" />
+				data.me ? (
+					<>
+						<Header />
+						<Component {...props} />
+					</>
+				) : (
+					<Redirect to="/" />
+				)
 			}
 		/>
 	);

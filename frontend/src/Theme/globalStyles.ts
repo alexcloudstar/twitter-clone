@@ -12,7 +12,7 @@ body {
 html,
 body {
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     background: linear-gradient(#15202B, #255878) no-repeat center center fixed;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 #root {
-	/* height: 100%; */
+	height: 100%;
 }
 `;
 
