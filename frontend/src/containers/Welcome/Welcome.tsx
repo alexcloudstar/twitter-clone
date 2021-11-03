@@ -23,7 +23,6 @@ const Welcome: FC<WelcomeProps> = (): JSX.Element => {
 	return (
 		<WelcomeWrapper>
 			<WelcomeRight>
-				<Link to="/home">Home</Link>
 				{!isLogin ? <Register /> : <Login />}
 				{!isLogin ? (
 					<ChangeFormText onClick={changeForm}>

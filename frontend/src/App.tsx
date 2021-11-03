@@ -3,11 +3,8 @@ import { Welcome } from 'containers/Welcome';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Home, Profile, Tweet } from 'src/pages';
-import { useMeQuery } from './generated/graphql';
 
 const App = (): JSX.Element => {
-	const { data, loading } = useMeQuery();
-
 	return (
 		<>
 			<BrowserRouter>

@@ -1,15 +1,12 @@
+import { ErrorComponent, StyledButton } from 'components/globals';
 import React, { FC, useState } from 'react';
-import { StyledButton, ErrorComponent } from 'components/globals';
-
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router';
 import { useLoginMutation } from 'src/generated/graphql';
 import { LoginForm, LoginHolder, LoginWrapper } from './style';
 import { LoginProps, LoginState } from './types';
 
 const Login: FC<LoginProps> = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
-	const history = useHistory();
 
 	const {
 		register,
@@ -28,7 +25,7 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 				}
 			});
 
-			history.push('/home');
+			window.location.href = '/home';
 		} catch (error) {
 			setErrorMessage(error.message);
 		}
