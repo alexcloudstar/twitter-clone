@@ -27,6 +27,7 @@ const Login: FC<LoginProps> = (): JSX.Element => {
 					password: data.password
 				}
 			});
+
 			history.push('/home');
 		} catch (error) {
 			setErrorMessage(error.message);
