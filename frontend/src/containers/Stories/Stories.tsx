@@ -1,12 +1,11 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Modal, SnackBar } from 'components/globals';
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { socket } from 'src/config/socket';
 import {
 	Story as StoryType,
 	useGetAllStoriesQuery
 } from 'src/generated/graphql';
-import SnackBarProps from 'types/SnackBarProps';
 import { randomColor } from 'utils/randomHexColor';
 import { EditForm } from './components/EditForm';
 import Story from './components/Story';
@@ -33,7 +32,6 @@ const Stories: FC = () => {
 	useEffect(() => {
 		socket.on('addStory', (story) => {
 			setStories([...stories, story.story]);
-			console.log(story);
 		});
 
 		return () => {
