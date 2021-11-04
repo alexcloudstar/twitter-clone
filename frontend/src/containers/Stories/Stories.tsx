@@ -33,6 +33,7 @@ const Stories: FC = () => {
 	useEffect(() => {
 		socket.on('addStory', (story) => {
 			setStories([...stories, story.story]);
+			console.log(story);
 		});
 
 		return () => {
