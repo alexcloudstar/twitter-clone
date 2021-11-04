@@ -9,7 +9,7 @@ import {
 import { randomColor } from 'utils/randomHexColor';
 import { EditForm } from './components/EditForm';
 import Story from './components/Story';
-import StoriesSlider from './components/test';
+import StoriesSlider from './components/StoriesSlider';
 import { AddStoryButton, StoriesWrapper } from './style';
 
 const Stories: FC = () => {
