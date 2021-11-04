@@ -1,8 +1,9 @@
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
+import { Spinner } from 'components/Spinner';
 import PropTypes from 'prop-types';
-import React, { FC, useState } from 'react';
+import React, { FC, Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	useGetUserRepliesQuery,
@@ -51,64 +52,66 @@ const BasicTabs: FC<{ username: User['username'] }> = ({ username }) => {
 		setValue(newValue);
 	};
 
-	const { data, loading } = useGetUserTweetsQuery({ variables: { username } });
-	const { data: dataReplies, loading: loadingReplies } = useGetUserRepliesQuery(
-		{ variables: { username } }
-	);
-
-	if (loading || loadingReplies) return <div>Loading...</div>;
+	const { data } = useGetUserTweetsQuery({ variables: { username } });
+	const { data: dataReplies } = useGetUserRepliesQuery({
+		variables: { username }
+	});
 
 	return (
-		<Box sx={{ width: '100%' }}>
-			<Box>
-				<StyledTabs
-					value={value}
-					onChange={handleChange}
-					aria-label="basic tabs example"
-				>
-					<Tab
-						label={`${data.getUserTweets.length} Tweets`}
-						{...a11yProps(0)}
-					/>
-					<Tab
-						label={`${dataReplies.getUserReplies.length} Replies`}
-						{...a11yProps(1)}
-					/>
-				</StyledTabs>
-			</Box>
-			<TabPanel value={value} index={0}>
-				{!data.getUserTweets.length ? (
-					<>no tweets</>
-				) : (
-					data.getUserTweets.map(({ id, tweet }) => (
-						<StyledTabsContent key={id}>
-							<Link to={`/tweet/${id}`}>
-								<div>
-									{tweet}
-									<button>view tweet</button>
-								</div>
-							</Link>
-						</StyledTabsContent>
-					))
-				)}
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				{!dataReplies.getUserReplies.length ? (
-					<>no replies</>
-				) : (
-					dataReplies.getUserReplies.map(({ id, reply }) => (
-						<StyledTabsContent key={id}>
-							<Link to={`/tweet/${id}`}>
-								<div>
-									{reply}
-									<button>view reply</button>
-								</div>
-							</Link>
-						</StyledTabsContent>
-					))
-				)}
-			</TabPanel>
-		</Box>
+		<>
+			<Suspense fallback={<Spinner />}>
+				<Box sx={{ width: '100%' }}>
+					<Box>
+						<StyledTabs
+							value={value}
+							onChange={handleChange}
+							aria-label="basic tabs example"
+						>
+							<Tab
+								label={`${data?.getUserTweets.length} Tweets`}
+								{...a11yProps(0)}
+							/>
+							<Tab
+								label={`${dataReplies?.getUserReplies.length} Replies`}
+								{...a11yProps(1)}
+							/>
+						</StyledTabs>
+					</Box>
+					<TabPanel value={value} index={0}>
+						{!data?.getUserTweets.length ? (
+							<>no tweets</>
+						) : (
+							data?.getUserTweets.map(({ id, tweet }) => (
+								<StyledTabsContent key={id}>
+									<Link to={`/tweet/${id}`}>
+										<div>
+											{tweet}
+											<button>view tweet</button>
+										</div>
+									</Link>
+								</StyledTabsContent>
+							))
+						)}
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						{!dataReplies?.getUserReplies.length ? (
+							<>no replies</>
+						) : (
+							dataReplies?.getUserReplies.map(({ id, reply }) => (
+								<StyledTabsContent key={id}>
+									<Link to={`/tweet/${id}`}>
+										<div>
+											{reply}
+											<button>view reply</button>
+										</div>
+									</Link>
+								</StyledTabsContent>
+							))
+						)}
+					</TabPanel>
+				</Box>
+			</Suspense>
+		</>
 	);
 };
 

@@ -1,7 +1,8 @@
 import { Layout } from 'components/globals';
 import { StyledGridMt } from 'components/globals/StyledGridMt/StyledGridMt';
 import { NotFound } from 'components/routes';
-import React, { FC } from 'react';
+import { Spinner } from 'components/Spinner';
+import React, { FC, Suspense } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useGetUserQuery } from 'src/generated/graphql';
 import { formatBirthday } from 'utils/dateFormats';
@@ -19,19 +20,21 @@ const Profile: FC<ProfileProps> = () => {
 
 	if (error) return <NotFound />;
 
-	const formatedJoined = formatBirthday(+data.getUser.user.createdAt);
+	const formatedJoined = formatBirthday(+data?.getUser?.user?.createdAt);
 
 	return (
 		<>
-			<ProfileWrapper>
-				<Layout>
-					<StyledGridMt item md={4}>
-						<Header {...data.getUser.user} />
-						<Body joined={formatedJoined} {...data.getUser.user} />
-						<Tabs username={data.getUser.user.username} />
-					</StyledGridMt>
-				</Layout>
-			</ProfileWrapper>
+			<Suspense fallback={<Spinner />}>
+				<ProfileWrapper>
+					<Layout>
+						<StyledGridMt item md={4}>
+							<Header {...data?.getUser.user} />
+							<Body joined={formatedJoined} {...data?.getUser.user} />
+							<Tabs username={data?.getUser.user.username} />
+						</StyledGridMt>
+					</Layout>
+				</ProfileWrapper>
+			</Suspense>
 		</>
 	);
 };
