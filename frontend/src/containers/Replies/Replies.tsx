@@ -14,7 +14,7 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [replies, setReplies] = useState<any[]>();
 
-	const { data, loading } = useGetTweetRepliesQuery({
+	const { data } = useGetTweetRepliesQuery({
 		variables: { tweetId }
 	});
 
@@ -53,8 +53,6 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 			socket.off('editReply');
 		};
 	}, []);
-
-	if (loading) return <div>Loading...</div>;
 
 	return (
 		<>

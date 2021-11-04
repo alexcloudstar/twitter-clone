@@ -24,7 +24,7 @@ const Stories: FC = () => {
 		variant: null
 	});
 
-	const { data, loading } = useGetAllStoriesQuery();
+	const { data } = useGetAllStoriesQuery();
 
 	useEffect(() => {
 		setStories(data?.getStories);
@@ -39,8 +39,6 @@ const Stories: FC = () => {
 			socket.off('addStory');
 		};
 	}, [stories]);
-
-	if (loading) return <div>Loading...</div>;
 
 	return (
 		<>
