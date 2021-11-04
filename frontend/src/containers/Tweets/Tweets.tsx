@@ -2,8 +2,7 @@ import { SnackBar } from 'components/globals';
 import React, { FC, useEffect, useState } from 'react';
 import { socket } from 'src/config/socket';
 import { useGetTweetsQuery } from 'src/generated/graphql';
-import { Tweet } from './components';
-import { TweetsWrapper } from './style';
+import VirtualizedTweets from './components/Tweet/components/VirtualizedTweets';
 
 const Tweets: FC = () => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,38 +59,8 @@ const Tweets: FC = () => {
 
 	return (
 		<>
-			<TweetsWrapper>
-				{tweets?.map(
-					({
-						id,
-						createdAt,
-						updatedAt,
-						creatorId,
-						points,
-						tweet,
-						tweetImage,
-						voteStatus,
-						creatorUsername,
-						creatorName
-					}) => (
-						<Tweet
-							key={id}
-							createdAt={createdAt}
-							updatedAt={updatedAt}
-							creatorId={creatorId}
-							points={points}
-							tweet={tweet}
-							tweetImage={tweetImage}
-							voteStatus={voteStatus}
-							creatorUsername={creatorUsername}
-							creatorName={creatorName}
-							id={id}
-							showActions
-							showReplies={false}
-						/>
-					)
-				)}
-			</TweetsWrapper>
+			{tweets && <VirtualizedTweets rows={tweets} />}
+
 			<SnackBar
 				snackBarProps={snackBarProps}
 				setSnackBarProps={setSnackBarProps}
