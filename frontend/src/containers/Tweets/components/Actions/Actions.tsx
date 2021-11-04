@@ -1,4 +1,4 @@
-import { ClickAwayListener } from '@mui/material';
+import { ClickAwayListener, Tooltip } from '@mui/material';
 import { CreateReply } from 'components/CreateReply';
 import { Modal } from 'components/globals';
 
@@ -21,9 +21,11 @@ const Actions: FC<ActionsProps> = ({ id, points, isReply }) => {
 		<>
 			<ActionsWrapper>
 				{!isReply && (
-					<Link to={`/tweet/${id}`}>
-						<Reply handleOpen={handleOpen} />
-					</Link>
+					<Tooltip title="Reply" placement="bottom">
+						<Link to={`/tweet/${id}`}>
+							<Reply handleOpen={handleOpen} />
+						</Link>
+					</Tooltip>
 				)}
 				<Retweet />
 				{!isReply ? (
@@ -34,7 +36,9 @@ const Actions: FC<ActionsProps> = ({ id, points, isReply }) => {
 				<Save />
 			</ActionsWrapper>
 			<Modal open={open} onClose={handleClose}>
-				<CreateReply tweetId={id} handleCloseModal={handleClose} />
+				<Tooltip title="Create Reply" placement="bottom">
+					<CreateReply tweetId={id} handleCloseModal={handleClose} />
+				</Tooltip>
 			</Modal>
 		</>
 	);

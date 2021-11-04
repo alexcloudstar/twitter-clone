@@ -1,7 +1,6 @@
 import { ErrorComponent } from 'components/globals';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router';
 import { useRegisterMutation } from 'src/generated/graphql';
 import {
 	RegisterBtn,
@@ -13,7 +12,6 @@ import { RegisterProps, RegisterState } from './types';
 
 const Register: FC<RegisterProps> = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
-	const history = useHistory();
 
 	const {
 		register: registerHook,
@@ -32,7 +30,7 @@ const Register: FC<RegisterProps> = (): JSX.Element => {
 					password: data.password
 				}
 			});
-			history.push('/home');
+			window.location.href = '/home';
 		} catch (error) {
 			setErrorMessage(error.message);
 		}
