@@ -4,6 +4,11 @@ export const StoriesWrapper = styled.div`
 	display: flex;
 	color: #fff;
 	margin: 30px 0;
+	justify-content: center;
+
+	@media (min-width: 991px) {
+		justify-content: initial;
+	}
 `;
 
 export const AddStoryWrapper = styled.button`
