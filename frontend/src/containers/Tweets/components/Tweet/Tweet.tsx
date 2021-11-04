@@ -33,7 +33,7 @@ const Tweet: FC<TweetProps> = ({
 }) => {
 	const [tweetPoints, setTweetPoints] = useState(points);
 
-	const { data: userData, loading: userLoading } = useGetUserQuery({
+	const { data: userData } = useGetUserQuery({
 		variables: { username: creatorUsername }
 	});
 
@@ -47,8 +47,6 @@ const Tweet: FC<TweetProps> = ({
 			setTweetPoints(localPoints);
 		});
 	}, [id, points, tweetPoints]);
-
-	if (userLoading) return <div>Loading...</div>;
 
 	return (
 		<>

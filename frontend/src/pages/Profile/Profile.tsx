@@ -13,11 +13,9 @@ import { ProfileProps } from './types';
 const Profile: FC<ProfileProps> = () => {
 	const match: { params: { username: string } } = useRouteMatch();
 
-	const { data, loading, error } = useGetUserQuery({
+	const { data, error } = useGetUserQuery({
 		variables: { username: match.params.username }
 	});
-
-	if (loading) return <div>Loading...</div>;
 
 	if (error) return <NotFound />;
 

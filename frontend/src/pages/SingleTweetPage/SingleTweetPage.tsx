@@ -9,11 +9,9 @@ import { TweetWrapper } from './style';
 const Tweet: FC = () => {
 	const match: { params: { id: string } } = useRouteMatch();
 
-	const { data, loading, error } = useGetTweetQuery({
+	const { data, error } = useGetTweetQuery({
 		variables: { tweetId: +match.params.id }
 	});
-
-	if (loading) return <div>Loading...</div>;
 
 	return (
 		<TweetWrapper>

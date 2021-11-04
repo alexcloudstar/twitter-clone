@@ -7,7 +7,7 @@ import { TweetsWrapper } from './style';
 const Tweets: FC = () => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [tweets, setTweets] = useState<any[]>();
-	const { data, loading, error } = useGetTweetsQuery();
+	const { data, error } = useGetTweetsQuery();
 
 	useEffect(() => {
 		setTweets(data?.getTweets);
@@ -45,7 +45,6 @@ const Tweets: FC = () => {
 		};
 	}, [tweets]);
 
-	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error...</div>;
 
 	return (
