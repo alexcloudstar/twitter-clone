@@ -1,21 +1,19 @@
 import styled from 'styled-components';
 
 export const StoriesWrapper = styled.div`
-	display: flex;
 	color: #fff;
 	margin: 30px 0;
-	justify-content: center;
-
-	@media (min-width: 991px) {
-		justify-content: initial;
-	}
+	display: flex;
+	flex-direction: column;
 `;
 
-export const AddStoryWrapper = styled.button`
+export const AddStoryButton = styled.button`
 	margin-right: 25px;
 	background: #173244;
 	padding: 13px 15px;
 	border-radius: 50px;
+	width: 50%;
+	margin: 0 auto 30px auto;
 
 	svg {
 		color: #2aa3ef;
