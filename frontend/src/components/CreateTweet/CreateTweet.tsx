@@ -46,7 +46,7 @@ const CreateTweet: FC<CreateTweetProps> = ({ handleCloseModal }) => {
 					placeholder="What's happening?"
 					{...register('tweet', { required: true })}
 					onChange={onChange}
-				></textarea>
+				/>
 				<StyledButton type="submit">Tweet</StyledButton>
 				{errors.tweet && <ErrorComponent errorMsg={'This field is required'} />}
 				<CharacterCount>

@@ -28,7 +28,6 @@ const EditForm: FC<AddStoryProps> = ({
 	const {
 		register,
 		handleSubmit,
-
 		formState: { errors }
 	} = useForm<EditProfileState>();
 
