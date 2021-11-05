@@ -6,7 +6,7 @@ declare module '@mui/material/styles' {
 			main: string;
 		};
 	}
-	// allow configuration using `createTheme`
+
 	interface ThemeOptions {
 		background: {
 			main: string;
@@ -17,11 +17,5 @@ declare module '@mui/material/styles' {
 export const defaultTheme = createTheme({
 	background: {
 		main: 'linear-gradient(#15202B, #255878) no-repeat center center fixed'
-	}
-});
-
-export const secondTheme = createTheme({
-	background: {
-		main: 'red'
 	}
 });

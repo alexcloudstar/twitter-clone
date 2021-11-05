@@ -11,5 +11,5 @@ export const formatDate = ({ date, formatDate }: formatDateArgs): string =>
 export const formatBirthday = (birthday: number | string): string => {
 	if (!birthday) return format(new Date(), 'LLLL, dd, yyyy');
 
-	format(new Date(birthday), 'LLLL, dd, yyyy');
+	return format(new Date(birthday), 'LLLL, dd, yyyy');
 };

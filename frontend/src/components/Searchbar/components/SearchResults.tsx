@@ -8,45 +8,43 @@ type SearchResultsProp = {
 	clearValue: () => void;
 };
 
-const SearchResults: FC<SearchResultsProp> = ({ results, clearValue }) => {
-	return (
-		<SearchResultsWrapper>
-			{results &&
-				results.map((result) => (
-					<Fragment key={result.id}>
-						{result.__typename === 'Tweet' && (
-							<Link
-								key={result.id}
-								to={`/tweet/${result.id}`}
-								onClick={clearValue}
-							>
-								{result.tweet}
-							</Link>
-						)}
+const SearchResults: FC<SearchResultsProp> = ({ results, clearValue }) => (
+	<SearchResultsWrapper>
+		{results &&
+			results.map((result) => (
+				<Fragment key={result.id}>
+					{result.__typename === 'Tweet' && (
+						<Link
+							key={result.id}
+							to={`/tweet/${result.id}`}
+							onClick={clearValue}
+						>
+							{result.tweet}
+						</Link>
+					)}
 
-						{result.__typename === 'User' && (
-							<Link
-								key={result.username}
-								to={`/profile/${result.username}`}
-								onClick={clearValue}
-							>
-								{result.username}
-							</Link>
-						)}
+					{result.__typename === 'User' && (
+						<Link
+							key={result.username}
+							to={`/profile/${result.username}`}
+							onClick={clearValue}
+						>
+							{result.username}
+						</Link>
+					)}
 
-						{result.__typename === 'Replies' && (
-							<Link
-								key={result.tweetId}
-								to={`/tweet/${result.tweetId}`}
-								onClick={clearValue}
-							>
-								{result.reply}
-							</Link>
-						)}
-					</Fragment>
-				))}
-		</SearchResultsWrapper>
-	);
-};
+					{result.__typename === 'Replies' && (
+						<Link
+							key={result.tweetId}
+							to={`/tweet/${result.tweetId}`}
+							onClick={clearValue}
+						>
+							{result.reply}
+						</Link>
+					)}
+				</Fragment>
+			))}
+	</SearchResultsWrapper>
+);
 
 export default SearchResults;

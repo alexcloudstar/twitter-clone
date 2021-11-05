@@ -1,4 +1,4 @@
-import React, { Component, FC } from 'react';
+import React, { FC } from 'react';
 import Slider from 'react-slick';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

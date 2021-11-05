@@ -3,9 +3,9 @@ import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLoginMutation } from 'src/generated/graphql';
 import { LoginForm, LoginHolder, LoginWrapper } from './style';
-import { LoginProps, LoginState } from './types';
+import { LoginState } from './types';
 
-const Login: FC<LoginProps> = (): JSX.Element => {
+const Login: FC = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const {

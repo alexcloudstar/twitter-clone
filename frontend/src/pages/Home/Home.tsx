@@ -5,19 +5,17 @@ import { Tweets } from 'containers/Tweets';
 import React, { FC } from 'react';
 import { HomeWrapper } from './style';
 
-const Home: FC = () => {
-	return (
-		<>
-			<HomeWrapper>
-				<Layout>
-					<StyledGridMt item md={4}>
-						<Stories />
-						<Tweets />
-					</StyledGridMt>
-				</Layout>
-			</HomeWrapper>
-		</>
-	);
-};
+const Home: FC = () => (
+	<>
+		<HomeWrapper>
+			<Layout>
+				<StyledGridMt item md={4}>
+					<Stories />
+					<Tweets />
+				</StyledGridMt>
+			</Layout>
+		</HomeWrapper>
+	</>
+);
 
 export default Home;

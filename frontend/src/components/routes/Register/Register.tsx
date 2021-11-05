@@ -8,9 +8,9 @@ import {
 	RegisterHolder,
 	RegisterWrapper
 } from './style';
-import { RegisterProps, RegisterState } from './types';
+import { RegisterState } from './types';
 
-const Register: FC<RegisterProps> = (): JSX.Element => {
+const Register: FC = (): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const {

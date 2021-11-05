@@ -1,7 +1,6 @@
-import { ClickAwayListener, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { CreateReply } from 'components/CreateReply';
 import { Modal } from 'components/globals';
-
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Reply from './components/Reply';

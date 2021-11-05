@@ -1,4 +1,4 @@
-import { Avatar, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
 export const HeaderWrapper = styled.header`

@@ -34,7 +34,7 @@ const main = async () => {
     entities: [path.join(__dirname, './entities/*')],
   });
 
-  await conn.runMigrations();
+  // await conn.runMigrations();
 
   const app = express();
 
