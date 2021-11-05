@@ -21,16 +21,16 @@ const Tweet: FC = () => {
 					<Layout>
 						<StyledGridMt item md={4}>
 							<TweetComp
-								id={data.getTweet.id}
-								tweet={data.getTweet.tweet}
-								tweetImage={data.getTweet.tweetImage}
-								creatorId={data.getTweet.creatorId}
-								creatorName={data.getTweet.creatorName}
-								creatorUsername={data.getTweet.creatorUsername}
-								points={data.getTweet.points}
-								voteStatus={data.getTweet.voteStatus}
-								createdAt={data.getTweet.createdAt}
-								updatedAt={data.getTweet.updatedAt}
+								id={data?.getTweet.id}
+								tweet={data?.getTweet.tweet}
+								tweetImage={data?.getTweet.tweetImage}
+								creatorId={data?.getTweet.creatorId}
+								creatorName={data?.getTweet.creatorName}
+								creatorUsername={data?.getTweet.creatorUsername}
+								points={data?.getTweet.points}
+								voteStatus={data?.getTweet.voteStatus}
+								createdAt={data?.getTweet.createdAt}
+								updatedAt={data?.getTweet.updatedAt}
 								showActions
 								showReplies
 							/>
