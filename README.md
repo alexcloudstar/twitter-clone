@@ -8,7 +8,7 @@ A: Well... They don't. But i did. It was giving me opportunity to sharp my backe
 
 **Features:**
 
-- Login/Register
+- Login/Register/Logout
 - Viewing other users profile
 - Edit personal profile
 - Search for Tweets, Replies or Users
