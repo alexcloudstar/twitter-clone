@@ -1,4 +1,4 @@
-# Twitter Clone
+# Twitter Clone 🐦
 
 Maybe you ask yourself why world need a Twitter clone? 🧐 <br/>
 A: Well... They don't. But i did. It was giving me opportunity to sharp my backend skills 👻
