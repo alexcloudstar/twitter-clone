@@ -1,6 +1,6 @@
 {
   "name": "twitter-clone",
-  "version": "0.1.76",
+  "version": "0.1.85",
   "main": "dist/index.js",
   "author": "alexcloudstar",
   "license": "MIT",
