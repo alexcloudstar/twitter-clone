@@ -9,7 +9,8 @@ import {
 import { randomColor } from 'utils/randomHexColor';
 import { EditForm } from './components/EditForm';
 import Story from './components/Story';
-import { AddStoryWrapper, StoriesWrapper } from './style';
+import StoriesSlider from './components/StoriesSlider';
+import { AddStoryButton, StoriesWrapper } from './style';
 
 const Stories: FC = () => {
 	const [open, setOpen] = useState(false);
@@ -42,20 +43,22 @@ const Stories: FC = () => {
 	return (
 		<>
 			<StoriesWrapper>
-				<AddStoryWrapper onClick={handleOpen}>
+				<AddStoryButton onClick={handleOpen}>
 					<AddCircleIcon />
-				</AddStoryWrapper>
-				{stories?.map((story: StoryType) => {
-					const borderColor = randomColor();
-					return (
-						<Story
-							key={story.id}
-							story={story.storyUrl}
-							username={story.creatorUsername}
-							borderColor={borderColor}
-						/>
-					);
-				})}
+				</AddStoryButton>
+				<StoriesSlider>
+					{stories?.map((story: StoryType) => {
+						const borderColor = randomColor();
+						return (
+							<Story
+								key={story.id}
+								story={story.storyUrl}
+								username={story.creatorUsername}
+								borderColor={borderColor}
+							/>
+						);
+					})}
+				</StoriesSlider>
 			</StoriesWrapper>
 
 			<Modal open={open} onClose={handleClose}>
