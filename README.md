@@ -1,6 +1,6 @@
 # Twitter Clone
 
-Maybe you ask yourself why world need a Twitter clone? 🧐
+Maybe you ask yourself why world need a Twitter clone? 🧐 <br/>
 A: Well... They don't. But i did. It was giving me opportunity to sharp my backend skills 👻
 
 ![enter image description here](https://img.shields.io/tokei/lines/github/alexcloudstar/twitter-clone?style=flat-square)![enter image description here](https://img.shields.io/github/commit-activity/y/alexcloudstar/twitter-clone?style=flat-square)
