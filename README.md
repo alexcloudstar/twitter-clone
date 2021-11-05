@@ -3,8 +3,8 @@
 Maybe you ask yourself why world need a Twitter clone? 🧐
 A: Well... They don't. But i did. It was giving me opportunity to sharp my backend skills 👻
 
-https://img.shields.io/tokei/lines/github/alexcloudstar/twitter-clone?style=flat-square https://img.shields.io/github/commit-activity/y/alexcloudstar/twitter-clone?style=flat-square
-https://img.shields.io/github/package-json/v/alexcloudstar/twitter-clone?style=flat-square
+![enter image description here](https://img.shields.io/tokei/lines/github/alexcloudstar/twitter-clone?style=flat-square)![enter image description here](https://img.shields.io/github/commit-activity/y/alexcloudstar/twitter-clone?style=flat-square)
+![enter image description here](https://img.shields.io/github/package-json/v/alexcloudstar/twitter-clone?style=flat-square)
 
 **Features:**
 
