@@ -9,9 +9,8 @@ import { formatBirthday } from 'utils/dateFormats';
 import { Header, Tabs } from './components';
 import { Body } from './components/Body';
 import { ProfileWrapper } from './style';
-import { ProfileProps } from './types';
 
-const Profile: FC<ProfileProps> = () => {
+const Profile: FC = () => {
 	const match: { params: { username: string } } = useRouteMatch();
 
 	const { data, error } = useGetUserQuery({

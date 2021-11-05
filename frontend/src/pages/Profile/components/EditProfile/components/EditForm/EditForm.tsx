@@ -24,8 +24,6 @@ const EditForm: FC<UserDataProps> = ({
 	id
 }) => {
 	const formatedBirthday = formatBirthday(birthday);
-	console.log(birthday);
-	console.log(formatedBirthday);
 
 	const [editProfile] = useEditProfileMutation();
 

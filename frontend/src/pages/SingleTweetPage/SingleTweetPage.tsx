@@ -10,7 +10,7 @@ import { TweetWrapper } from './style';
 const Tweet: FC = () => {
 	const match: { params: { id: string } } = useRouteMatch();
 
-	const { data, error } = useGetTweetQuery({
+	const { data } = useGetTweetQuery({
 		variables: { tweetId: +match.params.id }
 	});
 

@@ -2,12 +2,11 @@ import { Login } from 'components/routes';
 import { Register } from 'components/routes/Register';
 import { Spinner } from 'components/Spinner';
 import React, { FC, Suspense, useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useMeQuery } from 'src/generated/graphql';
 import { ChangeFormText, WelcomeRight, WelcomeWrapper } from './styled';
-import { WelcomeProps } from './types';
 
-const Welcome: FC<WelcomeProps> = (): JSX.Element => {
+const Welcome: FC = (): JSX.Element => {
 	const history = useHistory();
 	const { data } = useMeQuery();
 

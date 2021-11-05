@@ -25,9 +25,7 @@ const Tweet: FC<TweetProps> = ({
 	tweet,
 	tweetImage,
 	points,
-	creatorName,
 	creatorUsername,
-	creatorId,
 	showActions,
 	showReplies
 }) => {

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { randomColor } from 'utils/randomHexColor';
 
 export const StyledStory = styled.button<{ borderColor: string }>`
 	width: 50px;
