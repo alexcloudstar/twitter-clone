@@ -12,7 +12,24 @@ const StoriesSlider: FC = ({ children }) => {
 
 		responsive: [
 			{
+				breakpoint: 1200,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					infinite: true
+				}
+			},
+			{
 				breakpoint: 1024,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					infinite: true
+				}
+			},
+
+			{
+				breakpoint: 992,
 				settings: {
 					slidesToShow: 3,
 					slidesToScroll: 3,
@@ -20,11 +37,19 @@ const StoriesSlider: FC = ({ children }) => {
 				}
 			},
 			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 5,
+					slidesToScroll: 3,
+					infinite: true
+				}
+			},
+			{
 				breakpoint: 600,
 				settings: {
-					slidesToShow: 2,
-					slidesToScroll: 2,
-					initialSlide: 2
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					initialSlide: 1
 				}
 			},
 			{
@@ -32,6 +57,13 @@ const StoriesSlider: FC = ({ children }) => {
 				settings: {
 					slidesToShow: 1,
 					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 425,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 3
 				}
 			}
 		]
