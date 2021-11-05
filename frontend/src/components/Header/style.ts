@@ -1,4 +1,4 @@
-import { Avatar, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
 export const HeaderWrapper = styled.header`
@@ -16,19 +16,29 @@ export const Logo = styled.h1`
 	}
 `;
 
-export const SearchBarGridStyled = styled(Grid)`
-	/* padding-right: 60px; */
-`;
+export const SearchBarGridStyled = styled(Grid)``;
 
 export const RightStyledGrid = styled(Grid)`
 	display: flex;
-	justify-content: space-between;
 	width: 100%;
+	justify-content: center;
+
+	a {
+		display: flex;
+		width: 80%;
+		justify-content: space-between;
+	}
 
 	@media (min-width: 767px) {
 		width: initial;
+		justify-content: space-between;
+
+		a {
+			width: 100%;
+		}
 	}
 `;
+
 export const UserShortcutWrapper = styled.div`
 	display: flex;
 	justify-content: flex-start;

@@ -1,10 +1,9 @@
-import { SnackBar, StyledButton } from 'components/globals';
+import { StyledButton } from 'components/globals';
 import {
 	EditFormWrapper,
 	StyledTextField
 } from 'components/globals/EditFormWrapper';
-
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useEditProfileMutation, User } from 'src/generated/graphql';
 import { UserDataProps } from 'src/pages/Profile/types';
@@ -28,12 +27,6 @@ const EditForm: FC<UserDataProps> = ({
 
 	const [editProfile] = useEditProfileMutation();
 
-	const [snackBarProps, setSnackBarProps] = useState({
-		isOpen: false,
-		message: null,
-		variant: null
-	});
-
 	const {
 		register,
 		handleSubmit,
@@ -55,19 +48,9 @@ const EditForm: FC<UserDataProps> = ({
 		try {
 			editProfile({ variables: { userId: id, ...data } });
 			handleClose();
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Profile updated successfully 🎉',
-				variant: 'success'
-			});
 		} catch (error) {
 			console.log(error);
 			handleClose();
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Profile was not updated successfully 😢',
-				variant: 'error'
-			});
 		}
 	};
 
@@ -127,11 +110,6 @@ const EditForm: FC<UserDataProps> = ({
 					Submit Changes
 				</StyledButton>
 			</EditFormWrapper>
-			{/* TODO: Fix this (now is rendering in the Modal Form) */}
-			<SnackBar
-				snackBarProps={snackBarProps}
-				setSnackBarProps={setSnackBarProps}
-			/>
 		</>
 	);
 };

@@ -5,7 +5,7 @@ export const StyledLinkWrapper = styled.aside`
 	flex-direction: column;
 	align-items: center;
 
-	@media (min-width: 767px) {
+	@media (min-width: 991px) {
 		align-items: initial;
 	}
 

@@ -18,17 +18,12 @@ type AddStoryProps = {
 	handleClose: () => void;
 } & SnackBarProps;
 
-const EditForm: FC<AddStoryProps> = ({
-	handleClose,
-	snackBarProps,
-	setSnackBarProps
-}) => {
-	const [createStory, { data, loading, error }] = useCreateStoryMutation();
+const EditForm: FC<AddStoryProps> = ({ handleClose, setSnackBarProps }) => {
+	const [createStory] = useCreateStoryMutation();
 
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors }
 	} = useForm<EditProfileState>();
 

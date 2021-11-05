@@ -60,6 +60,9 @@
 		"react-dom": "^17.0.2",
 		"react-hook-form": "^7.16.1",
 		"react-router-dom": "^5.3.0",
+		"react-slick": "^0.28.1",
+		"react-virtual": "^2.8.2",
+		"slick-carousel": "^1.8.1",
 		"socket.io-client": "^4.3.2",
 		"styled-components": "^5.3.3"
 	}

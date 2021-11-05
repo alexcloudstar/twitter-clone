@@ -10,11 +10,16 @@ type RepliesProps = {
 	avatar: User['avatarUrl'];
 };
 
-const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
+const Replies: FC<RepliesProps> = ({
+	tweetId,
+	creatorName,
+	creatorUsername,
+	avatar
+}) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [replies, setReplies] = useState<any[]>();
 
-	const { data, loading } = useGetTweetRepliesQuery({
+	const { data } = useGetTweetRepliesQuery({
 		variables: { tweetId }
 	});
 
@@ -54,8 +59,6 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 		};
 	}, []);
 
-	if (loading) return <div>Loading...</div>;
-
 	return (
 		<>
 			{replies?.map(({ creatorId, id, points, reply }) => (
@@ -66,7 +69,7 @@ const Replies: FC<RepliesProps> = ({ tweetId, creatorName, avatar }) => {
 					reply={reply}
 					avatar={avatar}
 					creatorId={creatorId}
-					creatorName={creatorName}
+					creatorName={creatorName !== 'null' ? creatorName : creatorUsername}
 				/>
 			))}
 		</>

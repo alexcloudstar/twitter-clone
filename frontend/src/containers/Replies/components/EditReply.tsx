@@ -1,10 +1,9 @@
-import { SnackBar, StyledButton } from 'components/globals';
+import { StyledButton } from 'components/globals';
 import {
 	EditFormWrapper,
 	StyledTextField
 } from 'components/globals/EditFormWrapper';
-
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { socket } from 'src/config/socket';
 import { Replies, useEditReplyMutation } from 'src/generated/graphql';
@@ -21,12 +20,6 @@ type EditTweetProps = {
 
 const EditForm: FC<EditTweetProps> = ({ replyId, handleClose, reply }) => {
 	const [editReply] = useEditReplyMutation();
-
-	const [snackBarProps, setSnackBarProps] = useState({
-		isOpen: false,
-		message: null,
-		variant: null
-	});
 
 	const {
 		register,
@@ -49,19 +42,9 @@ const EditForm: FC<EditTweetProps> = ({ replyId, handleClose, reply }) => {
 			socket.emit('editReply', { replies: editedReply.data.editReply });
 
 			handleClose();
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Tweet updated successfully 🎉',
-				variant: 'success'
-			});
 		} catch (error) {
 			console.log(error);
 			handleClose();
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Tweet was not updated successfully 😢',
-				variant: 'error'
-			});
 		}
 	};
 
@@ -80,11 +63,6 @@ const EditForm: FC<EditTweetProps> = ({ replyId, handleClose, reply }) => {
 					Submit Changes
 				</StyledButton>
 			</EditFormWrapper>
-			{/* TODO: Fix this (now is rendering in the Modal Form) */}
-			<SnackBar
-				snackBarProps={snackBarProps}
-				setSnackBarProps={setSnackBarProps}
-			/>
 		</>
 	);
 };

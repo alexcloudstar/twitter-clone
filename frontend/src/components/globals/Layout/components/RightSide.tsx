@@ -6,13 +6,13 @@ import { useGetAllUsersQuery } from 'src/generated/graphql';
 import { RightSideWrapper, StyledGrid, Title, UserComponent } from '../style';
 
 const RightSide: FC = () => {
-	const { data, loading } = useGetAllUsersQuery();
+	const { data } = useGetAllUsersQuery();
 
-	if (loading) return <div>Loading...</div>;
-
-	const users = [...data.getAllUsers.users].sort((a, b) =>
-		a.createdAt > b.createdAt ? 1 : -1
-	);
+	const users =
+		data &&
+		[...data.getAllUsers.users].sort((a, b) =>
+			a.createdAt > b.createdAt ? 1 : -1
+		);
 
 	return (
 		<StyledGrid item sm={12} md={3}>
@@ -21,7 +21,7 @@ const RightSide: FC = () => {
 					Registered Users <PeopleAltIcon />
 				</Title>
 				{!users && <h5>No Registered Users</h5>}
-				{users.map(({ id, name, username, createdAt }, index) => (
+				{users?.map(({ id, name, username, createdAt }, index) => (
 					<Fragment key={id}>
 						<Link to={`/profile/${username}`} key={id}>
 							<UserComponent>

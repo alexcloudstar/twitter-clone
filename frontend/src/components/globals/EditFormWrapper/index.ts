@@ -20,6 +20,5 @@ export const StyledTextField = styled(TextField)`
 
 	fieldset {
 		border-radius: 0;
-		background-color: #fff;
 	}
 `;

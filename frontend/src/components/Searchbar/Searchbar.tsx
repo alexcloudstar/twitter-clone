@@ -47,7 +47,9 @@ const Searchbar: FC = () => {
 				onChange={onChange}
 			/>
 
-			<SearchResults results={data?.search} clearValue={clearValue} />
+			{data && data.search && (
+				<SearchResults results={data.search} clearValue={clearValue} />
+			)}
 		</SearchbarWrapper>
 	);
 };

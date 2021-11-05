@@ -1,24 +1,22 @@
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Grid } from '@mui/material';
+import { UserAvatar } from 'components/globals';
 import { Searchbar } from 'components/Searchbar';
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { useMeQuery } from 'src/generated/graphql';
 import {
 	ConfigWrapper,
 	HeaderWrapper,
 	Logo,
-	UsernameWrapper,
-	UserShortcutWrapper,
 	RightStyledGrid,
-	SearchBarGridStyled
+	SearchBarGridStyled,
+	UsernameWrapper,
+	UserShortcutWrapper
 } from './style';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Link, useLocation } from 'react-router-dom';
-import { useMeQuery } from 'src/generated/graphql';
-import { UserAvatar } from 'components/globals';
 
 const Header: FC = () => {
-	const { data, loading } = useMeQuery();
-
-	if (loading) return <div>Loading...</div>;
+	const { data } = useMeQuery();
 
 	return (
 		<HeaderWrapper>
@@ -34,16 +32,18 @@ const Header: FC = () => {
 					<Searchbar />
 				</SearchBarGridStyled>
 				<RightStyledGrid item sm={12} md={3}>
-					<UserShortcutWrapper>
-						<UserAvatar avatar={data?.me?.avatarUrl} />
-						<UsernameWrapper>
-							{data?.me?.name !== 'null' && <span>{data?.me?.name}</span>}
-							<span>@{data?.me?.username}</span>
-						</UsernameWrapper>
-					</UserShortcutWrapper>
-					<ConfigWrapper>
-						<SettingsIcon />
-					</ConfigWrapper>
+					<Link to={`/profile/${data?.me?.username}`}>
+						<UserShortcutWrapper>
+							<UserAvatar avatar={data?.me?.avatarUrl} />
+							<UsernameWrapper>
+								{data?.me?.name !== 'null' && <span>{data?.me?.name}</span>}
+								<span>@{data?.me?.username}</span>
+							</UsernameWrapper>
+						</UserShortcutWrapper>
+						<ConfigWrapper>
+							<SettingsIcon />
+						</ConfigWrapper>
+					</Link>
 				</RightStyledGrid>
 			</Grid>
 		</HeaderWrapper>

@@ -1,6 +1,6 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Menu, MenuItem } from '@mui/material';
-import { Modal, SnackBar } from 'components/globals';
+import { Modal } from 'components/globals';
 import EditReply from 'containers/Replies/components/EditReply';
 import React, { FC, useState } from 'react';
 import { socket } from 'src/config/socket';
@@ -28,11 +28,6 @@ const MoreOptions: FC<MoreOptionsProps> = ({
 	replyId,
 	reply
 }) => {
-	const [snackBarProps, setSnackBarProps] = useState({
-		isOpen: false,
-		message: null,
-		variant: null
-	});
 	const [openEditModal, setOpenEditModal] = useState(false);
 	const handleOpenEditModal = () => setOpenEditModal(true);
 	const handleCloseEditModal = () => setOpenEditModal(false);
@@ -46,26 +41,24 @@ const MoreOptions: FC<MoreOptionsProps> = ({
 		setAnchorEl(null);
 	};
 
-	const [deleteTweet] = useDeleteTweetMutation();
+	const [deleteTweet, { data: tweetData, error: errorTweet }] =
+		useDeleteTweetMutation();
 	const [deleteReply] = useDeleteReplyMutation();
 
 	const onDeleteTweet = async () => {
 		try {
-			await deleteTweet({ variables: { tweetId: tweetId } });
+			const tweet = await deleteTweet({ variables: { tweetId: tweetId } });
+
+			if (!tweet.data.deleteTweet) {
+				alert(
+					"Tweet was not deleted (It could have replies or something didn't work on server)"
+				);
+				return;
+			}
 
 			socket.emit('deleteTweet', { tweetId });
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Tweet deleted successfully 🎉',
-				variant: 'success'
-			});
 		} catch (error) {
 			console.log(error);
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Oops, there was an error 😢',
-				variant: 'error'
-			});
 		}
 	};
 
@@ -74,27 +67,13 @@ const MoreOptions: FC<MoreOptionsProps> = ({
 			await deleteReply({ variables: { replyId: replyId } });
 
 			socket.emit('deleteReply', { replyId });
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Reply deleted successfully 🎉',
-				variant: 'success'
-			});
 		} catch (error) {
 			console.log(error);
-			setSnackBarProps({
-				isOpen: true,
-				message: 'Oops, there was an error 😢',
-				variant: 'error'
-			});
 		}
 	};
 
 	return (
 		<>
-			<SnackBar
-				snackBarProps={snackBarProps}
-				setSnackBarProps={setSnackBarProps}
-			/>
 			<MoreOptionsWrapper
 				id="demo-positioned-button"
 				aria-controls="demo-positioned-menu"

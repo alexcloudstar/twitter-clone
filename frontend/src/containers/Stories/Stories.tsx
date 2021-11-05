@@ -1,16 +1,16 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Modal, SnackBar } from 'components/globals';
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { socket } from 'src/config/socket';
 import {
 	Story as StoryType,
 	useGetAllStoriesQuery
 } from 'src/generated/graphql';
-import SnackBarProps from 'types/SnackBarProps';
 import { randomColor } from 'utils/randomHexColor';
 import { EditForm } from './components/EditForm';
 import Story from './components/Story';
-import { AddStoryWrapper, StoriesWrapper } from './style';
+import StoriesSlider from './components/StoriesSlider';
+import { AddStoryButton, StoriesWrapper } from './style';
 
 const Stories: FC = () => {
 	const [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ const Stories: FC = () => {
 		variant: null
 	});
 
-	const { data, loading } = useGetAllStoriesQuery();
+	const { data } = useGetAllStoriesQuery();
 
 	useEffect(() => {
 		setStories(data?.getStories);
@@ -40,25 +40,25 @@ const Stories: FC = () => {
 		};
 	}, [stories]);
 
-	if (loading) return <div>Loading...</div>;
-
 	return (
 		<>
 			<StoriesWrapper>
-				<AddStoryWrapper onClick={handleOpen}>
+				<AddStoryButton onClick={handleOpen}>
 					<AddCircleIcon />
-				</AddStoryWrapper>
-				{stories?.map((story: StoryType) => {
-					const borderColor = randomColor();
-					return (
-						<Story
-							key={story.id}
-							story={story.storyUrl}
-							username={story.creatorUsername}
-							borderColor={borderColor}
-						/>
-					);
-				})}
+				</AddStoryButton>
+				<StoriesSlider>
+					{stories?.map((story: StoryType) => {
+						const borderColor = randomColor();
+						return (
+							<Story
+								key={story.id}
+								story={story.storyUrl}
+								username={story.creatorUsername}
+								borderColor={borderColor}
+							/>
+						);
+					})}
+				</StoriesSlider>
 			</StoriesWrapper>
 
 			<Modal open={open} onClose={handleClose}>

@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { UserAvatar } from 'components/globals';
 import { Replies } from 'containers/Replies';
-import React, { FC, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { socket } from 'src/config/socket';
 import { Tweet, useGetUserQuery } from 'src/generated/graphql';
@@ -25,17 +25,19 @@ const Tweet: FC<TweetProps> = ({
 	tweet,
 	tweetImage,
 	points,
-	creatorName,
 	creatorUsername,
-	creatorId,
 	showActions,
 	showReplies
 }) => {
 	const [tweetPoints, setTweetPoints] = useState(points);
 
-	const { data: userData, loading: userLoading } = useGetUserQuery({
+	const { data: userData } = useGetUserQuery({
 		variables: { username: creatorUsername }
 	});
+
+	useEffect(() => {
+		setTweetPoints(points);
+	}, [points]);
 
 	useLayoutEffect(() => {
 		socket.on('upTweet', (data) => {
@@ -47,8 +49,6 @@ const Tweet: FC<TweetProps> = ({
 			setTweetPoints(localPoints);
 		});
 	}, [id, points, tweetPoints]);
-
-	if (userLoading) return <div>Loading...</div>;
 
 	return (
 		<>
@@ -66,7 +66,11 @@ const Tweet: FC<TweetProps> = ({
 					<StyledGridTweetBody item sm={12} md={10}>
 						<Header>
 							<Link to={`/profile/${userData?.getUser.user.username}`}>
-								<h3>{userData?.getUser.user.name}</h3>
+								<h3>
+									{userData?.getUser.user.name !== 'null'
+										? userData?.getUser.user.name
+										: userData?.getUser.user.username}
+								</h3>
 							</Link>
 							<MoreOptions tweetId={id} tweet={tweet} tweetImage={tweetImage} />
 						</Header>
@@ -89,7 +93,7 @@ const Tweet: FC<TweetProps> = ({
 				<Replies
 					tweetId={id}
 					creatorName={userData?.getUser.user.name}
-					avatar={userData.getUser.user.avatarUrl}
+					avatar={userData?.getUser.user.avatarUrl}
 					creatorUsername={userData?.getUser.user.username}
 				/>
 			)}
