@@ -41,12 +41,20 @@ const MoreOptions: FC<MoreOptionsProps> = ({
 		setAnchorEl(null);
 	};
 
-	const [deleteTweet] = useDeleteTweetMutation();
+	const [deleteTweet, { data: tweetData, error: errorTweet }] =
+		useDeleteTweetMutation();
 	const [deleteReply] = useDeleteReplyMutation();
 
 	const onDeleteTweet = async () => {
 		try {
-			await deleteTweet({ variables: { tweetId: tweetId } });
+			const tweet = await deleteTweet({ variables: { tweetId: tweetId } });
+
+			if (!tweet.data.deleteTweet) {
+				alert(
+					"Tweet was not deleted (It could have replies or something didn't work on server)"
+				);
+				return;
+			}
 
 			socket.emit('deleteTweet', { tweetId });
 		} catch (error) {

@@ -66,7 +66,11 @@ const Tweet: FC<TweetProps> = ({
 					<StyledGridTweetBody item sm={12} md={10}>
 						<Header>
 							<Link to={`/profile/${userData?.getUser.user.username}`}>
-								<h3>{userData?.getUser.user.name}</h3>
+								<h3>
+									{userData?.getUser.user.name !== 'null'
+										? userData?.getUser.user.name
+										: userData?.getUser.user.username}
+								</h3>
 							</Link>
 							<MoreOptions tweetId={id} tweet={tweet} tweetImage={tweetImage} />
 						</Header>

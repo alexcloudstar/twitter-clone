@@ -1,3 +1,4 @@
+import { Replies } from '../entities/Reply';
 import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import { Tweet } from '../entities/Tweet';
@@ -132,12 +133,15 @@ export class TweetResolver {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const tweet = await Tweet.findOne(tweetId);
+    const repliesToTweet = await Replies.findOne({ where: { tweetId } });
 
     try {
       if (req.session.userId !== tweet?.creatorId)
         throw new Error('Not authorized');
 
       if (!tweet) throw new Error('Tweet was not found');
+      if (repliesToTweet)
+        throw new Error('You cannot delete a tweet with replies');
 
       await tweet?.remove();
 
