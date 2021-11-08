@@ -1,7 +1,7 @@
 # Twitter Clone 🐦
 
-Maybe you ask yourself why world need a Twitter clone? 🧐 <br/>
-A: Well... They don't. But i did. It was giving me opportunity to sharp my backend skills 👻
+Maybe you ask yourself why the world needs a Twitter clone? 🧐
+A: Well... They don't. But I did. It was giving me the opportunity to sharpen my backend skills 👻
 
 **Features:**
 
